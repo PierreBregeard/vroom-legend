@@ -1,0 +1,17 @@
+version: "3"
+services:
+
+  server-udp:
+    build:
+      context: ./serverUDP
+    ports:
+      - "6000:6000/udp"
+    restart: always
+
+  server-http:
+    build:
+      context: ./serverHTTP
+    ports:
+      - "5000:5000"
+    restart: always
+
