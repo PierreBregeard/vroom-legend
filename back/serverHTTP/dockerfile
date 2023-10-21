@@ -8,6 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY serverHTTP.py /app/serverHTTP.py
 
-EXPOSE 5000
-
 CMD pypy3 -u serverHTTP.py

@@ -1,5 +1,24 @@
-version: "3"
+version: "3.8"
 services:
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: vroomlegend
+    networks:
+      - db_network
+
+  server-http:
+    build:
+      context: ./serverHTTP
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    networks:
+      - db_network
+    restart: always
 
   server-udp:
     build:
@@ -8,10 +27,6 @@ services:
       - "6000:6000/udp"
     restart: always
 
-  server-http:
-    build:
-      context: ./serverHTTP
-    ports:
-      - "5000:5000"
-    restart: always
-
+networks:
+  db_network:
+    driver: bridge
