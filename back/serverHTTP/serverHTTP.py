@@ -3,7 +3,9 @@ import pymongo
 
 app = Flask(__name__)
 
-uri = "mongodb://mongo:27017"
+# uri = "mongodb://mongo:27017" # uri docker
+uri = "mongodb://localhost:27017"
+
 mongo_client = pymongo.MongoClient(uri)
 db = mongo_client["vroomlegend"]
 

@@ -19,16 +19,15 @@ while run:
         #     print(pygame.key.name(event.key))
 
     keys = pygame.key.get_pressed()
-    
+
     rect.x += (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * vel
     rect.y += (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * vel
-        
+
     rect.x %= window.get_width()
     rect.y %= window.get_height()
 
     window.fill(0)
-    pygame.draw.rect(window, (255, 0, 0), rect)
+    pygame.draw.rect(window, (0, 0, 0), rect)
     pygame.display.flip()
 
 pygame.quit()
-exit()
