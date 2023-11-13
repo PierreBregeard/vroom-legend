@@ -29,6 +29,7 @@ class Game:
         self.player.blit_car_to_surface(world_surface)
 
         blit_pos = (self.screen_size[0] / 2 - self.player.x, self.screen_size[1] / 2 - self.player.y)
+        self.window.fill((85, 82, 78))
         self.window.blit(world_surface, blit_pos)
 
         return
