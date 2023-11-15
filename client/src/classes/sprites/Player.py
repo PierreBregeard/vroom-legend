@@ -1,4 +1,4 @@
-from src.classes.sprites.Car import Car
+from .Car import Car
 import math
 import pygame
 

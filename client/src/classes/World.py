@@ -1,13 +1,13 @@
 import pygame
 import pyscroll
 import pytmx
-import os
+from pathlib import Path
 
 
 class World:
 
     def __init__(self, screen_size):
-        map_path = os.path.abspath("ressources/Maps/FirstMap.tmx")
+        map_path = Path("src/ressources/Maps/FirstMap.tmx")
         tmx_data = pytmx.util_pygame.load_pygame(map_path)
 
         map_data = pyscroll.data.TiledMapData(tmx_data)

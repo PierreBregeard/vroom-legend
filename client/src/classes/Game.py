@@ -1,13 +1,13 @@
 import pygame
-import os
-from src.classes.World import World
-from src.classes.sprites.Player import Player
+from pathlib import Path
+from .World import World
+from .sprites.Player import Player
 
 
 class Game:
 
     def init_player(self):
-        imgPath = os.path.abspath("ressources/sprites/player.png")
+        imgPath = Path("src/ressources/sprites/player.png")
         img = pygame.image.load(imgPath).convert()
         return Player(0, img, (self.screen_size[0] // 2, self.screen_size[1] // 2))
 
