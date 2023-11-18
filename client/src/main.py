@@ -1,5 +1,11 @@
 import pygame
+from pathlib import Path
+from os import chdir
+
 from classes.Game import Game
+
+
+chdir(Path(__file__).parent.parent)
 
 pygame.init()
 clock = pygame.time.Clock()

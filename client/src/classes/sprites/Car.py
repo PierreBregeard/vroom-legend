@@ -14,6 +14,9 @@ class Car(pygame.sprite.Sprite):
         size = 40
         self.img = pygame.transform.scale(img, (size, size))
 
+    def get_center(self):
+        return self.x, self.y
+
     def add_vel_to_pos(self):
         angle_rad = math.radians(self.rotation_angle)
 
