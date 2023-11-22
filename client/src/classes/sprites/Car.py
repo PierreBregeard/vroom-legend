@@ -3,30 +3,21 @@ import math
 
 
 class Car(pygame.sprite.Sprite):
-    vel = 0
-    rotation_angle = 0
 
-    def __init__(self, car_id, img, start_pos):
+    def __init__(self, idx, img, start_pos):
         super().__init__()
-        self.x, self.y = start_pos
-        self.car_id = car_id
+        self.car_id = idx
+        self.velocity = 0
+        self.angle = 0
 
-        size = 40
-        self.img = pygame.transform.scale(img, (size, size))
+        size = 30
+        self.image = pygame.transform.scale(img, (size, size))
+        self.orig_image = self.image
+        self.rect = self.image.get_rect(center=start_pos)
 
-    def get_center(self):
-        return self.x, self.y
-
-    def add_vel_to_pos(self):
-        angle_rad = math.radians(self.rotation_angle)
-
-        velY = self.vel * math.cos(angle_rad)
-        velX = self.vel * math.sin(angle_rad)
-
-        self.y -= velY
-        self.x -= velX
-
-    def blit_car_to_surface(self, surface):
-        rotated_image = pygame.transform.rotate(self.img, self.rotation_angle)
-        new_rect = rotated_image.get_rect(center=self.img.get_rect(center=(self.x, self.y)).center)
-        surface.blit(rotated_image, new_rect)
+    def update(self):
+        angle_rad = math.radians(self.angle)
+        velY = self.velocity * math.cos(angle_rad)
+        velX = self.velocity * math.sin(angle_rad)
+        self.image = pygame.transform.rotozoom(self.orig_image, self.angle, 1)
+        self.rect = self.image.get_rect(center=(self.rect.centerx - velX, self.rect.centery - velY))
