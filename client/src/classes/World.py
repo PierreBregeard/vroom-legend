@@ -16,6 +16,12 @@ class World:
         self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.map_size)
         self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=1)
 
+        # List des objets qui ont les collisions activés
+        self.walls = []
+        for obj in tmx_data.objects:
+            if obj.type == "Collision":
+                self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+
     def set_soom(self, zoom):
         self.map_layer.zoom = zoom
 
@@ -27,3 +33,6 @@ class World:
         self.group.center(self.group.get_sprite(0).rect.center)
         self.group.draw(surface)
         return surface
+
+    def get_collisions_objects(self):
+        return self.walls

@@ -20,8 +20,12 @@ class Game:
         self.map.add_sprites(self.player)
 
     def update_player(self):
+        print(self.player.rect.collidelist(self.map.get_collisions_objects()))
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
+        if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
+            self.player.velocity = 0
+            self.player.undo_move()
 
     def update(self):
         self.update_player()
@@ -31,7 +35,3 @@ class Game:
         world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
         rect = world_surface.get_rect(center=(self.screen_size[0] // 2, self.screen_size[1] // 2))
         self.window.blit(world_surface, rect)
-
-
-
-
