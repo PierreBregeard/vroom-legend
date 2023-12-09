@@ -2,17 +2,22 @@ import pygame
 import pyscroll
 import pytmx
 from pathlib import Path
+from math import sqrt, ceil
 
 
 class World:
 
-    def __init__(self, screen_size):
+    def __init__(self, screen_size, enable_screen_rotation):
         map_path = str(Path("src/ressources/Maps/FirstMap.tmx"))
         tmx_data = pytmx.util_pygame.load_pygame(map_path)
 
         map_data = pyscroll.data.TiledMapData(tmx_data)
-        # self.map_size = screen_size
-        self.map_size = (1000, 1000)
+        if enable_screen_rotation:
+            square_size = ceil(sqrt(screen_size[0] ** 2 + screen_size[1] ** 2))
+            self.map_size = (square_size, square_size)
+        else:
+            self.map_size = screen_size
+
         self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.map_size)
         self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=1)
 

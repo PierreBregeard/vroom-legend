@@ -9,7 +9,7 @@ chdir(Path(__file__).parent.parent)
 
 pygame.init()
 clock = pygame.time.Clock()
-game = Game()
+game = Game(enable_screen_rotation=False)
 
 run = True
 while run:

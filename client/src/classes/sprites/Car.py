@@ -15,9 +15,10 @@ class Car(pygame.sprite.Sprite):
         self.orig_image = self.image
         self.rect = self.image.get_rect(center=start_pos)
 
-    def update(self):
+    def update(self, visual_rotation=True):
         angle_rad = math.radians(self.angle)
         velY = self.velocity * math.cos(angle_rad)
         velX = self.velocity * math.sin(angle_rad)
-        self.image = pygame.transform.rotozoom(self.orig_image, self.angle, 1)
+        if visual_rotation:
+            self.image = pygame.transform.rotozoom(self.orig_image, self.angle, 1)
         self.rect = self.image.get_rect(center=(self.rect.centerx - velX, self.rect.centery - velY))

@@ -11,12 +11,14 @@ class Game:
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (self.screen_size[0] // 2, self.screen_size[1] // 2))
 
-    def __init__(self):
-        self.screen_size = (700, 500)
+    def __init__(self, enable_screen_rotation=True):
+        self.screen_size = (600, 600)
+        self.enable_screen_rotation = enable_screen_rotation
         self.window = pygame.display.set_mode(self.screen_size)
 
         self.player = self.init_player()
-        self.map = World(self.screen_size)
+        self.map = World(self.screen_size, self.enable_screen_rotation)
+        self.map.set_soom(1)
         self.map.add_sprites(self.player)
 
     def update_player(self):
@@ -28,7 +30,8 @@ class Game:
 
     def render(self):
         world_surface = self.map.get_world_surface()
-        world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
+        if self.enable_screen_rotation:
+            world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
         rect = world_surface.get_rect(center=(self.screen_size[0] // 2, self.screen_size[1] // 2))
         self.window.blit(world_surface, rect)
 
