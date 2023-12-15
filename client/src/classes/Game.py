@@ -9,7 +9,7 @@ class Game:
     def init_player(self):
         imgPath = Path("src/ressources/sprites/player.png")
         img = pygame.image.load(imgPath).convert_alpha()
-        return Player(0, img, (self.screen_size[0] // 2, self.screen_size[1] // 2))
+        return Player(0, img, (500, 500))
 
     def __init__(self):
         self.screen_size = (700, 500)
@@ -20,7 +20,6 @@ class Game:
         self.map.add_sprites(self.player)
 
     def update_player(self):
-        print(self.player.rect.collidelist(self.map.get_collisions_objects()))
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
