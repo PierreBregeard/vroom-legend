@@ -9,7 +9,7 @@ class Game:
     def init_player(self):
         imgPath = Path("src/ressources/sprites/player.png")
         img = pygame.image.load(imgPath).convert_alpha()
-        return Player(0, img, (self.screen_size[0] // 2, self.screen_size[1] // 2))
+        return Player(0, img, (500, 500))
 
     def __init__(self, enable_screen_rotation=True):
         self.screen_size = (600, 600)
@@ -24,6 +24,9 @@ class Game:
     def update_player(self):
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
+        if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
+            self.player.velocity = 0
+            self.player.undo_move()
 
     def update(self):
         self.update_player()
@@ -34,7 +37,3 @@ class Game:
             world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
         rect = world_surface.get_rect(center=(self.screen_size[0] // 2, self.screen_size[1] // 2))
         self.window.blit(world_surface, rect)
-
-
-
-
