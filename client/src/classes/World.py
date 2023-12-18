@@ -7,8 +7,7 @@ from math import sqrt, ceil
 
 class World:
 
-    def __init__(self, screen_size, enable_screen_rotation):
-        map_path = str(Path("src/ressources/Maps/FirstMap.tmx"))
+    def __init__(self, map_path, screen_size, enable_screen_rotation):
         tmx_data = pytmx.util_pygame.load_pygame(map_path)
 
         map_data = pyscroll.data.TiledMapData(tmx_data)

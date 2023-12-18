@@ -1,13 +1,22 @@
 import pygame
+import os
+import sys
 from pathlib import Path
 from .World import World
 from .sprites.Player import Player
 
 
 class Game:
+    def resource_path(self, relative_path):
+        try:
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
 
     def init_player(self):
-        imgPath = Path("src/ressources/sprites/player.png")
+        imgPath = self.resource_path("src\\ressources\\sprites\\player.png")
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
 
@@ -17,7 +26,8 @@ class Game:
         self.window = pygame.display.set_mode(self.screen_size)
 
         self.player = self.init_player()
-        self.map = World(self.screen_size, self.enable_screen_rotation)
+        map_path = self.resource_path("src\\ressources\\Maps\\FirstMap.tmx")
+        self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
 
