@@ -21,10 +21,10 @@ class Game:
         self.enable_screen_rotation = enable_screen_rotation
         self.window = pygame.display.set_mode(self.screen_size)
 
-        self.HUD = HUD(self.screen_size)
-
         self.player = self.init_player()
-        map_path = RelativePath.resource_path("src\\ressources\\Maps\\dependencies\\FirstMap.tmx")
+        self.HUD = HUD(self.screen_size, self.player.max_speed)
+
+        map_path = RelativePath.resource_path("ressources\\Maps\\dependencies\\FirstMap.tmx")
         self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
