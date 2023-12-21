@@ -5,8 +5,9 @@ import pygame
 class Speedometer:
     speed = 0
 
-    def __init__(self, screen_size):
+    def __init__(self, screen_size, max_speed):
         self.screen_size = screen_size
+        self.max_speed = max_speed
 
         SIZE = 500
         ratio = SIZE / screen_size[0]
@@ -35,7 +36,7 @@ class Speedometer:
         )
 
         angle = 140
-        angle -= abs(self.speed) * 35
+        angle -= abs(self.speed) / self.max_speed * 280
 
         needle_rotated = pygame.transform.rotate(self.needle, angle)
         needle_rect = needle_rotated.get_rect(center=speedometer_rect.center)
