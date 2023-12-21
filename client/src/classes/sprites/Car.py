@@ -10,7 +10,8 @@ class Car(pygame.sprite.Sprite):
         self.velocity = 0
         self.angle = 0
 
-        ratio = 1.5
+        VEHICLE_WIDTH = 30
+        ratio = img.get_size()[0] / VEHICLE_WIDTH
         size = img.get_size()[0] // ratio, img.get_size()[1] // ratio
         self.image = pygame.transform.scale(img, size)
 
