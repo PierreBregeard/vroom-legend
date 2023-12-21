@@ -4,8 +4,7 @@ from os import chdir
 
 from classes.Game import Game
 
-if __name__ == "__main__":
-    chdir(Path(__file__).parent.parent)
+chdir(Path(__file__).parent)
 
 pygame.init()
 clock = pygame.time.Clock()

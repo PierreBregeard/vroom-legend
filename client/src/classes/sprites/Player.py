@@ -9,7 +9,7 @@ class Player(Car):
     max_speed_reverse = 4
     brake_power = .08
     drag_power = .005
-    turn_power = 2
+    turn_power = 3
 
     def __init__(self, idx, img, start_pos):
         super().__init__(idx, img, start_pos)
@@ -64,12 +64,9 @@ class Player(Car):
             self.velocity = 0
 
     def turn(self, left=True):
-        # turn_power = 2 - (2 - abs(self.vel)) * math.exp(-0.005)
-
-        if self.velocity == 0:
-            return
+        turn_power = self.turn_power * (self.velocity / self.max_speed)
 
         if left:
-            self.angle = (self.angle + self.turn_power) % 360
+            self.angle = (self.angle + turn_power) % 360
         else:
-            self.angle = (self.angle - self.turn_power) % 360
+            self.angle = (self.angle - turn_power) % 360
