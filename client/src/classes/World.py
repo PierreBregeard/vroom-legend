@@ -1,7 +1,6 @@
 import pygame
 import pyscroll
 import pytmx
-from pathlib import Path
 from math import sqrt, ceil
 
 
