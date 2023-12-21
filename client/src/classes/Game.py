@@ -31,6 +31,21 @@ class Game:
     def update(self):
         self.update_player()
 
+    def update_hud(self):
+        needle = pygame.image.load("src//ressources//sprites//needle.png").convert_alpha()
+        speedometer = pygame.image.load("src//ressources//sprites//speedometer.png").convert_alpha()
+        speedometer_rect = speedometer.get_rect()
+        speedometer_rect.center = (self.screen_size[0] - 100, self.screen_size[1] - 100)
+
+        angle = 140
+        angle -= abs(self.player.velocity) * 20
+
+        needle_rotated = pygame.transform.rotate(needle, angle)
+        needle_rect = needle_rotated.get_rect(center=speedometer_rect.center)
+
+        self.window.blit(speedometer, speedometer_rect)
+        self.window.blit(needle_rotated, needle_rect)
+
     def render(self):
         world_surface = self.map.get_world_surface()
         if self.enable_screen_rotation:
