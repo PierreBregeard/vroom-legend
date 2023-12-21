@@ -2,12 +2,16 @@ import pygame
 from .ResourcePath import RelativePath
 from .World import World
 from .sprites.Player import Player
+from .ColorCar import ColorCar
 
 
 class Game:
 
     def init_player(self):
-        imgPath = RelativePath.resource_path("src\\ressources\\sprites\\dependencies\\default_player.png")
+        color_car = ColorCar()
+        color_car.set_roof_color((0, 100, 0))
+        color_car.set_base_color((100, 0, 100))
+        imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
 

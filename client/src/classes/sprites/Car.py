@@ -10,8 +10,10 @@ class Car(pygame.sprite.Sprite):
         self.velocity = 0
         self.angle = 0
 
-        size = 30
-        self.image = pygame.transform.scale(img, (size, size))
+        ratio = 1.5
+        size = img.get_size()[0] // ratio, img.get_size()[1] // ratio
+        self.image = pygame.transform.scale(img, size)
+
         self.orig_image = self.image
         self.rect = self.image.get_rect(center=start_pos)
         self.cached_position = (0, 0)
