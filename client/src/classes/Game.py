@@ -7,6 +7,7 @@ from .HUD.HUD import HUD
 
 
 class Game:
+    enable_screen_rotation = False
 
     def init_player(self):
         color_car = ColorCar()
@@ -16,9 +17,9 @@ class Game:
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
 
-    def __init__(self, enable_screen_rotation=True):
+    def __init__(self, multi=None):
+        self.multi = multi
         self.screen_size = (600, 600)
-        self.enable_screen_rotation = enable_screen_rotation
         self.window = pygame.display.set_mode(self.screen_size)
 
         self.player = self.init_player()
@@ -33,11 +34,20 @@ class Game:
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
-            self.player.velocity = 0
-            self.player.undo_move()
+            self.player.crash()
+
+    def send_player_data(self):
+        if self.multi.client:
+            player_data = {
+                "pos": self.player.rect.center,
+                "angle": self.player.angle,
+                "speed": self.player.velocity
+            }
+            self.multi.client.send_player_data(player_data)
 
     def update(self):
         self.update_player()
+        self.send_player_data()
         self.HUD.speedometer.speed = self.player.velocity
 
     def render(self):

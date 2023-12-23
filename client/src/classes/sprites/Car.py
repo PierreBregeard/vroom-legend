@@ -27,5 +27,8 @@ class Car(pygame.sprite.Sprite):
         self.image = pygame.transform.rotozoom(self.orig_image, self.angle, 1)
         self.rect = self.image.get_rect(center=(self.rect.centerx - velX, self.rect.centery - velY))
 
-    def undo_move(self):
+    def crash(self):
         self.rect = self.image.get_rect(center=(self.cached_position[0], self.cached_position[1]))
+        self.velocity = -(self.velocity / 3.5)
+
+

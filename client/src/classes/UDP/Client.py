@@ -1,4 +1,6 @@
 from .Socket import Socket
+from .ServerProtocol import ServerProtocol
+import json
 
 
 class Client(Socket):
@@ -7,21 +9,15 @@ class Client(Socket):
         super().__init__()
         self.sock.connect((ip, port))
 
+    def send_player_data(self, player_data):
+        # todo : implement tick rate ?
+        data = ServerProtocol.SET_PLAYER_DATA.value
+        data += json.dumps(player_data)
+        self.send(data)
+
     def receive(self):
-        # data = self.sock.recvfrom(1024)
-        # if not data:
-        #     return None
-        # size = int(data[:8].decode())
-
-        # data = b""
-        # while size != 0:
-        #     res = self.sock.recvfrom(min(1024, size))
-        #     size -= len(res)
-        #     data += res
-        # return data
-
         data = self.sock.recvfrom(1024)
         return data
 
-    def send(self, data):
-        self.sock.send(data)
+    def send(self, data: str):
+        self.sock.send(data.encode())
