@@ -28,6 +28,13 @@ class Game:
         self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
+        # List of boolean for already visited checkpoints
+
+        self.checkpoints_list = []
+        for i in range(0, len(self.map.get_checkpoints())):
+            self.checkpoints_list.append(False)
+
+
 
     def update_player(self):
         keys = pygame.key.get_pressed()
@@ -36,8 +43,20 @@ class Game:
             self.player.velocity = 0
             self.player.undo_move()
 
+    def verify_checkpoints(self):
+        # Index of the checkpoint player is on
+        idx = self.player.rect.collidelistall(self.map.get_checkpoints())
+        # If there is and indice,
+        # If it is not already visited
+        # If last checkpoint is visited, or it is the first checkpoint
+        if len(idx) and not self.checkpoints_list[idx[0]] and (self.checkpoints_list[idx[0]-1] or idx[0] == 0):
+            # Player visited a new checkpoint
+            self.checkpoints_list[idx[0]] = True
+            print("Player passed a checkpoint !")
+
     def update(self):
         self.update_player()
+        self.verify_checkpoints()
         self.HUD.speedometer.speed = self.player.velocity
 
     def render(self):
