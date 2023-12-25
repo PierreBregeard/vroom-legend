@@ -1,13 +1,13 @@
 import sys
 import pygame
 import pygame_gui
-from src.classes.button import Button
+from src.classes.Menu.button import Button
 # from src.main import init_menu
 # from src.classes.Inscription import Inscription
 
 
 def get_font(size):
-    return pygame.font.Font("../ressources/Font/Roboto-Black.ttf", size)
+    return pygame.font.Font("../../ressources/Font/Roboto-Black.ttf", size)
 
 
 clock = pygame.time.Clock()
@@ -26,10 +26,10 @@ class Connexion:
         self.menu_rect = self.menu_text.get_rect(center=(500, 90))
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
+        self.BG = pygame.image.load("../../ressources/BackgroundMenu/Background.png")
 
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
+        self.button_surface = pygame.image.load("../../ressources/Buttons/bouton1.png")
         self.button_surface = pygame.transform.scale(self.button_surface, (150, 100))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))

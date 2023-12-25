@@ -1,7 +1,7 @@
 import pygame
 import sys
-from src.classes.button import Button
-from src.classes.Game import Game
+from src.classes.Menu.button import Button
+from src.classes.Game.Game import Game
 
 
 def get_font(size):
@@ -9,7 +9,7 @@ def get_font(size):
 
 
 class Menu:
-    def __init__(self):
+    def __init__(self, width=600, height=600):
         pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = 1000, 720
@@ -58,9 +58,8 @@ class Menu:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.play_button.checkinput(mouse_pos):
-                        print("Jeu")
-                        # à mettre lorsque les liasons seront faites
-                        # game()
+                        game.play()
+                        self.run = False
                     # if connexion_button.checkinput(mouse_pos):
                         # menu_co.menu_co()
                     if self.leave_button.checkinput(mouse_pos):

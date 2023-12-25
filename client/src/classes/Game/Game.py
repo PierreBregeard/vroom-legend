@@ -1,9 +1,9 @@
 import pygame
-from .ResourcePath import RelativePath
-from .World import World
-from .sprites.Player import Player
-from .ColorCar import ColorCar
-from .HUD.HUD import HUD
+from src.classes.ResourcePath import RelativePath
+from src.classes.Game.World import World
+from src.classes.sprites.Player import Player
+from src.classes.sprites.ColorCar import ColorCar
+from src.classes.HUD.HUD import HUD
 
 
 class Game:
@@ -16,7 +16,7 @@ class Game:
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
 
-    def __init__(self, enable_screen_rotation=True):
+    def __init__(self, enable_screen_rotation=True, width=600, height=600):
         self.screen_size = (600, 600)
         self.enable_screen_rotation = enable_screen_rotation
         self.window = pygame.display.set_mode(self.screen_size)
@@ -34,7 +34,17 @@ class Game:
         for i in range(0, len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
 
-
+    def play(self):
+        clock = pygame.time.Clock()
+        run = True
+        while run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+            clock.tick(60)
+            self.update()
+            self.render()
+            pygame.display.flip()
 
     def update_player(self):
         keys = pygame.key.get_pressed()

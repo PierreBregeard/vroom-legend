@@ -2,23 +2,15 @@ import pygame
 from pathlib import Path
 from os import chdir
 
-from classes.Game import Game
+from src.classes.Game.Game import Game
+from src.classes.Menu.menu import Menu
+
+game_size = (600, 600)
 
 chdir(Path(__file__).parent)
 
 pygame.init()
-clock = pygame.time.Clock()
-game = Game(enable_screen_rotation=False)
+game = Game(enable_screen_rotation=False, width=game_size[0], height=game_size[1])
 
-run = True
-while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-
-    clock.tick(60)
-    game.update()
-    game.render()
-    pygame.display.flip()
-
-pygame.quit()
+menu = Menu(width=game_size[0], height=game_size[1])
+menu.menu(game)

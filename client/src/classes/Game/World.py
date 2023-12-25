@@ -29,7 +29,6 @@ class World:
         for obj in tmx_data.objects:
             if obj.type == "checkpoint":
                 self.checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
-        print(self.checkpoints)
 
     def set_soom(self, zoom):
         self.map_layer.zoom = zoom
@@ -46,5 +45,5 @@ class World:
     def get_collisions_objects(self):
         return self.walls
 
-    def get_checkpoints(self):
+    def get_checkpoints(self) -> object:
         return self.checkpoints

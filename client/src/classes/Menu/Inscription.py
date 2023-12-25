@@ -1,8 +1,4 @@
-import sys
 import pygame
-import pygame_gui
-from src.classes.button import Button
-from src.classes.get_font import get_font
 
 
 class Inscription:

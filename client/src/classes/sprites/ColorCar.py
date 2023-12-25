@@ -1,5 +1,5 @@
 from PIL import Image
-from .ResourcePath import RelativePath
+from src.classes.ResourcePath import RelativePath
 
 
 class ColorCar:
