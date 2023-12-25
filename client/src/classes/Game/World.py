@@ -45,5 +45,5 @@ class World:
     def get_collisions_objects(self):
         return self.walls
 
-    def get_checkpoints(self) -> object:
+    def get_checkpoints(self):
         return self.checkpoints
