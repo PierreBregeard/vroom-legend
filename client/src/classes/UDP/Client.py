@@ -1,6 +1,8 @@
 from .Socket import Socket
 from .ServerProtocol import ServerProtocol
+from .ClientProtocol import ClientProtocol
 import json
+import socket
 
 
 class Client(Socket):
@@ -11,13 +13,34 @@ class Client(Socket):
 
     def send_player_data(self, player_data):
         # todo : implement tick rate ?
-        data = ServerProtocol.SET_PLAYER_DATA.value
-        data += json.dumps(player_data)
-        self.send(data)
+        data = json.dumps(player_data)
+        self.send(ServerProtocol.SET_PLAYER_DATA.value, data)
+
+    def register(self, db_id):
+        self.send(ServerProtocol.REGISTER.value, db_id)
+        # protocol, data = self.receive()
+        # if protocol == ClientProtocol.SUCCESS:
+        #     print("Registered successfully")
+        # else:
+        #     raise Exception(data)
 
     def receive(self):
-        data = self.sock.recvfrom(1024)
-        return data
+        try:
+            data = self.sock.recvfrom(1024)[0]
+            print(data)
 
-    def send(self, data: str):
-        self.sock.send(data.encode())
+            raw_protocol = data.decode()[0]
+            data = data.decode()[1:]
+            if not ClientProtocol.is_valid(raw_protocol):
+                raise Exception("Invalid protocol")
+
+            protocol = ClientProtocol(raw_protocol)
+            return protocol, data
+        except socket.error as e:
+            if e.errno in [10035, 11]:
+                return False
+            else:
+                raise
+
+    def send(self, protocol: str, data: str):
+        self.sock.send((protocol + data).encode())

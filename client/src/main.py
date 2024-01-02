@@ -6,10 +6,10 @@ from classes.Multiplayer import Multiplayer
 
 chdir(Path(__file__).parent)
 
-multi = Multiplayer(True)
-pygame.init()
-clock = pygame.time.Clock()
+multi = Multiplayer(is_server=True)
 game = Game(multi)
+clock = pygame.time.Clock()
+pygame.init()
 
 run = True
 while run:

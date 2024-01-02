@@ -4,10 +4,14 @@ from .World import World
 from .sprites.Player import Player
 from .ColorCar import ColorCar
 from .HUD.HUD import HUD
+from .sprites.Car import Car
+from .UDP.ClientProtocol import ClientProtocol
+import json
 
 
 class Game:
     enable_screen_rotation = False
+    is_game_started = False
 
     def init_player(self):
         color_car = ColorCar()
@@ -18,6 +22,7 @@ class Game:
         return Player(0, img, (500, 500))
 
     def __init__(self, multi=None):
+        self.racers = []
         self.multi = multi
         self.screen_size = (600, 600)
         self.window = pygame.display.set_mode(self.screen_size)
@@ -45,8 +50,49 @@ class Game:
             }
             self.multi.client.send_player_data(player_data)
 
+    def set_racers(self, racers_data):
+        racers = {}
+        for racer_data in racers_data:
+            db_id = racer_data["db_id"]
+            color_car = ColorCar()
+            color_car.set_roof_color((0, 100, 0))  # racer_data.roof_color
+            color_car.set_base_color((100, 0, 100))  # racer_data.base_color
+            imgPath = color_car.save_img(db_id)
+            img = pygame.image.load(imgPath).convert_alpha()
+            racer = Car(db_id, img, (500, 500))  # racer_data.pos
+            racers[db_id] = racer
+        return racers
+
+    def handle_server_data(self):
+        raw_data = self.multi.client.receive()
+        if not raw_data:
+            return
+
+        protocol, data = raw_data
+        print(protocol, data)
+        if protocol == ClientProtocol.PLAYERS_INFOS:
+            racers_data = json.loads(data)
+            self.racers = self.set_racers(racers_data)
+            self.map.add_sprites(self.racers.values())
+        elif protocol == ClientProtocol.ACTION:
+            if data == "Start game":
+                self.is_game_started = True
+        elif protocol == ClientProtocol.DATA:
+            players_data = json.loads(data)
+            for db_id, player_data in players_data.items():
+                # if db_id == self.multi.client.db_id:
+                #     continue
+                self.racers[db_id].rect.center = player_data["pos"]
+                self.racers[db_id].angle = player_data["angle"]
+                self.racers[db_id].velocity = player_data["speed"]
+        elif protocol == ClientProtocol.ERROR:
+            print(data)
+
+
     def update(self):
+        self.handle_server_data()
         self.update_player()
+        self.map.update()
         self.send_player_data()
         self.HUD.speedometer.speed = self.player.velocity
 

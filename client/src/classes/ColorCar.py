@@ -29,8 +29,8 @@ class ColorCar:
     def set_roof_color(self, color_add):
         self.__set_color(self.car_roof_img, color_add)
 
-    def save_img(self):
-        path = RelativePath.resource_path("ressources\\sprites\\dependencies\\player.png")
+    def save_img(self, player_id=""):
+        path = RelativePath.resource_path(f"ressources\\sprites\\dependencies\\{player_id}player.png")
         tmp = self.car_base_img.copy()
         tmp.paste(self.car_roof_img, (0, 0), self.car_roof_img)
         tmp.save(path)

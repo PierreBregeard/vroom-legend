@@ -1,5 +1,6 @@
 from .UDP.Server import Server
 from .UDP.Client import Client
+from .UDP.ClientProtocol import ClientProtocol
 
 
 class Multiplayer:
@@ -31,3 +32,4 @@ class Multiplayer:
             self.register_server()
 
         self.client = self.connect_to_server()
+        self.client.register("db_id_test")  # todo: get db id from db

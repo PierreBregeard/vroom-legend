@@ -26,7 +26,6 @@ class Player(Car):
             self.turn()
         elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.turn(False)
-        self.update()
 
     def handle_throttle(self):
         if self.velocity >= 0:

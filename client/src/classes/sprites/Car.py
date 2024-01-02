@@ -17,7 +17,7 @@ class Car(pygame.sprite.Sprite):
 
         self.orig_image = self.image
         self.rect = self.image.get_rect(center=start_pos)
-        self.cached_position = (0, 0)
+        self.cached_position = start_pos
 
     def update(self):
         self.cached_position = (self.rect.centerx, self.rect.centery)

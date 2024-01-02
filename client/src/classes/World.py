@@ -39,3 +39,6 @@ class World:
 
     def get_collisions_objects(self):
         return self.walls
+
+    def update(self):
+        self.group.update()
