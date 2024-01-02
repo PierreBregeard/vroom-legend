@@ -7,8 +7,9 @@ import socket
 
 class Client(Socket):
 
-    def __init__(self, ip, port):
+    def __init__(self, ip, port, db_id):
         super().__init__()
+        self.db_id = db_id
         self.sock.connect((ip, port))
 
     def send_player_data(self, player_data):
@@ -16,8 +17,8 @@ class Client(Socket):
         data = json.dumps(player_data)
         self.send(ServerProtocol.SET_PLAYER_DATA.value, data)
 
-    def register(self, db_id):
-        self.send(ServerProtocol.REGISTER.value, db_id)
+    def register(self):
+        self.send(ServerProtocol.REGISTER.value, self.db_id)
         # protocol, data = self.receive()
         # if protocol == ClientProtocol.SUCCESS:
         #     print("Registered successfully")

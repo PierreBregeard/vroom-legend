@@ -3,12 +3,14 @@ from .ResourcePath import RelativePath
 
 
 class ColorCar:
-    car_base_img = Image.open(
-        RelativePath.resource_path("ressources\\sprites\\dependencies\\player_base.png")
-    )
-    car_roof_img = Image.open(
-        RelativePath.resource_path("ressources\\sprites\\dependencies\\player_roof.png")
-    )
+
+    def __init__(self):
+        self.car_base_img = Image.open(
+            RelativePath.resource_path("ressources\\sprites\\dependencies\\player_base.png")
+        )
+        self.car_roof_img = Image.open(
+            RelativePath.resource_path("ressources\\sprites\\dependencies\\player_roof.png")
+        )
 
     def __set_color(self, img, color_add):
         r, g, b = color_add

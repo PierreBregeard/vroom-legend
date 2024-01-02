@@ -31,6 +31,12 @@ class World:
     def add_sprites(self, sprites):
         self.group.add(sprites)
 
+    def add_racers(self, racers):
+        player = self.group.get_sprite(0)
+        self.group.remove_sprites_of_layer(1)
+        self.group.add(player)
+        self.group.add(racers)
+
     def get_world_surface(self):
         surface = pygame.Surface(self.map_size)
         self.group.center(self.group.get_sprite(0).rect.center)

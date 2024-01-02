@@ -1,6 +1,6 @@
 from .UDP.Server import Server
 from .UDP.Client import Client
-from .UDP.ClientProtocol import ClientProtocol
+import uuid
 
 
 class Multiplayer:
@@ -16,8 +16,8 @@ class Multiplayer:
     def connect_to_server(self):
         # get ip from db
 
-        # tmp
-        return Client(self.addr, self.port)
+        # todo: récupérer l'ip du serveur depuis la db ansi que la bd_id du client
+        return Client(self.addr, self.port, str(uuid.uuid4()))
 
     def __init__(self, is_server: bool):
         # tmp
@@ -32,4 +32,4 @@ class Multiplayer:
             self.register_server()
 
         self.client = self.connect_to_server()
-        self.client.register("db_id_test")  # todo: get db id from db
+        self.client.register()

@@ -120,7 +120,7 @@ class Server(Socket):
             time.sleep(self.loopDelay)
 
     def send_to_all(self, protocol: str, data: str):
-        for client_address in self.clients:
+        for client_address in self.clients: # todo: send to all except one client
             self.send_to(protocol, str(data), client_address)
 
     def send_to(self, protocol: str, data: str, client_address):
