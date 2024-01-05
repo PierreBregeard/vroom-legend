@@ -25,6 +25,12 @@ class Connexion:
         self.menu_text = get_font(100).render("Vroom Legends", True, "#b68f40")
         self.menu_rect = self.menu_text.get_rect(center=(500, 90))
 
+        self.pseudo_text = get_font(17).render("Pseudo :", True, "#b68f40")
+        self.pseudo_rect = self.menu_text.get_rect(center=(665, 230))
+
+        self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
+        self.mdp_rect = self.menu_text.get_rect(center=(665, 330))
+
         main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
 
@@ -34,15 +40,12 @@ class Connexion:
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        # self.text_rect = pygame.Rect(300, 300, 400, 400)
-        # self.clickable_text = pygame_gui.elements.UILabel(relative_rect=self.text_rect, text="Vous n'avez pas de compte ? Cliquez ici !", manager=self.manager)
-
         self.pseudo_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 200), (400, 50)),
                                                                 manager=self.manager, object_id="#pseudonyme")
         self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 300), (400, 50)),
                                                              manager=self.manager, object_id="#mot_de_passe")
 
-        self.txt_test = Button(pos=(500, 380), text_input="Vous n'avez pas de compte ? Cliquez ici !", font=get_font(17),
+        self.txt_test = Button(pos=(500, 380), text_input="Vous n'avez pas encore de compte ? Cliquez ici !", font=get_font(17),
                                base_color="#d7fcd4", hovering_color="White")
 
         self.enter_button = Button(pos=(500, 450), text_input="Connexion", font=get_font(25),
@@ -59,10 +62,16 @@ class Connexion:
     def menu_co(self):
         while self.run:
             fps = clock.tick(60) / 1000
+
             test_mdp = len(self.mdp_input.get_text())
+
             self.screen.blit(self.BG, (0, 0))
+
             mouse_pos = pygame.mouse.get_pos()
+
             self.screen.blit(self.menu_text, self.menu_rect)
+            self.screen.blit(self.pseudo_text, self.pseudo_rect)
+            self.screen.blit(self.mdp_text, self.mdp_rect)
 
             for button in [self.enter_button, self.back_button, self.txt_test]:
                 button.changecolor(mouse_pos)
@@ -82,13 +91,6 @@ class Connexion:
                 if self.txt_test.checkinput(mouse_pos): # redirection inscription
                     print("menu inscription")
                     # init_inscription()
-
-                    # Marche pas avec une balise text, à voir si j'arrive à faire avec
-                # if event.type == pygame_gui.UI_BUTTON_PRESSED:  # redirection inscription
-                    # if event.ui_element == self.clickable_text:
-                        # print("test4")
-                        # inscription = Inscription()
-                        # inscription.menu_inscription()
 
                 self.manager.process_events(event)
 
