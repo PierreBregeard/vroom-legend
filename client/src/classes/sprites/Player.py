@@ -63,7 +63,8 @@ class Player(Car):
             self.velocity = 0
 
     def turn(self, left=True):
-        turn_power = self.turn_power * (self.velocity / self.max_speed)
+        turn_power = 2 # self.turn_power * (self.velocity / self.max_speed)
+        # todo: turn power is not working properly
 
         if left:
             self.angle = (self.angle + turn_power) % 360

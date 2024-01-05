@@ -103,7 +103,7 @@ class Server(Socket):
         data = {}
         for client in self.clients.values():
             data[client["infos"]["db_id"]] = client["data"]
-        return json.dumps(data)
+        return data
 
 
     def listen(self):
@@ -112,7 +112,7 @@ class Server(Socket):
             while self.receive():
                 pass
 
-            self.send_to_all(ClientProtocol.DATA.value, self.get_clients_data())
+            self.send_data_to_all(self.get_clients_data())
 
             current_time = time.time()
             if current_time >= next_tick_time:
@@ -120,8 +120,14 @@ class Server(Socket):
             time.sleep(self.loopDelay)
 
     def send_to_all(self, protocol: str, data: str):
-        for client_address in self.clients: # todo: send to all except one client
+        for client_address in self.clients:  # todo: send to all except one client to who the data is being sent
             self.send_to(protocol, str(data), client_address)
+
+    def send_data_to_all(self, data):
+        for client_address in self.clients:
+            data_to_send = data.copy()
+            data_to_send.pop(self.clients[client_address]["infos"]["db_id"])
+            self.send_to(ClientProtocol.DATA.value, json.dumps(data_to_send), client_address)
 
     def send_to(self, protocol: str, data: str, client_address):
         self.sock.sendto((protocol + data).encode(), client_address)

@@ -7,6 +7,7 @@ class Multiplayer:
 
     def start_server(self):
         serv = Server(self.addr, self.port)
+        print(f"Server started on {self.addr}:{self.port}")
         serv.listen()
 
     def register_server(self):

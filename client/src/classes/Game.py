@@ -22,7 +22,7 @@ class Game:
         return Player(0, img, (500, 500))
 
     def __init__(self, multi=None):
-        self.racers = []
+        self.racers = {}
         self.multi = multi
         self.screen_size = (600, 600)
         self.window = pygame.display.set_mode(self.screen_size)
