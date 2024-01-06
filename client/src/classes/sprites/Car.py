@@ -29,3 +29,9 @@ class Car(pygame.sprite.Sprite):
 
     def undo_move(self):
         self.rect = self.image.get_rect(center=(self.cached_position[0], self.cached_position[1]))
+
+    def undo_move_x(self):
+        self.rect.centerx=self.cached_position[0]
+
+    def undo_move_y(self):
+        self.rect.centery=self.cached_position[1]

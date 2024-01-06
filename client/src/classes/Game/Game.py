@@ -49,9 +49,18 @@ class Game:
     def update_player(self):
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
+
+        objects = self.map.get_collisions_objects()
+
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.velocity = 0
             self.player.undo_move()
+            # Trying to make the player move on x axis if collision only on y, and move y axis if only on x
+            #for object in objects:
+             #   if self.player.rect.x < object.x + object.width and self.player.rect.x + self.player.rect.width > object.x:
+              #      self.player.undo_move_x()
+               # if self.player.rect.y < object.y + object.height and self.player.rect.y + self.player.rect.height > object.y:
+                #    self.player.undo_move_y()
 
     def verify_checkpoints(self):
         # Index of the checkpoint player is on
