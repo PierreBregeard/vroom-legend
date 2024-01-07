@@ -22,4 +22,5 @@ while run:
     game.render()
     pygame.display.flip()
 
+multi.close_multiplayer()
 pygame.quit()

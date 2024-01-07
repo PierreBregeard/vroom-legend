@@ -6,6 +6,8 @@ import socket
 
 
 class Client(Socket):
+    tick = 0.01
+    last_send_time = 0
 
     def __init__(self, ip, port, db_id):
         super().__init__()
@@ -25,21 +27,24 @@ class Client(Socket):
         # else:
         #     raise Exception(data)
 
+    def diconnect(self):
+        pass
+        # self.send(ServerProtocol.DISCONNECT.value, self.db_id)  # todo: disconnect protocol
+
     def receive(self):
         try:
-            data = self.sock.recvfrom(1024)[0]
-            print(data)
+            while True:
+                data = self.sock.recvfrom(1024)[0]
+                raw_protocol = data.decode()[0]
+                data = data.decode()[1:]
+                if not ClientProtocol.is_valid(raw_protocol):
+                    raise Exception("Invalid protocol")
 
-            raw_protocol = data.decode()[0]
-            data = data.decode()[1:]
-            if not ClientProtocol.is_valid(raw_protocol):
-                raise Exception("Invalid protocol")
-
-            protocol = ClientProtocol(raw_protocol)
-            return protocol, data
+                protocol = ClientProtocol(raw_protocol)
+                yield protocol, data
         except socket.error as e:
             if e.errno in [10035, 11]:
-                return False
+                return
             else:
                 raise
 

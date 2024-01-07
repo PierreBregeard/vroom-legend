@@ -7,9 +7,8 @@ import time
 
 
 class Server(Socket):
-    tick = 10 / 1000  # tick rate for server response
-    loopDelay = 0.1  # prevent big CPU usage
-    MAX_CLIENTS = 2
+    tick = 0.01
+    MAX_CLIENTS = 5
 
     clients = {}
     is_game_started = False
@@ -84,18 +83,11 @@ class Server(Socket):
 
     def receive(self):
         try:
-            data, client_address = self.sock.recvfrom(1024)
-
-            if self.is_game_started and not self.clients[client_address]:
-                self.send_to(ClientProtocol.ERROR.value, "A game is running", client_address)
-                return True
-
-            self.handle_data(data, client_address)
-            return True
-
+            while True:
+                yield self.sock.recvfrom(1024)
         except socket.error as e:
             if e.errno in [10035, 11]:
-                return False
+                return
             else:
                 raise
 
@@ -105,19 +97,31 @@ class Server(Socket):
             data[client["infos"]["db_id"]] = client["data"]
         return data
 
-
     def listen(self):
-        next_tick_time = time.time() + self.tick
+        start_time = time.time()
+        tick_interval = self.tick
+        tick_count = 0
+
         while True:
-            while self.receive():
-                pass
+            tick_count += 1
+            targeted_time = start_time + tick_interval * tick_count
+            current_time = time.time()
+            time_to_wait = targeted_time - current_time
+            if time_to_wait > 0:
+                time.sleep(time_to_wait)
+            else:
+                print(f"Server is late by {-time_to_wait}s")
+
+            res = self.receive()
+            if not res:
+                continue
+            for data, client_address in res:
+                if self.is_game_started and not self.clients[client_address]:
+                    self.send_to(ClientProtocol.ERROR.value, "A game is running", client_address)
+
+                self.handle_data(data, client_address)
 
             self.send_data_to_all(self.get_clients_data())
-
-            current_time = time.time()
-            if current_time >= next_tick_time:
-                next_tick_time = current_time + self.tick
-            time.sleep(self.loopDelay)
 
     def send_to_all(self, protocol: str, data: str):
         for client_address in self.clients:  # todo: send to all except one client to who the data is being sent

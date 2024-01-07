@@ -66,29 +66,27 @@ class Game:
         return racers
 
     def handle_server_data(self):
-        raw_data = self.multi.client.receive()
-        if not raw_data:
+        res = self.multi.client.receive()
+        if not res:
             return
-
-        protocol, data = raw_data
-        print(protocol, data)
-        if protocol == ClientProtocol.PLAYERS_INFOS:
-            racers_data = json.loads(data)
-            self.racers = self.set_racers(racers_data)
-            self.map.add_racers(self.racers.values())
-        elif protocol == ClientProtocol.ACTION:
-            if data == "Start game":
-                self.is_game_started = True
-        elif protocol == ClientProtocol.DATA:
-            players_data = json.loads(data)
-            for db_id, player_data in players_data.items():
-                if db_id == self.multi.client.db_id:
-                    continue  # todo: mettre ça dans le server
-                self.racers[db_id].rect.center = player_data["pos"]
-                self.racers[db_id].angle = player_data["angle"]
-                self.racers[db_id].velocity = player_data["speed"]
-        elif protocol == ClientProtocol.ERROR:
-            print(data)
+        for protocol, data in res:
+            if protocol == ClientProtocol.PLAYERS_INFOS:
+                racers_data = json.loads(data)
+                self.racers = self.set_racers(racers_data)
+                self.map.add_racers(self.racers.values())
+            elif protocol == ClientProtocol.ACTION:
+                if data == "Start game":
+                    self.is_game_started = True
+            elif protocol == ClientProtocol.DATA:
+                players_data = json.loads(data)
+                for db_id, player_data in players_data.items():
+                    if db_id == self.multi.client.db_id:
+                        continue  # todo: mettre ça dans le server
+                    self.racers[db_id].rect.center = player_data["pos"]
+                    self.racers[db_id].angle = player_data["angle"]
+                    self.racers[db_id].velocity = player_data["speed"]
+            elif protocol == ClientProtocol.ERROR:
+                print(data)
 
 
     def update(self):

@@ -37,12 +37,13 @@ class Player(Car):
         if self.velocity > 0:
             self.brake()
         else:
-            self.throttle(True)
+            self.throttle(reverse=True)
 
     def throttle(self, reverse=False):
-        max_speed = self.max_speed if not reverse else self.max_speed_reverse
-        self.velocity = max_speed - (max_speed - abs(self.velocity)) * math.exp(-self.horse_power)
+        self.velocity = self.max_speed - (self.max_speed - abs(self.velocity)) * math.exp(-self.horse_power)
         if reverse:
+            if self.velocity > self.max_speed_reverse:
+                self.velocity = self.max_speed_reverse
             self.velocity *= -1
 
     def brake(self):
@@ -58,9 +59,9 @@ class Player(Car):
         elif self.velocity < -0.3:
             self.velocity += self.drag_power
             self.velocity += self.drag_power
-        else:
-            self.velocity = 0
-            self.velocity = 0
+        # else:
+        #     self.velocity = 0
+        #     self.velocity = 0
 
     def turn(self, left=True):
         turn_power = 2 # self.turn_power * (self.velocity / self.max_speed)
