@@ -22,7 +22,7 @@ class Custom:
     def __init__(self):
         pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
-        self.largeur, self.hauteur = 1000, 720
+        self.largeur, self.hauteur = 1500, 900
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Customisation")
         self.screen.fill("black")
@@ -46,6 +46,10 @@ class Custom:
 
         main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
+
+        self.button_click_sound = pygame.mixer.Sound("../ressources/Sounds/Minimalist10.mp3")
+
+        self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
@@ -93,13 +97,17 @@ class Custom:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.save_button.checkinput(mouse_pos):  # rajouter les requetes pour la sauvegarde
+                        self.button_click_sound.play()
                         print("test save click")
                     if self.back_button.checkinput(mouse_pos):  # retour menu
+                        self.button_click_sound.play()
                         print("test menu")
                         # init_menu()
                     if self.next_button.checkinput(mouse_pos):  # Voiture suivante
+                        self.button_click_sound.play()
                         self.i = min(1, self.i + 1)
                     if self.prev_button.checkinput(mouse_pos):  # Voiture precedente
+                        self.button_click_sound.play()
                         self.i = max(0, self.i - 1)
 
                     self.image_path = f"../ressources/sprites/test{self.i}.jpg"
