@@ -29,7 +29,7 @@ class Game:
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
         # List of boolean for already visited checkpoints
-
+        self.has_missed_checkpoint = False
         self.checkpoints_list = []
         for i in range(0, len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
@@ -51,27 +51,42 @@ class Game:
         self.player.handle_keys_press(keys)
 
         objects = self.map.get_collisions_objects()
-
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.velocity = 0
             self.player.undo_move()
             # Trying to make the player move on x axis if collision only on y, and move y axis if only on x
-            #for object in objects:
-             #   if self.player.rect.x < object.x + object.width and self.player.rect.x + self.player.rect.width > object.x:
-              #      self.player.undo_move_x()
-               # if self.player.rect.y < object.y + object.height and self.player.rect.y + self.player.rect.height > object.y:
-                #    self.player.undo_move_y()
+            for object in objects:
+                if self.player.rect.x < object.x + object.width and self.player.rect.x + self.player.rect.width > object.x:
+                    self.player.undo_move_x()
+                if self.player.rect.y < object.y + object.height and self.player.rect.y + self.player.rect.height > object.y:
+                    self.player.undo_move_y()
 
     def verify_checkpoints(self):
         # Index of the checkpoint player is on
         idx = self.player.rect.collidelistall(self.map.get_checkpoints())
+
+        # Index of the checkpoint player passed
+        idx_passed = self.player.rect.collidelistall(self.map.get_missed_checkpoints())
+
         # If there is and indice,
         # If it is not already visited
         # If last checkpoint is visited, or it is the first checkpoint
-        if len(idx) and not self.checkpoints_list[idx[0]] and (self.checkpoints_list[idx[0]-1] or idx[0] == 0):
+        if len(idx) and not self.checkpoints_list[idx[0]] and (self.checkpoints_list[idx[0] - 1] or idx[0] == 0):
             # Player visited a new checkpoint
             self.checkpoints_list[idx[0]] = True
             print("Player passed a checkpoint !")
+            self.HUD.has_missed_checkpoint = False
+        try:
+            idx_last_visited_checkpoint = next(x for x, val in enumerate(self.checkpoints_list) if val == False)-1
+            if (not (idx_last_visited_checkpoint == -1) and
+                    len(idx_passed) and
+                    idx_passed[0] > idx_last_visited_checkpoint and
+                    idx_passed[0] == idx_last_visited_checkpoint+1):
+                self.HUD.has_missed_checkpoint = True
+        except:
+            print("Player have passed all checkpoints")
+
+
 
     def update(self):
         self.update_player()
@@ -84,4 +99,4 @@ class Game:
             world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
         rect = world_surface.get_rect(center=(self.screen_size[0] // 2, self.screen_size[1] // 2))
         self.window.blit(world_surface, rect)
-        self.HUD.blit_HUD(self.window)
+        self.HUD.blit_HUD(self.window, self.checkpoints_list)

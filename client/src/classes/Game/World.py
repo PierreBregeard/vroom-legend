@@ -29,6 +29,12 @@ class World:
         for obj in tmx_data.objects:
             if obj.type == "checkpoint":
                 self.checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+        # List des zones apres checkpoint permettant de savoir
+        # si le joueur a raté un checkpoint
+        self.missed_checkpoints = []
+        for obj in tmx_data.objects:
+            if obj.type == "checkpoint_missed":
+                self.missed_checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
     def set_soom(self, zoom):
         self.map_layer.zoom = zoom
@@ -47,3 +53,6 @@ class World:
 
     def get_checkpoints(self):
         return self.checkpoints
+
+    def get_missed_checkpoints(self):
+        return self.missed_checkpoints
