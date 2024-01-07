@@ -5,27 +5,29 @@ from src.classes.button import Button
 
 
 def get_font(size):
-    return pygame.font.Font("./ressources/Font/Roboto-Black.ttf", size)
+    return pygame.font.Font("../ressources/Font/Roboto-Black.ttf", size)
 
 
 class Menu:
     def __init__(self):
         pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
-        self.largeur, self.hauteur = 1000, 720
+        self.largeur, self.hauteur = 1500, 900
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Menu")
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
+        self.BG = pygame.image.load("../ressources/BackgroundMenu/Background2.png")
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
+        self.button_click_sound = pygame.mixer.Sound("../ressources/Sounds/Minimalist10.mp3")
+
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load("./ressources/Buttons/bouton1.png")
+        self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
         self.button_surface = pygame.transform.scale(self.button_surface, (150, 85))
         self.run = True
-        #self.run_game = Game()
+        # self.run_game = Game()
         self.screen.blit(self.BG, (0, 0))
 
         self.menu_text = get_font(80).render("Vroom Legends", True, "#b68f40")
@@ -59,12 +61,18 @@ class Menu:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.play_button.checkinput(mouse_pos):
+                        self.button_click_sound.play()
                         print("Jeu")
                         # à mettre lorsque les liasons seront faites
-                        # game()
-                    # if connexion_button.checkinput(mouse_pos):
+                        # self.run_game.update()
+                        # self.run_game.render()
+
+                    if self.connexion_button.checkinput(mouse_pos):
+                        self.button_click_sound.play()
+                        print("menu connexion")
                         # menu_co.menu_co()
                     if self.leave_button.checkinput(mouse_pos):
+                        self.button_click_sound.play()
                         pygame.quit()
                         sys.exit()
             pygame.display.update()

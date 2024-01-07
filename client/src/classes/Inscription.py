@@ -51,8 +51,7 @@ class Inscription:
         self.wrong_email_text = get_font(17).render("Veuillez entrer un email correct !", True, "#ff0000")
         self.wrong_email_rect = self.menu_text.get_rect(center=(860, 450))
 
-        self.wrong_mdp_text = get_font(17).render("Votre mot de passe doit faire au moins 8 caractères !", True,
-                                                   "#ff0000")
+        self.wrong_mdp_text = get_font(17).render("Votre mot de passe doit faire au moins 8 caractères !", True,"#ff0000")
         self.wrong_mdp_rect = self.menu_text.get_rect(center=(860, 580))
 
         self.wrong_conf_mdp_text = get_font(17).render("Vos mots de passes doivent être identiques !", True, "#ff0000")
@@ -67,6 +66,8 @@ class Inscription:
         self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
+
+        self.button_click_sound = pygame.mixer.Sound("../ressources/Sounds/Minimalist10.mp3")
 
         # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
@@ -134,7 +135,8 @@ class Inscription:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.enter_button.checkinput(mouse_pos) or (event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED):  # Quand l'utilisateur essaye s'inscrire par bouton / touche entrée
+                    if self.enter_button.checkinput(mouse_pos):  # Quand l'utilisateur essaye s'inscrire par bouton
+                        self.button_click_sound.play()
                         if mdp_len < 8:
                             self.wrong_mdp = True
                         else:
@@ -155,9 +157,11 @@ class Inscription:
                             print("Test envoi requete")
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
+                        self.button_click_sound.play()
                         print("menu principal")
                         # init_menu()
                     if self.connexion_txt.checkinput(mouse_pos):  # redirection inscription
+                        self.button_click_sound.play()
                         print("menu connexion")
                         # init_connexion()
 
