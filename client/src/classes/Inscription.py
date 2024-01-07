@@ -111,11 +111,15 @@ class Inscription:
 
             mouse_pos = pygame.mouse.get_pos()
 
+            # affiche les text
+
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.email_text, self.email_rect)
             self.screen.blit(self.pseudo_text, self.pseudo_rect)
             self.screen.blit(self.mdp_text, self.mdp_rect)
             self.screen.blit(self.conf_mdp_text, self.conf_mdp_rect)
+
+            # affiche les messages d'erreurs, ne pas toucher
 
             if self.wrong_email:
                 self.screen.blit(self.wrong_email_text, self.wrong_email_rect)
@@ -126,7 +130,7 @@ class Inscription:
             if self.wrong_conf_mdp:
                 self.screen.blit(self.wrong_conf_mdp_text, self.wrong_conf_mdp_rect)
 
-            for button in [self.enter_button, self.back_button, self.connexion_txt]:
+            for button in [self.enter_button, self.back_button, self.connexion_txt]: # pas toucher
                 button.changecolor(mouse_pos)
                 button.update(self.screen)
 
@@ -134,7 +138,7 @@ class Inscription:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN: # quand tu clique sur l'écran
                     if self.enter_button.checkinput(mouse_pos):  # Quand l'utilisateur essaye s'inscrire par bouton
                         self.button_click_sound.play()
                         if mdp_len < 8:
@@ -154,12 +158,13 @@ class Inscription:
                         else:
                             self.wrong_conf_mdp = False
                         if not self.wrong_email and not self.wrong_pseudo and not self.wrong_mdp and not self.wrong_conf_mdp:
-                            print("Test envoi requete")
+                            print("Test envoi requete")  # requete à mettre ici
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         print("menu principal")
                         # init_menu()
+
                     if self.connexion_txt.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
                         print("menu connexion")
@@ -169,7 +174,6 @@ class Inscription:
 
             self.manager.update(fps)
             self.manager.draw_ui(self.screen)
-
             pygame.display.update()
 
 

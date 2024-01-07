@@ -1,6 +1,7 @@
 import sys
 import pygame
 import pygame_gui
+import re
 from src.classes.button import Button
 
 
@@ -10,6 +11,11 @@ from src.classes.button import Button
 
 def get_font(size):
     return pygame.font.Font("../ressources/Font/Roboto-Black.ttf", size)
+
+
+def is_valid_email(email):
+    email_pattern = re.compile(r'^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$')
+    return bool(re.match(email_pattern, email))
 
 
 clock = pygame.time.Clock()
@@ -27,8 +33,8 @@ class Connexion:
         self.menu_text = get_font(100).render("Vroom Legends", True, "#b68f40")
         self.menu_rect = self.menu_text.get_rect(center=(500, 90))
 
-        self.pseudo_text = get_font(17).render("Pseudo :", True, "#b68f40")
-        self.pseudo_rect = self.menu_text.get_rect(center=(665, 230))
+        self.email_text = get_font(17).render("Email :", True, "#b68f40")
+        self.email_rect = self.menu_text.get_rect(center=(665, 230))
 
         self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
         self.mdp_rect = self.menu_text.get_rect(center=(665, 330))
@@ -39,7 +45,7 @@ class Connexion:
         self.wrong_mdp_text = get_font(17).render("Veuillez entrer votre mot de passe !", True, "#ff0000")
         self.wrong_mdp_rect = self.menu_text.get_rect(center=(860, 580))
 
-        self.wrong_pseudo = False
+        self.wrong_email = False
         self.wrong_mdp = False
 
         main_font = pygame.font.SysFont("cambria", 50)
@@ -55,8 +61,8 @@ class Connexion:
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        self.pseudo_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 200), (400, 50)),
-                                                                manager=self.manager, object_id="#pseudonyme")
+        self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 200), (400, 50)),
+                                                               manager=self.manager, object_id="#pseudonyme")
         self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 300), (400, 50)),
                                                              manager=self.manager, object_id="#mot_de_passe")
 
@@ -79,7 +85,7 @@ class Connexion:
         while self.run:
             fps = clock.tick(60) / 1000
 
-            pseudo_len = len(self.pseudo_input.get_text())
+            pseudo_len = len(self.email_input.get_text())
             mdp_len = len(self.mdp_input.get_text())
 
             self.screen.blit(self.BG, (0, 0))
@@ -87,10 +93,10 @@ class Connexion:
             mouse_pos = pygame.mouse.get_pos()
 
             self.screen.blit(self.menu_text, self.menu_rect)
-            self.screen.blit(self.pseudo_text, self.pseudo_rect)
+            self.screen.blit(self.email_text, self.email_rect)
             self.screen.blit(self.mdp_text, self.mdp_rect)
 
-            if self.wrong_pseudo:
+            if self.wrong_email:
                 self.screen.blit(self.wrong_pseudo_text, self.wrong_pseudo_rect)  # à voir avec quoi on se co
             if self.wrong_mdp:
                 self.screen.blit(self.wrong_mdp_text, self.wrong_mdp_rect)
@@ -103,25 +109,25 @@ class Connexion:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:  # or (event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED) à changer pour prendre en compte la touche entrée
+                if event.type == pygame.MOUSEBUTTONDOWN:  # quand l'utilisateur clique sur l'écran
                     if self.enter_button.checkinput(mouse_pos):  # Quand l'utilisateur essaye de se co via le bouton
                         self.button_click_sound.play()
                         if mdp_len < 1:
                             self.wrong_mdp = True
                         else:
                             self.wrong_mdp = False
-                        if pseudo_len < 1:
-                            self.wrong_pseudo = True  # à changer si on ce co avec l'email
+                        if not is_valid_email(self.email_input.get_text()):
+                            self.wrong_email = True
                         else:
-                            self.wrong_pseudo = False
-
-                        if not self.wrong_pseudo and not self.wrong_mdp:
-                            print("Test envoi requete")  # rajouter la requete
+                            self.wrong_email = False
+                        if not self.wrong_email and not self.wrong_mdp:
+                            print("Test envoi requete")  # requete à mettre ici
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         print("test menu")
                         # init_menu()
+
                     if self.txt_test.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
                         print("menu inscription")
@@ -130,9 +136,7 @@ class Connexion:
                 self.manager.process_events(event)
 
             self.manager.update(fps)
-
             self.manager.draw_ui(self.screen)
-
             pygame.display.update()
 
 
