@@ -17,7 +17,7 @@ class Game:
         return Player(0, img, (500, 500))
 
     def __init__(self, enable_screen_rotation=True, width=600, height=600):
-        self.screen_size = (600, 600)
+        self.screen_size = (width, height)
         self.enable_screen_rotation = enable_screen_rotation
         self.window = pygame.display.set_mode(self.screen_size)
 

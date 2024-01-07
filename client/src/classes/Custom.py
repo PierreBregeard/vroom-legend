@@ -2,7 +2,8 @@ import os
 import sys
 import pygame
 import pygame_gui
-from src.classes.button import Button
+from Menu.button import Button
+from ResourcePath import RelativePath
 
 os.chdir(os.path.dirname(__file__))
 
@@ -12,7 +13,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 def get_font(size):
-    return pygame.font.Font("../ressources/Font/Roboto-Black.ttf", size)
+    return pygame.font.Font(RelativePath.resource_path("..\\ressources\\Font\\Roboto-Black.ttf"), size)
 
 
 clock = pygame.time.Clock()
@@ -28,7 +29,7 @@ class Custom:
         self.screen.fill("black")
 
         self.i = 0
-        self.image_path = f"../ressources/sprites/test{self.i}.jpg"
+        self.image_path = RelativePath.resource_path(f"..\\ressources\\sprites\\test{self.i}.jpg")
         self.image = pygame.image.load(self.image_path).convert()
         self.image = pygame.transform.scale(self.image, (100, 100))
 
@@ -45,14 +46,14 @@ class Custom:
         self.pseudo_rect = self.menu_text.get_rect(center=(400, 230))
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
+        self.BG = pygame.image.load(RelativePath.resource_path("..\\ressources\\BackgroundMenu\\Background.png"))
 
-        self.button_click_sound = pygame.mixer.Sound("../ressources/Sounds/Minimalist10.mp3")
+        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("..\\ressources\\Sounds\\Minimalist10.mp3"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
+        self.button_surface = pygame.image.load(RelativePath.resource_path("..\\ressources\\Buttons\\bouton1.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (150, 100))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
@@ -110,7 +111,7 @@ class Custom:
                         self.button_click_sound.play()
                         self.i = max(0, self.i - 1)
 
-                    self.image_path = f"../ressources/sprites/test{self.i}.jpg"
+                    self.image_path = RelativePath.resource_path(f"..\\ressources\\sprites\\test{self.i}.jpg")
                     self.image = pygame.image.load(self.image_path).convert()
                     self.image = pygame.transform.scale(self.image, (100, 100))
 

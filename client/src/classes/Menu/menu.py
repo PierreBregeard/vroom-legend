@@ -1,30 +1,31 @@
 import pygame
 import sys
-from src.classes.button import Button
-# from src.classes.Game import Game
-
+from .button import Button
+from .Inscription import Inscription
+from .Connexion import Connexion
+from src.classes.ResourcePath import RelativePath
 
 def get_font(size):
-    return pygame.font.Font("../ressources/Font/Roboto-Black.ttf", size)
+    return pygame.font.Font(RelativePath.resource_path("ressources\\Font\\Roboto-Black.ttf"), size)
 
 
 class Menu:
-    def __init__(self):
+    def __init__(self,width , height):
         pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
-        self.largeur, self.hauteur = 1500, 900
+        self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Menu")
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load("../ressources/BackgroundMenu/Background2.png")
+        self.BG = pygame.image.load(RelativePath.resource_path("ressources\\BackgroundMenu\\Background2.png"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.button_click_sound = pygame.mixer.Sound("../ressources/Sounds/Minimalist10.mp3")
+        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources\\Sounds\\Minimalist10.mp3"))
 
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
+        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources\\Buttons\\bouton2.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (150, 85))
         self.run = True
         # self.run_game = Game()
@@ -43,7 +44,7 @@ class Menu:
         self.leave_button = Button(pos=(350, 450), text_input="Quitter", font=get_font(30),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-    def menu(self):  # enlever le parametre game quand la classe sera op
+    def menu(self, game):  # enlever le parametre game quand la classe sera op
         while self.run:
             self.screen.blit(self.BG, (0, 0))
 
@@ -63,20 +64,15 @@ class Menu:
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         print("Jeu")
-                        # à mettre lorsque les liasons seront faites
-                        # self.run_game.update()
-                        # self.run_game.render()
+                        game.play()
 
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        print("menu connexion")
+                        test = Connexion(self.largeur, self.hauteur)
+                        test.menu_co()
                         # menu_co.menu_co()
                     if self.leave_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         pygame.quit()
                         sys.exit()
             pygame.display.update()
-
-
-test = Menu()
-test.menu()

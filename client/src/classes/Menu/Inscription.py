@@ -2,15 +2,15 @@ import sys
 import pygame
 import pygame_gui
 import re
-from src.classes.button import Button
-
+from .button import Button
+from src.classes.ResourcePath import RelativePath
 
 # from src.main import init_menu
 # from src.classes.Inscription import Inscription
 
 
 def get_font(size):
-    return pygame.font.Font("../ressources/Font/Roboto-Black.ttf", size)
+    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Roboto-Black.ttf"), size)
 
 
 def is_valid_email(email):
@@ -22,10 +22,10 @@ clock = pygame.time.Clock()
 
 
 class Inscription:
-    def __init__(self):
+    def __init__(self, width, height):
         pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
-        self.largeur, self.hauteur = 1500, 900
+        self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Inscription")
         self.screen.fill("black")
@@ -63,14 +63,14 @@ class Inscription:
         self.wrong_conf_mdp = False
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load("../ressources/BackgroundMenu/Background.png")
+        self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.button_click_sound = pygame.mixer.Sound("../ressources/Sounds/Minimalist10.mp3")
+        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load("../ressources/Buttons/bouton1.png")
+        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton1.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (150, 100))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
@@ -164,11 +164,12 @@ class Inscription:
                         self.button_click_sound.play()
                         print("menu principal")
                         # init_menu()
+                        return
 
                     if self.connexion_txt.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
                         print("menu connexion")
-                        # init_connexion()
+                        return
 
                 self.manager.process_events(event)
 
@@ -177,5 +178,4 @@ class Inscription:
             pygame.display.update()
 
 
-test = Inscription()
-test.menu_inscr()
+
