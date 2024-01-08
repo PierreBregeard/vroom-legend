@@ -120,7 +120,7 @@ class Connexion:
                 # self.deco_button.changecolor(mouse_pos)
                 # self.deco_button.update(self.screen)
 
-            for button in [self.enter_button, self.back_button, self.txt_test, self.deco_button]:
+            for button in [self.enter_button, self.back_button, self.txt_test, self.deco_button]: # enlever le self.deco_button quand le if d'au dessus est fait
                 button.changecolor(mouse_pos)
                 button.update(self.screen)
 
