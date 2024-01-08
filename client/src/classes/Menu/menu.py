@@ -4,6 +4,7 @@ from .button import Button
 from .Inscription import Inscription
 from .Connexion import Connexion
 from src.classes.ResourcePath import RelativePath
+from src.classes.Game.Game import Game
 
 def get_font(size):
     return pygame.font.Font(RelativePath.resource_path("ressources\\Font\\Roboto-Black.ttf"), size)
@@ -28,7 +29,7 @@ class Menu:
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources\\Buttons\\bouton2.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (150, 85))
         self.run = True
-        # self.run_game = Game()
+
         self.screen.blit(self.BG, (0, 0))
 
         self.menu_text = get_font(80).render("Vroom Legends", True, "#b68f40")
@@ -44,7 +45,7 @@ class Menu:
         self.leave_button = Button(pos=(350, 450), text_input="Quitter", font=get_font(30),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-    def menu(self, game):  # enlever le parametre game quand la classe sera op
+    def menu(self):  # enlever le parametre game quand la classe sera op
         while self.run:
             self.screen.blit(self.BG, (0, 0))
 
@@ -63,7 +64,7 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        print("Jeu")
+                        game = Game(enable_screen_rotation=False, width=self.largeur, height=self.hauteur)
                         game.play()
 
                     if self.connexion_button.checkinput(mouse_pos):

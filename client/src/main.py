@@ -9,8 +9,5 @@ game_size = (600, 600)
 
 chdir(Path(__file__).parent)
 
-pygame.init()
-game = Game(enable_screen_rotation=False, width=game_size[0], height=game_size[1])
-
 menu = Menu(width=game_size[0], height=game_size[1])
-menu.menu(game)
+menu.menu()
