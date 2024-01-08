@@ -44,7 +44,7 @@ class Custom:
 
 
         self.pseudo_text = get_font(20).render(f"Pseudo : {self.pseudo}", True, "#FFFFFF")
-        self.pseudo_rect = self.menu_text.get_rect(center=(300, 500))  # marche pas jsp pq / s'affiche pas
+        self.pseudo_rect = self.menu_text.get_rect(center=(700, 300))  # marche pas jsp pq / s'affiche pas
 
         self.i = 0
         self.image_path = RelativePath.resource_path(f"ressources\\sprites\\test{self.i}.jpg")

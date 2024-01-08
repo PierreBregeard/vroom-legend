@@ -6,6 +6,7 @@ from .button import Button
 from .Inscription import Inscription
 from src.classes.ResourcePath import RelativePath
 
+
 # from src.main import init_menu
 # from src.classes.Inscription import Inscription
 
@@ -55,14 +56,18 @@ class Connexion:
         self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
         self.mdp_rect = self.menu_text.get_rect(center=(910, 465))
 
-        self.wrong_pseudo_text = get_font(16).render("Veuillez entrer un email correct !", True, "#ff0000")
-        self.wrong_pseudo_rect = self.menu_text.get_rect(center=(910, 365))
+        self.wrong_email_text = get_font(16).render("Veuillez entrer un email correct !", True, "#ff0000")
+        self.wrong_email_rect = self.menu_text.get_rect(center=(910, 365))
 
         self.wrong_mdp_text = get_font(16).render("Veuillez entrer votre mot de passe !", True, "#ff0000")
         self.wrong_mdp_rect = self.menu_text.get_rect(center=(910, 565))
 
+        self.already_co_text = get_font(16).render("Vous êtes déjà connnecté !", True, "#ff0000")
+        self.already_co_rect = self.menu_text.get_rect(center=(1000, 765))
+
         self.wrong_email = False
         self.wrong_mdp = False
+        self.already_co = False
 
         self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 250), (600, 50)),
                                                                manager=self.manager, object_id="#pseudonyme")
@@ -76,10 +81,15 @@ class Connexion:
         self.enter_button = Button(pos=(750, 665), text_input="Connexion", font=get_font(18),
                                    base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
+        self.deco_button = Button(pos=(1200, 665), text_input="Déconnexion", font=get_font(18),
+                                  base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
+
         self.back_button = Button(pos=(125, 800), text_input="Retour", font=get_font(18),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.run = True
+
+        self.test_deco = 1 # à enlever quand test fini
 
         clock.tick(60)
         pygame.display.update()
@@ -88,7 +98,6 @@ class Connexion:
         while self.run:
             fps = clock.tick(60) / 1000
 
-            pseudo_len = len(self.email_input.get_text())
             mdp_len = len(self.mdp_input.get_text())
 
             self.screen.blit(self.BG, (0, 0))
@@ -100,11 +109,18 @@ class Connexion:
             self.screen.blit(self.mdp_text, self.mdp_rect)
 
             if self.wrong_email:
-                self.screen.blit(self.wrong_pseudo_text, self.wrong_pseudo_rect)  # à voir avec quoi on se co
+                self.screen.blit(self.wrong_email_text, self.wrong_email_rect)
             if self.wrong_mdp:
                 self.screen.blit(self.wrong_mdp_text, self.wrong_mdp_rect)
+            if self.already_co:
+                self.screen.blit(self.already_co_text, self.already_co_rect)
 
-            for button in [self.enter_button, self.back_button, self.txt_test]:
+            # modifier le if pour vérifier si il est co, quand c'est fait, enlever les #
+            # if ... :
+                # self.deco_button.changecolor(mouse_pos)
+                # self.deco_button.update(self.screen)
+
+            for button in [self.enter_button, self.back_button, self.txt_test, self.deco_button]:
                 button.changecolor(mouse_pos)
                 button.update(self.screen)
 
@@ -123,12 +139,21 @@ class Connexion:
                             self.wrong_email = True
                         else:
                             self.wrong_email = False
-                        if not self.wrong_email and not self.wrong_mdp:
+                        if self.test_deco == 1:  # Remplacer le 1 par la requete qui vérifie si il est déjà co
+                            self.already_co = True
+                        else:
+                            self.already_co = False
+                        if not self.wrong_email and not self.wrong_mdp and not self.already_co:
                             print("Test envoi requete")  # requete à mettre ici
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         print("test menu")
+                        return
+
+                    if self.deco_button.checkinput(mouse_pos):  # Ajouter requete pour le deconnecter
+                        self.button_click_sound.play()
+                        print("Deconnexion")
                         return
 
                     if self.txt_test.checkinput(mouse_pos):  # redirection inscription
@@ -144,5 +169,3 @@ class Connexion:
             self.manager.draw_ui(self.screen)
 
             pygame.display.update()
-
-
