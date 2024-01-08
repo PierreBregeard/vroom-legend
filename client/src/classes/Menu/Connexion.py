@@ -11,7 +11,7 @@ from src.classes.ResourcePath import RelativePath
 
 
 def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Roboto-Black.ttf"), size)
+    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
 
 def is_valid_email(email):
@@ -29,25 +29,6 @@ class Connexion:
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Connexion")
-        self.screen.fill("black")
-
-        self.menu_text = get_font(100).render("Vroom Legends", True, "#b68f40")
-        self.menu_rect = self.menu_text.get_rect(center=(500, 90))
-
-        self.email_text = get_font(17).render("Email :", True, "#b68f40")
-        self.email_rect = self.menu_text.get_rect(center=(665, 230))
-
-        self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
-        self.mdp_rect = self.menu_text.get_rect(center=(665, 330))
-
-        self.wrong_pseudo_text = get_font(17).render("Veuillez entrer votre email !", True, "#ff0000")
-        self.wrong_pseudo_rect = self.menu_text.get_rect(center=(860, 320))
-
-        self.wrong_mdp_text = get_font(17).render("Veuillez entrer votre mot de passe !", True, "#ff0000")
-        self.wrong_mdp_rect = self.menu_text.get_rect(center=(860, 580))
-
-        self.wrong_email = False
-        self.wrong_mdp = False
 
         main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
@@ -56,26 +37,47 @@ class Connexion:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton1.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (150, 100))
-
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 200), (400, 50)),
+        # Redéfini la taille du bouton avec le .transform.scale
+        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
+        self.button_surface = pygame.transform.scale(self.button_surface, (200, 100))
+
+        self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (200, 100))
+
+        self.menu_text = get_font(100).render("Connexion", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(750, 90))
+
+        self.email_text = get_font(17).render("Email :", True, "#b68f40")
+        self.email_rect = self.menu_text.get_rect(center=(910, 265))
+
+        self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
+        self.mdp_rect = self.menu_text.get_rect(center=(910, 465))
+
+        self.wrong_pseudo_text = get_font(16).render("Veuillez entrer un email correct !", True, "#ff0000")
+        self.wrong_pseudo_rect = self.menu_text.get_rect(center=(910, 365))
+
+        self.wrong_mdp_text = get_font(16).render("Veuillez entrer votre mot de passe !", True, "#ff0000")
+        self.wrong_mdp_rect = self.menu_text.get_rect(center=(910, 565))
+
+        self.wrong_email = False
+        self.wrong_mdp = False
+
+        self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 250), (600, 50)),
                                                                manager=self.manager, object_id="#pseudonyme")
-        self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((300, 300), (400, 50)),
+        self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 450), (600, 50)),
                                                              manager=self.manager, object_id="#mot_de_passe")
 
-        self.txt_test = Button(pos=(500, 380), text_input="Vous n'avez pas encore de compte ? Cliquez ici !",
+        self.txt_test = Button(pos=(750, 580), text_input="Vous n'avez pas encore de compte ? Cliquez ici !",
                                font=get_font(17),
-                               base_color="#d7fcd4", hovering_color="White")
+                               base_color="#b68f40", hovering_color="White")
 
-        self.enter_button = Button(pos=(500, 450), text_input="Connexion", font=get_font(25),
-                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
+        self.enter_button = Button(pos=(750, 665), text_input="Connexion", font=get_font(18),
+                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.back_button = Button(pos=(150, 600), text_input="Retour", font=get_font(35),
-                                  base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
+        self.back_button = Button(pos=(125, 800), text_input="Retour", font=get_font(18),
+                                  base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.run = True
 
@@ -134,7 +136,6 @@ class Connexion:
                         print("menu inscription")
                         inscr = Inscription(self.largeur, self.hauteur)
                         inscr.menu_inscr()
-                        return
 
                 self.manager.process_events(event)
 
