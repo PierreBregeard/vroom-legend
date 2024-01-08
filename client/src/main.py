@@ -5,7 +5,7 @@ from os import chdir
 from src.classes.Game.Game import Game
 from src.classes.Menu.menu import Menu
 
-game_size = (600, 600)
+game_size = (1500, 900)
 
 chdir(Path(__file__).parent)
 
