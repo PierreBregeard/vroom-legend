@@ -6,6 +6,7 @@ class ServerProtocol(Enum):
     START_GAME = "1"
     SET_PLAYER_DATA = "2"
     ERROR = "3"
+    DISCONNECT = "4"
 
     @staticmethod
     def is_valid(protocol):

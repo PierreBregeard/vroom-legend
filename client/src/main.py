@@ -3,6 +3,7 @@ from pathlib import Path
 from os import chdir
 from classes.Game import Game
 from classes.Multiplayer import Multiplayer
+from classes.ColorCar import ColorCar
 
 chdir(Path(__file__).parent)
 
@@ -23,4 +24,5 @@ while run:
     pygame.display.flip()
 
 multi.close_multiplayer()
+ColorCar.remove_temp_files()
 pygame.quit()

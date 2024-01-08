@@ -15,7 +15,6 @@ class Client(Socket):
         self.sock.connect((ip, port))
 
     def send_player_data(self, player_data):
-        # todo : implement tick rate ?
         data = json.dumps(player_data)
         self.send(ServerProtocol.SET_PLAYER_DATA.value, data)
 
@@ -28,8 +27,7 @@ class Client(Socket):
         #     raise Exception(data)
 
     def diconnect(self):
-        pass
-        # self.send(ServerProtocol.DISCONNECT.value, self.db_id)  # todo: disconnect protocol
+        self.send(ServerProtocol.DISCONNECT.value, self.db_id)
 
     def receive(self):
         try:

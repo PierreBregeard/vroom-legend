@@ -1,8 +1,11 @@
 from PIL import Image
 from .ResourcePath import RelativePath
+from os import makedirs
+from shutil import rmtree
 
 
 class ColorCar:
+    tmp_folder = RelativePath.resource_path("ressources\\sprites\\dependencies\\temp")
 
     def __init__(self):
         self.car_base_img = Image.open(
@@ -32,8 +35,13 @@ class ColorCar:
         self.__set_color(self.car_roof_img, color_add)
 
     def save_img(self, player_id=""):
-        path = RelativePath.resource_path(f"ressources\\sprites\\dependencies\\{player_id}player.png")
         tmp = self.car_base_img.copy()
         tmp.paste(self.car_roof_img, (0, 0), self.car_roof_img)
+        makedirs(self.tmp_folder, exist_ok=True)
+        path = f"{self.tmp_folder}\\{player_id}player.png"
         tmp.save(path)
         return path
+
+    @staticmethod
+    def remove_temp_files():
+        rmtree(ColorCar.tmp_folder, ignore_errors=True)

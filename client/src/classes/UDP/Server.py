@@ -80,6 +80,11 @@ class Server(Socket):
                 self.send_to_all(ClientProtocol.ACTION.value, "Start game")
             else:
                 self.send_to(ClientProtocol.ERROR.value, "You are not the admin", client_address)
+        elif protocol == ServerProtocol.DISCONNECT:
+            if client_address in self.clients:
+                self.clients.pop(client_address)
+                print(f"Client {client_address} disconnected")
+                self.send_to_all(ClientProtocol.PLAYERS_INFOS.value, json.dumps(self.get_players_infos()))
 
     def receive(self):
         try:
