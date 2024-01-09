@@ -53,19 +53,10 @@ class Player(Car):
             self.velocity += self.brake_power
 
     def idle(self):
-        if self.velocity > 0:
-            self.velocity -= self.drag_power
-            self.velocity -= self.drag_power
-        elif self.velocity < 0:
-            self.velocity += self.drag_power
-            self.velocity += self.drag_power
-        # else:
-        #     self.velocity = 0
-        #     self.velocity = 0
+        self.velocity *= 1 - self.drag_power
 
     def turn(self, left=True):
-        turn_power = 2 # self.turn_power * (self.velocity / self.max_speed)
-        # todo: turn power is not working properly
+        turn_power = self.turn_power * (self.velocity / self.max_speed)
 
         if left:
             self.angle = (self.angle + turn_power) % 360
