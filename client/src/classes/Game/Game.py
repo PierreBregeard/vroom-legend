@@ -2,9 +2,9 @@ import pygame
 from ..ResourcePath import RelativePath
 from .World import World
 from ..Sprites.Player import Player
+from ..Sprites.Racer import Racer
 from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
-from ..Sprites.Car import Car
 from ..UDP.ClientProtocol import ClientProtocol
 import json
 
@@ -112,7 +112,7 @@ class Game:
             color_car.set_base_color((100, 0, 100))  # racer_data.base_color
             imgPath = color_car.save_img(db_id)
             img = pygame.image.load(imgPath).convert_alpha()
-            racer = Car(db_id, img, (500, 500))  # racer_data.pos
+            racer = Racer(db_id, "test", img, (500, 500))  # racer_data.pos
             racers[db_id] = racer
         return racers
 
@@ -125,6 +125,7 @@ class Game:
                 racers_data = json.loads(data)
                 self.racers = self.set_racers(racers_data)
                 self.map.add_racers(self.racers.values())
+                # add racers to the HUD for pseudo display
             elif protocol == ClientProtocol.ACTION:
                 if data == "Start game":
                     self.is_game_started = True
@@ -147,6 +148,7 @@ class Game:
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
+        # todo: mettre les pseudos des joueurs dans le HUD
 
     def render(self):
         world_surface = self.map.get_world_surface()

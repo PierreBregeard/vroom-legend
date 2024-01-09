@@ -129,7 +129,7 @@ class Server(Socket):
             self.send_data_to_all(self.get_clients_data())
 
     def send_to_all(self, protocol: str, data: str):
-        for client_address in self.clients:  # todo: send to all except one client to who the data is being sent
+        for client_address in self.clients:
             self.send_to(protocol, str(data), client_address)
 
     def send_data_to_all(self, data):

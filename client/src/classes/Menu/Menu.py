@@ -5,6 +5,7 @@ from .Inscription import Inscription
 from .Connexion import Connexion
 from .Custom import Custom
 from .Multiplayer import Multiplayer
+from ..Game.Game import Game
 from src.classes.ResourcePath import RelativePath
 
 
@@ -58,7 +59,7 @@ class Menu:
         self.leave_button = Button(pos=(750, 760), text_input="Quitter", font=self.get_font(20),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-    def menu(self, game):  # enlever le parametre game quand la classe sera op
+    def menu(self):
         while self.run:
             self.screen.blit(self.BG, (0, 0))
 
@@ -78,8 +79,7 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        print("Jeu")
-                        game.play()
+                        Game(enable_screen_rotation=False, game_size=(self.largeur, self.hauteur)).play()
 
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()

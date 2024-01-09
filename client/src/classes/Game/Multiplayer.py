@@ -6,7 +6,6 @@ import uuid
 class Multiplayer:
 
     def start_server(self):
-        # todo: ping le serveur pour savoir si il est toujours actif
         serv = Server(self.addr, self.port)
         print(f"Server started on {self.addr}:{self.port}")
         serv.listen()
@@ -17,7 +16,7 @@ class Multiplayer:
 
     def connect_to_server(self):
         # get ip from db
-
+        # todo: ping le serveur pour savoir si il est toujours actif
         # todo: récupérer l'ip du serveur depuis la db ansi que la bd_id du client
         return Client(self.addr, self.port, str(uuid.uuid4()))
 
@@ -26,18 +25,17 @@ class Multiplayer:
         # todo: delete ip from db
 
     def __init__(self, is_server: bool):
-        # tmp
-        self.addr = Server.get_ipv4_address()
-        self.port = 5000
-
         if is_server:
             from threading import Thread
-            # self.addr = Server.get_ipv4_address()
-            # self.port = 5000
+            self.addr = Server.get_ipv4_address()
+            self.port = 5000
             self.thread = Thread(target=self.start_server, daemon=True)
             # deamon = True -> stop thread when main thread is stopped
             self.thread.start()
             self.register_server()
+        else:
+            self.addr = Server.get_ipv4_address()  # todo: get ip from db
+            self.port = 5000
 
         self.client = self.connect_to_server()
         self.client.register()
