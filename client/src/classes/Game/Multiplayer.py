@@ -6,6 +6,7 @@ import uuid
 class Multiplayer:
 
     def start_server(self):
+        # todo: ping le serveur pour savoir si il est toujours actif
         serv = Server(self.addr, self.port)
         print(f"Server started on {self.addr}:{self.port}")
         serv.listen()
