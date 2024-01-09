@@ -1,18 +1,18 @@
 from PIL import Image
-from .ResourcePath import RelativePath
+from ..ResourcePath import RelativePath
 from os import makedirs
 from shutil import rmtree
 
 
 class ColorCar:
-    tmp_folder = RelativePath.resource_path("ressources\\sprites\\dependencies\\temp")
+    tmp_folder = RelativePath.resource_path("ressources\\Sprites\\dependencies\\temp")
 
     def __init__(self):
         self.car_base_img = Image.open(
-            RelativePath.resource_path("ressources\\sprites\\dependencies\\player_base.png")
+            RelativePath.resource_path("ressources\\Sprites\\dependencies\\player_base.png")
         )
         self.car_roof_img = Image.open(
-            RelativePath.resource_path("ressources\\sprites\\dependencies\\player_roof.png")
+            RelativePath.resource_path("ressources\\Sprites\\dependencies\\player_roof.png")
         )
 
     def __set_color(self, img, color_add):

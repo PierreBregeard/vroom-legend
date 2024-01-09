@@ -12,7 +12,7 @@ class Speedometer:
         SIZE = 500
         ratio = SIZE / screen_size[0]
 
-        needle_path = RelativePath.resource_path("ressources\\sprites\\dependencies\\needle.png")
+        needle_path = RelativePath.resource_path("ressources\\Sprites\\dependencies\\needle.png")
         self.needle = pygame.image.load(needle_path).convert_alpha()
         needle_size = self.needle.get_size()
         self.needle = pygame.transform.scale(
@@ -20,7 +20,7 @@ class Speedometer:
             (int(needle_size[0] * ratio), int(needle_size[1] * ratio))
         )
 
-        speedometer_path = RelativePath.resource_path("ressources\\sprites\\dependencies\\speedometer.png")
+        speedometer_path = RelativePath.resource_path("ressources\\Sprites\\dependencies\\speedometer.png")
         self.speedometer = pygame.image.load(speedometer_path).convert_alpha()
         speedometer_size = pygame.image.load(speedometer_path).get_size()
         self.speedometer = pygame.transform.scale(

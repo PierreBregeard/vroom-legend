@@ -1,5 +1,5 @@
-from .UDP.Server import Server
-from .UDP.Client import Client
+from src.classes.UDP.Server import Server
+from src.classes.UDP.Client import Client
 import uuid
 
 

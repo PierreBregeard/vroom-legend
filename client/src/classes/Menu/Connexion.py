@@ -2,7 +2,7 @@ import sys
 import pygame
 import pygame_gui
 import re
-from .button import Button
+from .Button import Button
 from .Inscription import Inscription
 from src.classes.ResourcePath import RelativePath
 

@@ -1,11 +1,8 @@
-import os
 import sys
 import pygame
 import pygame_gui
-from .button import Button
+from .Button import Button
 from src.classes.ResourcePath import RelativePath
-
-os.chdir(os.path.dirname(__file__))
 
 
 def get_font(size):
