@@ -15,7 +15,6 @@ class Menu:
         return pygame.font.Font(RelativePath.resource_path("ressources\\Font\\Pixel.ttf"), size)
     
     def __init__(self, game_size):
-        pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = game_size
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))

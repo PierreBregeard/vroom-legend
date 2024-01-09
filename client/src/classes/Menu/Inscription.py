@@ -20,7 +20,6 @@ clock = pygame.time.Clock()
 
 class Inscription:
     def __init__(self, width, height):
-        pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
