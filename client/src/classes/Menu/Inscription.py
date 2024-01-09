@@ -6,10 +6,6 @@ from .button import Button
 from src.classes.ResourcePath import RelativePath
 
 
-# from src.main import init_menu
-# from src.classes.Inscription import Inscription
-
-
 def get_font(size):
     return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
