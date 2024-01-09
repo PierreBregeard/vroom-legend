@@ -23,7 +23,6 @@ class Multiplayer:
     def close_multiplayer(self):
         self.client.diconnect()
         # todo: delete ip from db
-        # remove the temp files
 
     def __init__(self, is_server: bool):
         # tmp

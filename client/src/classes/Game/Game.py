@@ -21,9 +21,9 @@ class Game:
         return Player(0, img, (500, 500))
 
     def __init__(self, enable_screen_rotation, game_size):
+        self.multi = None
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
-        # self.multi = multi # todo: init multi ici
         self.screen_size = game_size
         self.window = pygame.display.set_mode(self.screen_size)
 
@@ -40,7 +40,8 @@ class Game:
         for i in range(len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
 
-    def play(self):
+    def play(self, multi=None):
+        self.multi = multi
         clock = pygame.time.Clock()
         run = True
         while run:
@@ -51,7 +52,8 @@ class Game:
             self.update()
             self.render()
             pygame.display.flip()
-        # multi.close_multiplayer()
+        if multi:
+            multi.close_multiplayer()
         ColorCar.remove_temp_files()
 
     def update_player(self):
@@ -130,7 +132,7 @@ class Game:
                 players_data = json.loads(data)
                 for db_id, player_data in players_data.items():
                     if db_id == self.multi.client.db_id:
-                        continue  # todo: mettre ça dans le server
+                        continue  # Normalement on ne devrait pas recevoir nos propres données
                     self.racers[db_id].rect.center = player_data["pos"]
                     self.racers[db_id].angle = player_data["angle"]
                     self.racers[db_id].velocity = player_data["speed"]
@@ -138,9 +140,10 @@ class Game:
                 print(data)
 
     def update(self):
-        # self.handle_server_data()
         self.update_player()
-        # self.send_player_data()
+        if self.multi:
+            self.handle_server_data()
+            self.send_player_data()
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
