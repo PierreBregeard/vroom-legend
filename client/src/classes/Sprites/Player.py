@@ -53,10 +53,10 @@ class Player(Car):
             self.velocity += self.brake_power
 
     def idle(self):
-        if self.velocity > 0.3:
+        if self.velocity > 0:
             self.velocity -= self.drag_power
             self.velocity -= self.drag_power
-        elif self.velocity < -0.3:
+        elif self.velocity < 0:
             self.velocity += self.drag_power
             self.velocity += self.drag_power
         # else:

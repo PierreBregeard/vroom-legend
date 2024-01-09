@@ -9,7 +9,7 @@ class Speedometer:
         self.screen_size = screen_size
         self.max_speed = max_speed
 
-        SIZE = 500
+        SIZE = 700
         ratio = SIZE / screen_size[0]
 
         needle_path = RelativePath.resource_path("ressources\\Sprites\\dependencies\\needle.png")

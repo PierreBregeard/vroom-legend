@@ -14,8 +14,8 @@ class Game:
 
     def init_player(self):
         color_car = ColorCar()
-        color_car.set_roof_color((0, 100, 0))
-        color_car.set_base_color((0, 0, 100))
+        color_car.set_roof_color((100, 0, 0))
+        color_car.set_base_color((0, 100, 100))
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
@@ -23,7 +23,7 @@ class Game:
     def __init__(self, enable_screen_rotation, game_size):
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
-        #self.multi = multi # todo: init multi ici
+        # self.multi = multi # todo: init multi ici
         self.screen_size = game_size
         self.window = pygame.display.set_mode(self.screen_size)
 
@@ -37,7 +37,7 @@ class Game:
         # List of boolean for already visited checkpoints
         self.has_missed_checkpoint = False
         self.checkpoints_list = []
-        for i in range(0, len(self.map.get_checkpoints())):
+        for i in range(len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
 
     def play(self):
@@ -51,8 +51,9 @@ class Game:
             self.update()
             self.render()
             pygame.display.flip()
-        #multi.close_multiplayer()
+        # multi.close_multiplayer()
         ColorCar.remove_temp_files()
+
     def update_player(self):
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
@@ -80,11 +81,11 @@ class Game:
             print("Player passed a checkpoint !")
             self.HUD.has_missed_checkpoint = False
         try:
-            idx_last_visited_checkpoint = next(x for x, val in enumerate(self.checkpoints_list) if val == False)-1
+            idx_last_visited_checkpoint = next(x for x, val in enumerate(self.checkpoints_list) if val == False) - 1
             if (not (idx_last_visited_checkpoint == -1) and
                     len(idx_passed) and
                     idx_passed[0] > idx_last_visited_checkpoint and
-                    idx_passed[0] == idx_last_visited_checkpoint+1):
+                    idx_passed[0] == idx_last_visited_checkpoint + 1):
                 self.HUD.has_missed_checkpoint = True
         except:
             print("Player have passed all checkpoints")
@@ -137,9 +138,9 @@ class Game:
                 print(data)
 
     def update(self):
-        #self.handle_server_data()
+        # self.handle_server_data()
         self.update_player()
-        #self.send_player_data()
+        # self.send_player_data()
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
