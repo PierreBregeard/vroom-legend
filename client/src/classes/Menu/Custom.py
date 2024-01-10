@@ -23,7 +23,7 @@ class Custom:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = Font.get_font(70).render("Customisation", True, "#FFFFFF")
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Customisation", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/10))
 
 
@@ -94,6 +94,8 @@ class Custom:
                     sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button != 1:
+                        continue
                     if self.save_button.checkinput(mouse_pos):  # rajouter les requetes pour la sauvegarde
                         self.button_click_sound.play()
                     if self.back_button.checkinput(mouse_pos):  # retour menu

@@ -39,7 +39,7 @@ class Connexion:
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
         self.button_surface2 = pygame.transform.scale(self.button_surface2, (240, 100))
 
-        self.menu_text = Font.get_font(100).render("Connexion", True, "#FFFFFF")
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Connexion", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
         self.email_text = Font.get_font(17).render("Email :", True, "#b68f40")
@@ -64,7 +64,7 @@ class Connexion:
         self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 2.6/10), (self.largeur // 1.7, 50)),
                                                                manager=self.manager, object_id="#pseudonyme")
         self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 4.6/10), (self.largeur // 1.7, 50)),
-                                                             manager=self.manager, object_id="#mot_de_passe")
+                                                             manager=self.manager, object_id="#mot_de_passe", masked=True)
 
         self.txt_test = Button(pos=(self.largeur // 2, self.hauteur * 6.3/10), text_input="Vous n'avez pas encore de compte ? Cliquez ici !",
                                font=Font.get_font(17),
@@ -121,6 +121,8 @@ class Connexion:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:  # quand l'utilisateur clique sur l'écran
+                    if event.button != 1:
+                        continue
                     if self.enter_button.checkinput(mouse_pos):  # Quand l'utilisateur essaye de se co via le bouton
                         self.button_click_sound.play()
                         if mdp_len < 1:

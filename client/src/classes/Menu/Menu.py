@@ -31,8 +31,8 @@ class Menu:
 
         self.screen.blit(self.BG, (0, 0))
 
-        self.menu_text = Font.get_font(70).render("Vroom Legends", True, "#d7fcd4")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, 100))
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Vroom Legends", True, "#d7fcd4")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1//10))
 
         self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Solo", font=Font.get_font(20),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
@@ -72,6 +72,8 @@ class Menu:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button != 1:
+                        continue
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play()

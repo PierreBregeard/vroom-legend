@@ -22,7 +22,7 @@ class Multiplayer:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = Font.get_font(70).render("Multijoueur", True, "#FFFFFF")
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Multijoueur", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
         # Redéfini la taille du bouton avec le .transform.scale
@@ -90,6 +90,8 @@ class Multiplayer:
                     sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button != 1:
+                        continue
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         return
