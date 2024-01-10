@@ -3,9 +3,9 @@ import time
 import pygame
 from ..ResourcePath import RelativePath
 from .World import World
-from ..Sprites.Player import Player
-from ..Sprites.Racer import Racer
-from ..Sprites.ColorCar import ColorCar
+from ..sprites.Player import Player
+from ..sprites.Racer import Racer
+from ..sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 import json
@@ -20,7 +20,7 @@ class Game:
         color_car.set_base_color((0, 100, 100))
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
-        return Player(0, img, (500, 500))
+        return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
 
     def __init__(self, enable_screen_rotation, game_size):
         self.multi = None
@@ -29,17 +29,23 @@ class Game:
         self.screen_size = game_size
         self.window = pygame.display.set_mode(self.screen_size)
 
+        # LOAD MAP BEFORE PLAYERS TO GET SPAWNPOINTS
+        map_path = RelativePath.resource_path("ressources/Maps/dependencies/FirstMap.tmx")
+        self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
+
+        self.cant_rollback = True
         self.start_time = time.time()
         self.player = self.init_player()
         self.HUD = HUD(self.screen_size, self.player.max_speed)
 
-        map_path = RelativePath.resource_path("ressources/Maps/dependencies/FirstMap.tmx")
-        self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
+
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
         # List of boolean for already visited checkpoints
         self.has_missed_checkpoint = False
         self.checkpoints_list = []
+        #Coords of the last checkpoint the player has passed
+        self.last_checkpoints_coords = None
         for i in range(len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
 
@@ -61,8 +67,20 @@ class Game:
 
     def update_player(self):
         self.verify_checkpoints()
+        if self.last_checkpoints_coords is not None:
+            self.cant_rollback = False
+
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
+        self.HUD.cant_rollback = False
+        if keys[pygame.K_r]:
+            if self.cant_rollback:
+                self.HUD.cant_rollback = self.cant_rollback
+            elif not self.cant_rollback:
+                self.player.rect.x = self.last_checkpoints_coords[0]
+                self.player.rect.y = self.last_checkpoints_coords[1]
+                self.player.angle = self.last_checkpoints_coords[2]
+
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.crash()
             # for object in objects:
@@ -86,6 +104,7 @@ class Game:
             self.checkpoints_list[idx[0]] = True
             print("Player passed a checkpoint !")
             self.HUD.has_missed_checkpoint = False
+            self.last_checkpoints_coords = (self.player.rect.x, self.player.rect.y, self.player.angle)
         try:
             idx_last_visited_checkpoint = next(x for x, val in enumerate(self.checkpoints_list) if val == False) - 1
             if (not (idx_last_visited_checkpoint == -1) and
