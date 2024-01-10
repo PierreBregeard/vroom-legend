@@ -57,6 +57,11 @@ class Menu:
 
     def menu(self):
         while self.run:
+
+            self.pseudo = 1  # récup le pseudo du joueur et l'afficher dans cette variable
+
+           
+            self.pseudo_rect = self.menu_text.get_rect(center=(700, 300))  # marche pas jsp pq / s'affiche pas
             self.screen.blit(self.BG, (0, 0))
 
             mouse_pos = pygame.mouse.get_pos()
