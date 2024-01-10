@@ -5,14 +5,11 @@ from .Connexion import Connexion
 from .Custom import Custom
 from .Multiplayer import Multiplayer
 from ..Game.Game import Game
-from src.classes.ResourcePath import RelativePath
+from ..ResourcePath import RelativePath
+from ..HUD.Font import Font
 
 
 class Menu:
-
-    @staticmethod
-    def get_font(size):
-        return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
     def __init__(self, game_size):
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
@@ -34,28 +31,28 @@ class Menu:
 
         self.screen.blit(self.BG, (0, 0))
 
-        self.menu_text = Menu.get_font(70).render("Vroom Legends", True, "#d7fcd4")
+        self.menu_text = Font.get_font(70).render("Vroom Legends", True, "#d7fcd4")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, 100))
 
-        self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Solo", font=self.get_font(20),
+        self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Solo", font=Font.get_font(20),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        self.multiplayer_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Multijoueur", font=self.get_font(20),
+        self.multiplayer_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Multijoueur", font=Font.get_font(20),
                                          base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         self.connexion_button = Button(pos=(self.largeur // 2, self.hauteur * 5/10), text_input="Connexion",
-                                       font=self.get_font(20),
+                                       font=Font.get_font(20),
                                        base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         # self.inscription_button = Button(pos=(750, 560), text_input="Inscription",
-        #                                  font=self.get_font(20),
+        #                                  font=Font.get_font(20),
         #                                  base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         self.customisation_button = Button(pos=(self.largeur // 2, self.hauteur * 6/10), text_input="Customisation",
-                                           font=self.get_font(20),
+                                           font=Font.get_font(20),
                                            base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 7/10), text_input="Quitter", font=self.get_font(20),
+        self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 7/10), text_input="Quitter", font=Font.get_font(20),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
     def menu(self):
