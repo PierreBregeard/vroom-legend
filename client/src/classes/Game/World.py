@@ -29,12 +29,24 @@ class World:
         for obj in tmx_data.objects:
             if obj.type == "checkpoint":
                 self.checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+        # List des zones apres checkpoint permettant de savoir
+        # si le joueur a raté un checkpoint
+        self.missed_checkpoints = []
+        for obj in tmx_data.objects:
+            if obj.type == "checkpoint_missed":
+                self.missed_checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
     def set_soom(self, zoom):
         self.map_layer.zoom = zoom
 
     def add_sprites(self, sprites):
         self.group.add(sprites)
+
+    def add_racers(self, racers):
+        player = self.group.get_sprite(0)
+        self.group.remove_sprites_of_layer(1)
+        self.group.add(player)
+        self.group.add(racers)
 
     def get_world_surface(self):
         surface = pygame.Surface(self.map_size)
@@ -45,5 +57,11 @@ class World:
     def get_collisions_objects(self):
         return self.walls
 
-    def get_checkpoints(self) -> object:
+    def update(self):
+        self.group.update()
+
+    def get_checkpoints(self):
         return self.checkpoints
+
+    def get_missed_checkpoints(self):
+        return self.missed_checkpoints
