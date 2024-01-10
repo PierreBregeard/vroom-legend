@@ -29,17 +29,14 @@ class Server(Socket):
         super().__init__()
         self.sock.bind((ip, port))
 
-    def register_client(self, client_address, db_id):
+    def register_client(self, client_address, infos):
         if client_address not in self.clients:
             if len(self.clients) == self.MAX_CLIENTS:
                 self.send_to(ClientProtocol.ERROR.value, "Server is full", client_address)
                 return
             # TODO: verifier si le client est dans la db
             self.clients[client_address] = {
-                "infos": {
-                    "db_id": db_id,
-                    "name": "test",
-                },
+                "infos": infos,
                 "data": {
                     "pos": (0, 0),
                     "angle": 0,
@@ -73,7 +70,7 @@ class Server(Socket):
             # TODO : verif data format (pos, angle, speed)
             self.clients[client_address]["data"] = json.loads(data)
         elif protocol.value == ServerProtocol.REGISTER.value:
-            self.register_client(client_address, data)
+            self.register_client(client_address, json.loads(data))
             print("Client registered")
         elif protocol.value == ServerProtocol.START_GAME.value:
             if self.clients[client_address].is_admin:

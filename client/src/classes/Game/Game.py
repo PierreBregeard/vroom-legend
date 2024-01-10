@@ -19,12 +19,14 @@ class Game:
         color_car = ColorCar()
         color_car.set_roof_color((100, 0, 0))
         color_car.set_base_color((0, 100, 100))
+        if self.multi:
+            self.multi.client.register("Moi", color_car)
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
 
-    def __init__(self, enable_screen_rotation, game_size):
-        self.multi = None
+    def __init__(self, enable_screen_rotation, game_size, multi=None):
+        self.multi = multi
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
         self.screen_size = game_size
@@ -44,8 +46,9 @@ class Game:
         for i in range(len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
 
-    def play(self, multi=None):
-        self.multi = multi
+        self.play()
+
+    def play(self):
         clock = pygame.time.Clock()
         run = True
         while run:
@@ -56,8 +59,8 @@ class Game:
             self.update()
             self.render()
             pygame.display.flip()
-        if multi:
-            multi.close_multiplayer()
+        if self.multi:
+            self.multi.close_multiplayer()
         ColorCar.remove_temp_files()
 
     def update_player(self):
@@ -66,11 +69,6 @@ class Game:
         self.player.handle_keys_press(keys)
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.crash()
-            # for object in objects:
-            #     if self.player.rect.x < object.x + object.width and self.player.rect.x + self.player.rect.width > object.x:
-            #         self.player.undo_move_x()
-            #     if self.player.rect.y < object.y + object.height and self.player.rect.y + self.player.rect.height > object.y:
-            #         self.player.undo_move_y()
 
     def verify_checkpoints(self):
         # Index of the checkpoint player is on
@@ -113,11 +111,11 @@ class Game:
             if db_id == self.multi.client.db_id:
                 continue
             color_car = ColorCar()
-            color_car.set_roof_color((0, 100, 0))  # racer_data.roof_color
-            color_car.set_base_color((100, 0, 100))  # racer_data.base_color
+            color_car.set_roof_color(racer_data["colors"]["roof"])
+            color_car.set_base_color(racer_data["colors"]["base"])
             imgPath = color_car.save_img(db_id)
             img = pygame.image.load(imgPath).convert_alpha()
-            racer = Racer(db_id, "test", img, (500, 500))  # racer_data.pos
+            racer = Racer(db_id, racer_data["pseudo"], img, (500, 500))  # racer_data.pos
             racers[db_id] = {"racer": racer}
             racers[db_id]["tag"] = GameTag("test", (500, 500))
         return racers
@@ -157,7 +155,6 @@ class Game:
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
-        # todo: mettre les pseudos des joueurs dans le HUD
 
     def render(self):
         world_surface = self.map.get_world_surface()

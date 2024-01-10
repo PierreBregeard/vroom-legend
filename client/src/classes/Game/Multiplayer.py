@@ -40,4 +40,3 @@ class Multiplayer:
             self.port = port
 
         self.client = self.connect_to_server()
-        self.client.register()

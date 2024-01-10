@@ -106,12 +106,12 @@ class Hosting:
                             self.wrong_ip = False
                         if not self.wrong_ip:
                             multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
-                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
+                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
                         multi = Multiplayer(is_server=True)
-                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
+                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                         return
 
                 self.manager.process_events(event)
