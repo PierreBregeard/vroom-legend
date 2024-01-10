@@ -2,12 +2,8 @@ import sys
 import pygame
 import pygame_gui
 from .Button import Button
-from src.classes.ResourcePath import RelativePath
-
-
-def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
-
+from ..ResourcePath import RelativePath
+from ..HUD.Font import Font
 
 clock = pygame.time.Clock()
 
@@ -26,7 +22,7 @@ class Multiplayer:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = get_font(70).render("Multijoueur", True, "#FFFFFF")
+        self.menu_text = Font.get_font(70).render("Multijoueur", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
         # Redéfini la taille du bouton avec le .transform.scale
@@ -38,13 +34,13 @@ class Multiplayer:
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        self.ip_text = get_font(17).render("IP :", True, "#b68f40")
+        self.ip_text = Font.get_font(17).render("IP :", True, "#b68f40")
         self.ip_rect = self.ip_text.get_rect(center=(self.largeur * 3.7/10, self.hauteur * 5.6/10))
 
-        self.wrong_ip_text = get_font(16).render("Veuillez entrer une adresse IP valide!", True, "#ff0000")
+        self.wrong_ip_text = Font.get_font(16).render("Veuillez entrer une adresse IP valide!", True, "#ff0000")
         self.wrong_ip_rect = self.wrong_ip_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
 
-        self.not_connected_text = get_font(16).render("Vous devez être connecté !", True, "#ff0000")
+        self.not_connected_text = Font.get_font(16).render("Vous devez être connecté !", True, "#ff0000")
         self.not_connected_rect = self.not_connected_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
 
         self.wrong_ip = False
@@ -54,13 +50,13 @@ class Multiplayer:
                                                                                       (self.largeur // 3, 40)),
                                                             manager=self.manager, object_id="#email")
 
-        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=get_font(16),
+        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=Font.get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 7.8/10), text_input="Rejoindre", font=get_font(17),
+        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 7.8/10), text_input="Rejoindre", font=Font.get_font(17),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface)
 
-        self.host_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Héberger", font=get_font(17),
+        self.host_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Héberger", font=Font.get_font(17),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface)
 
         self.run = True

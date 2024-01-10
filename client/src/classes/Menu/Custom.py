@@ -2,11 +2,8 @@ import sys
 import pygame
 import pygame_gui
 from .Button import Button
-from src.classes.ResourcePath import RelativePath
-
-
-def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
+from ..ResourcePath import RelativePath
+from ..HUD.Font import Font
 
 
 clock = pygame.time.Clock()
@@ -26,7 +23,7 @@ class Custom:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = get_font(70).render("Customisation", True, "#FFFFFF")
+        self.menu_text = Font.get_font(70).render("Customisation", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/10))
 
 
@@ -35,7 +32,7 @@ class Custom:
 
 
 
-        self.pseudo_text = get_font(20).render(f"Pseudo : {self.pseudo}", True, "#FFFFFF")
+        self.pseudo_text = Font.get_font(20).render(f"Pseudo : {self.pseudo}", True, "#FFFFFF")
         self.pseudo_rect = self.menu_text.get_rect(center=(700, 300))  # marche pas jsp pq / s'affiche pas
 
         self.i = 0
@@ -58,18 +55,18 @@ class Custom:
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        # Changer la valeur du get_font pour augmenter / diminuer la taille du text
+        # Changer la valeur du Font.get_font pour augmenter / diminuer la taille du text
 
-        self.save_button = Button(pos=(self.largeur // 2, self.hauteur * 8/10), text_input="Sauvegarder", font=get_font(16),
+        self.save_button = Button(pos=(self.largeur // 2, self.hauteur * 8/10), text_input="Sauvegarder", font=Font.get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
-        self.prev_button = Button(pos=(self.largeur * 1/10, self.hauteur * 6/10), text_input="", font=get_font(16),
+        self.prev_button = Button(pos=(self.largeur * 1/10, self.hauteur * 6/10), text_input="", font=Font.get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.prev_arrow_surface)
 
-        self.next_button = Button(pos=(self.largeur * 9/10, self.hauteur * 6/10), text_input="", font=get_font(16),
+        self.next_button = Button(pos=(self.largeur * 9/10, self.hauteur * 6/10), text_input="", font=Font.get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.next_arrow_surface)
 
-        self.back_button = Button(pos=(self.largeur // 7, self.hauteur * 8.5/10), text_input="Retour", font=get_font(16),
+        self.back_button = Button(pos=(self.largeur // 7, self.hauteur * 8.5/10), text_input="Retour", font=Font.get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.run = True

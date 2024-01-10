@@ -3,11 +3,8 @@ import pygame
 import pygame_gui
 import re
 from .Button import Button
-from src.classes.ResourcePath import RelativePath
-
-
-def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
+from ..ResourcePath import RelativePath
+from ..HUD.Font import Font
 
 
 def is_valid_email(email):
@@ -32,31 +29,31 @@ class Inscription:
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
-        self.menu_text = get_font(80).render("Inscription", True, "#FFFFFF")
+        self.menu_text = Font.get_font(80).render("Inscription", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
-        self.pseudo_text = get_font(17).render("Pseudo :", True, "#b68f40")
+        self.pseudo_text = Font.get_font(17).render("Pseudo :", True, "#b68f40")
         self.pseudo_rect = self.pseudo_text.get_rect(center=(self.largeur // 7, self.hauteur * 1.9/10))
 
-        self.email_text = get_font(17).render("Email :", True, "#b68f40")
+        self.email_text = Font.get_font(17).render("Email :", True, "#b68f40")
         self.email_rect = self.email_text.get_rect(center=(self.largeur // 7.3, self.hauteur * 3.35/10))
 
-        self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
+        self.mdp_text = Font.get_font(17).render("Mot de passe :", True, "#b68f40")
         self.mdp_rect = self.mdp_text.get_rect(center=(self.largeur // 5, self.hauteur * 4.8/10))
 
-        self.conf_mdp_text = get_font(17).render("Confirmez :", True, "#b68f40")
+        self.conf_mdp_text = Font.get_font(17).render("Confirmez :", True, "#b68f40")
         self.conf_mdp_rect = self.conf_mdp_text.get_rect(center=(self.largeur // 6, self.hauteur * 6.15/10))
 
-        self.wrong_pseudo_text = get_font(15).render("Veuillez entrer un pseudo de plus de 3 caractères !", True, "#ff0000")
+        self.wrong_pseudo_text = Font.get_font(15).render("Veuillez entrer un pseudo de plus de 3 caractères !", True, "#ff0000")
         self.wrong_pseudo_rect = self.wrong_pseudo_text.get_rect(center=(self.largeur // 2.15, self.hauteur * 2.8/10))
 
-        self.wrong_email_text = get_font(15).render("Veuillez entrer un email correct !", True, "#ff0000")
+        self.wrong_email_text = Font.get_font(15).render("Veuillez entrer un email correct !", True, "#ff0000")
         self.wrong_email_rect = self.wrong_email_text.get_rect(center=(self.largeur // 3, self.hauteur * 4.2/10))
 
-        self.wrong_mdp_text = get_font(15).render("Votre mot de passe doit faire au moins 8 caractères !", True, "#ff0000")
+        self.wrong_mdp_text = Font.get_font(15).render("Votre mot de passe doit faire au moins 8 caractères !", True, "#ff0000")
         self.wrong_mdp_rect = self.wrong_mdp_text.get_rect(center=(self.largeur // 2.08, self.hauteur * 5.6/10))
 
-        self.wrong_conf_mdp_text = get_font(15).render("Vos mots de passes doivent être identiques !", True, "#ff0000")
+        self.wrong_conf_mdp_text = Font.get_font(15).render("Vos mots de passes doivent être identiques !", True, "#ff0000")
         self.wrong_conf_mdp_rect = self.wrong_conf_mdp_text.get_rect(center=(self.largeur // 2.40, self.hauteur * 7.05/10))
 
         self.wrong_email = False
@@ -83,13 +80,13 @@ class Inscription:
                                                                   manager=self.manager, object_id="#conf_mot_de_passe")
 
         self.connexion_txt = Button(pos=(self.largeur // 2, self.hauteur * 7.7/10), text_input="Vous avez déjà un compte ? Cliquez ici !",
-                                    font=get_font(17),
+                                    font=Font.get_font(17),
                                     base_color="#d7fcd4", hovering_color="White")
 
-        self.enter_button = Button(pos=(self.largeur // 2, self.hauteur * 8.3/10), text_input="S'inscrire", font=get_font(17),
+        self.enter_button = Button(pos=(self.largeur // 2, self.hauteur * 8.3/10), text_input="S'inscrire", font=Font.get_font(17),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface2)
 
-        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=get_font(18),
+        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=Font.get_font(18),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         self.run = True
