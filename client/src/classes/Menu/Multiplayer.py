@@ -41,6 +41,15 @@ class Multiplayer:
         self.ip_text = get_font(17).render("IP :", True, "#b68f40")
         self.ip_rect = self.ip_text.get_rect(center=(self.largeur * 3.7/10, self.hauteur * 5.6/10))
 
+        self.wrong_ip_text = get_font(16).render("Veuillez entrer une adresse IP valide!", True, "#ff0000")
+        self.wrong_ip_rect = self.wrong_ip_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
+
+        self.not_connected_text = get_font(16).render("Vous devez être connecté !", True, "#ff0000")
+        self.not_connected_rect = self.not_connected_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
+
+        self.wrong_ip = False
+        self.not_connected = False
+
         self.ip_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur * 3.25/10, self.hauteur * 6/10),
                                                                                       (self.largeur // 3, 40)),
                                                             manager=self.manager, object_id="#email")
@@ -48,7 +57,7 @@ class Multiplayer:
         self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 7.3/10), text_input="Rejoindre", font=get_font(17),
+        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 7.8/10), text_input="Rejoindre", font=get_font(17),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface)
 
         self.host_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Héberger", font=get_font(17),
@@ -64,9 +73,16 @@ class Multiplayer:
             fps = clock.tick(60) / 1000
             mouse_pos = pygame.mouse.get_pos()
 
+            ip_len = len(self.ip_input.get_text())
+
             self.screen.blit(self.BG, (0, 0))
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.ip_text, self.ip_rect)
+
+            if self.wrong_ip:
+                self.screen.blit(self.wrong_ip_text, self.wrong_ip_rect)
+            if self.not_connected:
+                self.screen.blit(self.not_connected_text, self.not_connected_rect)
 
             for button in [self.back_button, self.join_button, self.host_button]:
                 button.changecolor(mouse_pos)
@@ -84,11 +100,22 @@ class Multiplayer:
                         return
                     if self.join_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        print("test join multi")
-                        # ajouter le code ici
-                        return
+                        # todo: vérifier si il est co pour faire ça
+                        # if ...:
+                            # self.not_connected = True
+                        if ip_len < 5:
+                            self.wrong_ip = True
+                        else:
+                            self.wrong_ip = False
+                        if not self.wrong_ip:
+                            print("test join multi")
+                            # ajouter le code ici
+                            return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
+                        # todo: vérifier si il est co pour faire ça
+                        # if ...:
+                            # self.not_connected = True
                         print("test host multi")
                         # ajouter le code ici
                         return

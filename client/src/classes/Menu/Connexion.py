@@ -58,7 +58,7 @@ class Connexion:
         self.wrong_mdp_rect = self.wrong_mdp_text.get_rect(center=(self.largeur // 2.7, self.hauteur * 5.32/10))
 
         self.already_co_text = get_font(16).render("Vous êtes déjà connnecté !", True, "#ff0000")
-        self.already_co_rect = self.already_co_text.get_rect(center=(self.largeur // 2, self.hauteur * 8/10))
+        self.already_co_rect = self.already_co_text.get_rect(center=(self.largeur // 2, self.hauteur * 7.8/10))
 
         self.wrong_email = False
         self.wrong_mdp = False

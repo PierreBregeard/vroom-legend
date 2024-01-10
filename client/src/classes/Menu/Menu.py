@@ -36,7 +36,7 @@ class Menu:
         self.menu_text = Menu.get_font(70).render("Vroom Legends", True, "#d7fcd4")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, 100))
 
-        self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Jouer", font=self.get_font(20),
+        self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Solo", font=self.get_font(20),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         self.multiplayer_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Multijoueur", font=self.get_font(20),
