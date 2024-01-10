@@ -17,7 +17,7 @@ class World:
             self.map_size = screen_size
 
         self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.map_size)
-        self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=1)
+        self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=3)
 
         # List des objets avec collision
         self.walls = []
