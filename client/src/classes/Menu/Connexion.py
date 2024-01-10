@@ -139,21 +139,18 @@ class Connexion:
                         else:
                             self.already_co = False
                         if not self.wrong_email and not self.wrong_mdp and not self.already_co:
-                            print("Test envoi requete")  # requete à mettre ici
+                            print("requete")
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        print("test menu")
                         return
 
                     if self.deco_button.checkinput(mouse_pos):  # Ajouter requete pour le deconnecter
                         self.button_click_sound.play()
-                        print("Deconnexion")
                         return
 
                     if self.txt_test.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
-                        print("menu inscription")
                         inscr = Inscription(self.largeur, self.hauteur)
                         inscr.menu_inscr()
 

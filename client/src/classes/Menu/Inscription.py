@@ -156,16 +156,14 @@ class Inscription:
                         else:
                             self.wrong_conf_mdp = False
                         if not self.wrong_email and not self.wrong_pseudo and not self.wrong_mdp and not self.wrong_conf_mdp:
-                            print("Test envoi requete")  # requete à mettre ici
+                            print("requete")
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        print("menu principal")
                         return
 
                     if self.connexion_txt.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
-                        print("menu connexion")
                         return
 
                 self.manager.process_events(event)

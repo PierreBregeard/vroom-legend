@@ -76,7 +76,6 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        print("Jeu")
                         game.play()
 
                     if self.connexion_button.checkinput(mouse_pos):

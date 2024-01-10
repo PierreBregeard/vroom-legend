@@ -96,7 +96,6 @@ class Multiplayer:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        print("test menu")
                         return
                     if self.join_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
@@ -108,7 +107,6 @@ class Multiplayer:
                         else:
                             self.wrong_ip = False
                         if not self.wrong_ip:
-                            print("test join multi")
                             # ajouter le code ici
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
@@ -116,7 +114,6 @@ class Multiplayer:
                         # todo: vérifier si il est co pour faire ça
                         # if ...:
                             # self.not_connected = True
-                        print("test host multi")
                         # ajouter le code ici
                         return
 

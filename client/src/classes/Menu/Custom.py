@@ -99,10 +99,8 @@ class Custom:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.save_button.checkinput(mouse_pos):  # rajouter les requetes pour la sauvegarde
                         self.button_click_sound.play()
-                        print("test save click")
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        print("test menu")
                         return
                     if self.next_button.checkinput(mouse_pos):  # Voiture suivante
                         self.button_click_sound.play()
