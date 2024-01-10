@@ -125,7 +125,6 @@ class Game:
         if not res:
             return
         for protocol, data in res:
-            print(protocol, data)
             if protocol.value == ClientProtocol.PLAYERS_INFOS.value:
                 racers_data = json.loads(data)
                 self.racers = self.set_racers(racers_data)
