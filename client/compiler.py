@@ -7,10 +7,10 @@ if __name__ == "__main__":
     os.chdir(root_path)
     os.system(
         "pyinstaller --clean --onefile --windowed --name vroom-legend "
-        "--add-data src\\ressources\\Maps\\dependencies;ressources\\Maps\\dependencies "
-        "--add-data src\\ressources\\Sprites\\dependencies;ressources\\Sprites\\dependencies "
-        "src\\main.py"
+        "--add-data src/ressources/Maps/dependencies;ressources/Maps/dependencies "
+        "--add-data src/ressources/Sprites/dependencies;ressources/Sprites/dependencies "
+        "src/main.py"
     )
     rmtree("build")
-    exe_folder = root_path / Path("dist\\vroom-legend.exe")
+    exe_folder = root_path / Path("dist/vroom-legend.exe")
     print(f"Game built in {exe_folder}")

@@ -5,14 +5,14 @@ from shutil import rmtree
 
 
 class ColorCar:
-    tmp_folder = RelativePath.resource_path("ressources\\Sprites\\dependencies\\temp")
+    tmp_folder = RelativePath.resource_path("ressources/Sprites/dependencies/temp")
 
     def __init__(self):
         self.car_base_img = Image.open(
-            RelativePath.resource_path("ressources\\Sprites\\dependencies\\player_base.png")
+            RelativePath.resource_path("ressources/Sprites/dependencies/player_base.png")
         )
         self.car_roof_img = Image.open(
-            RelativePath.resource_path("ressources\\Sprites\\dependencies\\player_roof.png")
+            RelativePath.resource_path("ressources/Sprites/dependencies/player_roof.png")
         )
 
     def __set_color(self, img, color_add):
@@ -38,7 +38,7 @@ class ColorCar:
         tmp = self.car_base_img.copy()
         tmp.paste(self.car_roof_img, (0, 0), self.car_roof_img)
         makedirs(self.tmp_folder, exist_ok=True)
-        path = f"{self.tmp_folder}\\{player_id}player.png"
+        path = f"{self.tmp_folder}/{player_id}player.png"
         tmp.save(path)
         return path
 

@@ -33,7 +33,7 @@ class Game:
         self.player = self.init_player()
         self.HUD = HUD(self.screen_size, self.player.max_speed)
 
-        map_path = RelativePath.resource_path("ressources\\Maps\\dependencies\\FirstMap.tmx")
+        map_path = RelativePath.resource_path("ressources/Maps/dependencies/FirstMap.tmx")
         self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
