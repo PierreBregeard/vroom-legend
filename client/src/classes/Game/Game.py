@@ -60,6 +60,7 @@ class Game:
         ColorCar.remove_temp_files()
 
     def update_player(self):
+        self.verify_checkpoints()
         keys = pygame.key.get_pressed()
         self.player.handle_keys_press(keys)
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
