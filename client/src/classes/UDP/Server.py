@@ -48,7 +48,7 @@ class Server(Socket):
                 "is_admin": len(self.clients) == 0  # first client is admin
             }
             print(f"New client connected: {client_address}")
-            self.send_to(ClientProtocol.SUCCESS.value, "", client_address)
+            # self.send_to(ClientProtocol.SUCCESS.value, "", client_address)
             self.send_to_all(ClientProtocol.PLAYERS_INFOS.value, json.dumps(self.get_players_infos()))
         else:
             self.send_to(ClientProtocol.ERROR.value, "You are already connected", client_address)
@@ -65,28 +65,30 @@ class Server(Socket):
             return
 
         protocol = ServerProtocol(raw_protocol)
-        if protocol == ServerProtocol.SET_PLAYER_DATA:
+        if protocol.value == ServerProtocol.SET_PLAYER_DATA.value:
             # TODO: check if game is started
             # if not self.is_game_started:
             #     self.send_to(ClientProtocol.ERROR.value, "Game is not started", client_address)
             # else:
             # TODO : verif data format (pos, angle, speed)
             self.clients[client_address]["data"] = json.loads(data)
-        elif protocol == ServerProtocol.REGISTER:
+        elif protocol.value == ServerProtocol.REGISTER.value:
             self.register_client(client_address, data)
-        elif protocol == ServerProtocol.START_GAME:
+            print("Client registered")
+        elif protocol.value == ServerProtocol.START_GAME.value:
             if self.clients[client_address].is_admin:
                 self.is_game_started = True
                 self.send_to_all(ClientProtocol.ACTION.value, "Start game")
             else:
                 self.send_to(ClientProtocol.ERROR.value, "You are not the admin", client_address)
-        elif protocol == ServerProtocol.DISCONNECT:
+        elif protocol.value == ServerProtocol.DISCONNECT.value:
             if client_address in self.clients:
                 self.clients.pop(client_address)
                 print(f"Client {client_address} disconnected")
                 self.send_to_all(ClientProtocol.PLAYERS_INFOS.value, json.dumps(self.get_players_infos()))
-        elif protocol == ServerProtocol.PING:
+        elif protocol.value == ServerProtocol.PING.value:
             self.send_to(ClientProtocol.PING.value, "", client_address)
+
     def receive(self):
         try:
             while True:
@@ -115,8 +117,8 @@ class Server(Socket):
             time_to_wait = targeted_time - current_time
             if time_to_wait > 0:
                 time.sleep(time_to_wait)
-            else:
-                print(f"Server is late by {-time_to_wait}s")
+            # else:
+            #     print(f"Server is late by {-time_to_wait}s")
 
             res = self.receive()
             if not res:

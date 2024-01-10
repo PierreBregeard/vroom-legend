@@ -125,15 +125,17 @@ class Game:
         if not res:
             return
         for protocol, data in res:
-            if protocol == ClientProtocol.PLAYERS_INFOS:
+            print(protocol, data)
+            if protocol.value == ClientProtocol.PLAYERS_INFOS.value:
+                print(data)
                 racers_data = json.loads(data)
                 self.racers = self.set_racers(racers_data)
                 self.map.add_racers(self.racers.values())
                 # add racers to the HUD for pseudo display
-            elif protocol == ClientProtocol.ACTION:
+            elif protocol.value == ClientProtocol.ACTION.value:
                 if data == "Start game":
                     self.is_game_started = True
-            elif protocol == ClientProtocol.DATA:
+            elif protocol.value == ClientProtocol.DATA.value:
                 players_data = json.loads(data)
                 for db_id, player_data in players_data.items():
                     if db_id == self.multi.client.db_id:
@@ -141,7 +143,7 @@ class Game:
                     self.racers[db_id].rect.center = player_data["pos"]
                     self.racers[db_id].angle = player_data["angle"]
                     self.racers[db_id].velocity = player_data["speed"]
-            elif protocol == ClientProtocol.ERROR:
+            elif protocol.value == ClientProtocol.ERROR.value:
                 print(data)
 
     def update(self):
