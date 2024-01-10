@@ -26,7 +26,6 @@ class Player(Car):
             self.turn()
         elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.turn(False)
-        self.update()
 
     def handle_throttle(self):
         if self.velocity >= 0:
@@ -38,12 +37,13 @@ class Player(Car):
         if self.velocity > 0:
             self.brake()
         else:
-            self.throttle(True)
+            self.throttle(reverse=True)
 
     def throttle(self, reverse=False):
-        max_speed = self.max_speed if not reverse else self.max_speed_reverse
-        self.velocity = max_speed - (max_speed - abs(self.velocity)) * math.exp(-self.horse_power)
+        self.velocity = self.max_speed - (self.max_speed - abs(self.velocity)) * math.exp(-self.horse_power)
         if reverse:
+            if self.velocity > self.max_speed_reverse:
+                self.velocity = self.max_speed_reverse
             self.velocity *= -1
 
     def brake(self):
@@ -53,15 +53,7 @@ class Player(Car):
             self.velocity += self.brake_power
 
     def idle(self):
-        if self.velocity > 0.3:
-            self.velocity -= self.drag_power
-            self.velocity -= self.drag_power
-        elif self.velocity < -0.3:
-            self.velocity += self.drag_power
-            self.velocity += self.drag_power
-        else:
-            self.velocity = 0
-            self.velocity = 0
+        self.velocity *= 1 - self.drag_power
 
     def turn(self, left=True):
         turn_power = self.turn_power * (self.velocity / self.max_speed)

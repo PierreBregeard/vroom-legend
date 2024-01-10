@@ -2,16 +2,9 @@ import sys
 import pygame
 import pygame_gui
 import re
-from .button import Button
-from src.classes.ResourcePath import RelativePath
-
-
-# from src.main import init_menu
-# from src.classes.Inscription import Inscription
-
-
-def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
+from .Button import Button
+from ..ResourcePath import RelativePath
+from ..HUD.Font import Font
 
 
 def is_valid_email(email):
@@ -24,7 +17,6 @@ clock = pygame.time.Clock()
 
 class Inscription:
     def __init__(self, width, height):
-        pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
@@ -37,32 +29,32 @@ class Inscription:
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
-        self.menu_text = get_font(90).render("Inscription", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(750, 90))
+        self.menu_text = Font.get_font(80).render("Inscription", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
-        self.pseudo_text = get_font(17).render("Pseudo :", True, "#b68f40")
-        self.pseudo_rect = self.menu_text.get_rect(center=(952, 215))
+        self.pseudo_text = Font.get_font(17).render("Pseudo :", True, "#b68f40")
+        self.pseudo_rect = self.pseudo_text.get_rect(center=(self.largeur // 7, self.hauteur * 1.9/10))
 
-        self.email_text = get_font(17).render("Email :", True, "#b68f40")
-        self.email_rect = self.menu_text.get_rect(center=(952, 345))
+        self.email_text = Font.get_font(17).render("Email :", True, "#b68f40")
+        self.email_rect = self.email_text.get_rect(center=(self.largeur // 7.3, self.hauteur * 3.35/10))
 
-        self.mdp_text = get_font(17).render("Mot de passe :", True, "#b68f40")
-        self.mdp_rect = self.menu_text.get_rect(center=(952, 475))
+        self.mdp_text = Font.get_font(17).render("Mot de passe :", True, "#b68f40")
+        self.mdp_rect = self.mdp_text.get_rect(center=(self.largeur // 5, self.hauteur * 4.8/10))
 
-        self.conf_mdp_text = get_font(17).render("Confirmez :", True, "#b68f40")
-        self.conf_mdp_rect = self.menu_text.get_rect(center=(952, 605))
+        self.conf_mdp_text = Font.get_font(17).render("Confirmez :", True, "#b68f40")
+        self.conf_mdp_rect = self.conf_mdp_text.get_rect(center=(self.largeur // 6, self.hauteur * 6.15/10))
 
-        self.wrong_pseudo_text = get_font(15).render("Veuillez entrer un pseudo de plus de 3 caractères !", True, "#ff0000")
-        self.wrong_pseudo_rect = self.menu_text.get_rect(center=(952, 305))
+        self.wrong_pseudo_text = Font.get_font(15).render("Veuillez entrer un pseudo de plus de 3 caractères !", True, "#ff0000")
+        self.wrong_pseudo_rect = self.wrong_pseudo_text.get_rect(center=(self.largeur // 2.15, self.hauteur * 2.8/10))
 
-        self.wrong_email_text = get_font(15).render("Veuillez entrer un email correct !", True, "#ff0000")
-        self.wrong_email_rect = self.menu_text.get_rect(center=(952, 435))
+        self.wrong_email_text = Font.get_font(15).render("Veuillez entrer un email correct !", True, "#ff0000")
+        self.wrong_email_rect = self.wrong_email_text.get_rect(center=(self.largeur // 3, self.hauteur * 4.2/10))
 
-        self.wrong_mdp_text = get_font(15).render("Votre mot de passe doit faire au moins 8 caractères !", True, "#ff0000")
-        self.wrong_mdp_rect = self.menu_text.get_rect(center=(952, 565))
+        self.wrong_mdp_text = Font.get_font(15).render("Votre mot de passe doit faire au moins 8 caractères !", True, "#ff0000")
+        self.wrong_mdp_rect = self.wrong_mdp_text.get_rect(center=(self.largeur // 2.08, self.hauteur * 5.6/10))
 
-        self.wrong_conf_mdp_text = get_font(15).render("Vos mots de passes doivent être identiques !", True, "#ff0000")
-        self.wrong_conf_mdp_rect = self.menu_text.get_rect(center=(952, 695))
+        self.wrong_conf_mdp_text = Font.get_font(15).render("Vos mots de passes doivent être identiques !", True, "#ff0000")
+        self.wrong_conf_mdp_rect = self.wrong_conf_mdp_text.get_rect(center=(self.largeur // 2.40, self.hauteur * 7.05/10))
 
         self.wrong_email = False
         self.wrong_pseudo = False
@@ -78,23 +70,23 @@ class Inscription:
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        self.pseudo_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 200), (600, 50)),
+        self.pseudo_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 2.2/10), (self.largeur // 1.7, 40)),
                                                                 manager=self.manager, object_id="#pseudonyme")
-        self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 330), (600, 50)),
+        self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 3.6/10), (self.largeur // 1.7, 40)),
                                                                manager=self.manager, object_id="#email")
-        self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 460), (600, 50)),
+        self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 5/10), (self.largeur // 1.7, 40)),
                                                              manager=self.manager, object_id="#mot_de_passe")
-        self.conf_mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((450, 590), (600, 50)),
+        self.conf_mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 6.4/10), (self.largeur // 1.7, 40)),
                                                                   manager=self.manager, object_id="#conf_mot_de_passe")
 
-        self.connexion_txt = Button(pos=(750, 740), text_input="Vous avez déjà un compte ? Cliquez ici !",
-                                    font=get_font(17),
+        self.connexion_txt = Button(pos=(self.largeur // 2, self.hauteur * 7.7/10), text_input="Vous avez déjà un compte ? Cliquez ici !",
+                                    font=Font.get_font(17),
                                     base_color="#d7fcd4", hovering_color="White")
 
-        self.enter_button = Button(pos=(750, 810), text_input="S'inscrire", font=get_font(17),
+        self.enter_button = Button(pos=(self.largeur // 2, self.hauteur * 8.3/10), text_input="S'inscrire", font=Font.get_font(17),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface2)
 
-        self.back_button = Button(pos=(125, 800), text_input="Retour", font=get_font(18),
+        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=Font.get_font(18),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         self.run = True
@@ -115,7 +107,6 @@ class Inscription:
             mouse_pos = pygame.mouse.get_pos()
 
             # affiche les text
-
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.email_text, self.email_rect)
             self.screen.blit(self.pseudo_text, self.pseudo_rect)
@@ -162,16 +153,14 @@ class Inscription:
                         else:
                             self.wrong_conf_mdp = False
                         if not self.wrong_email and not self.wrong_pseudo and not self.wrong_mdp and not self.wrong_conf_mdp:
-                            print("Test envoi requete")  # requete à mettre ici
+                            print("requete")
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        print("menu principal")
                         return
 
                     if self.connexion_txt.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
-                        print("menu connexion")
                         return
 
                 self.manager.process_events(event)

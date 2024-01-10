@@ -10,4 +10,5 @@ class RelativePath:
         except Exception:
             base_path = os.path.abspath(".")
 
-        return os.path.join(base_path, relative_path)
+        final_path = os.path.join(base_path, relative_path)
+        return final_path.replace("/", os.path.sep)
