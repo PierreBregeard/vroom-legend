@@ -64,7 +64,9 @@ class Connexion:
         self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 2.6/10), (self.largeur // 1.7, 50)),
                                                                manager=self.manager, object_id="#pseudonyme")
         self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 4.6/10), (self.largeur // 1.7, 50)),
-                                                             manager=self.manager, object_id="#mot_de_passe", masked=True)
+                                                             manager=self.manager, object_id="#mot_de_passe")
+
+        self.mdp_input.set_text_hidden(True)
 
         self.txt_test = Button(pos=(self.largeur // 2, self.hauteur * 6.3/10), text_input="Vous n'avez pas encore de compte ? Cliquez ici !",
                                font=Font.get_font(17),

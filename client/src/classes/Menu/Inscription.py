@@ -70,14 +70,22 @@ class Inscription:
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
+
         self.pseudo_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 2.2/10), (self.largeur // 1.7, 40)),
                                                                 manager=self.manager, object_id="#pseudonyme")
+
         self.email_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 3.6/10), (self.largeur // 1.7, 40)),
                                                                manager=self.manager, object_id="#email")
+
         self.mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 5/10), (self.largeur // 1.7, 40)),
                                                              manager=self.manager, object_id="#mot_de_passe")
+
+        self.mdp_input.set_text_hidden(True)
+
         self.conf_mdp_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur // 15, self.hauteur * 6.4/10), (self.largeur // 1.7, 40)),
                                                                   manager=self.manager, object_id="#conf_mot_de_passe")
+
+        self.conf_mdp_input.set_text_hidden(True)
 
         self.connexion_txt = Button(pos=(self.largeur // 2, self.hauteur * 7.7/10), text_input="Vous avez déjà un compte ? Cliquez ici !",
                                     font=Font.get_font(17),
