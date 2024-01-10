@@ -8,6 +8,7 @@ from ..Sprites.Racer import Racer
 from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
+from ..Sprites.GameTag import GameTag
 import json
 
 
@@ -117,7 +118,8 @@ class Game:
             imgPath = color_car.save_img(db_id)
             img = pygame.image.load(imgPath).convert_alpha()
             racer = Racer(db_id, "test", img, (500, 500))  # racer_data.pos
-            racers[db_id] = racer
+            racers[db_id]["racer"] = racer
+            racers[db_id]["tag"] = GameTag(racer.pseudo, (500, 500))
         return racers
 
     def handle_server_data(self):
@@ -128,7 +130,9 @@ class Game:
             if protocol.value == ClientProtocol.PLAYERS_INFOS.value:
                 racers_data = json.loads(data)
                 self.racers = self.set_racers(racers_data)
-                self.map.add_racers(self.racers.values())
+                sprites = ([racer["racer"] for racer in self.racers.values()] +
+                           [racer["tag"] for racer in self.racers.values()])
+                self.map.add_racers(sprites)
                 # add racers to the HUD for pseudo display
             elif protocol.value == ClientProtocol.ACTION.value:
                 if data == "Start game":
@@ -138,9 +142,10 @@ class Game:
                 for db_id, player_data in players_data.items():
                     if db_id == self.multi.client.db_id:
                         continue  # Normalement on ne devrait pas recevoir nos propres données
-                    self.racers[db_id].rect.center = player_data["pos"]
-                    self.racers[db_id].angle = player_data["angle"]
-                    self.racers[db_id].velocity = player_data["speed"]
+                    self.racers[db_id]["racer"].rect.center = player_data["pos"]
+                    self.racers[db_id]["tag"].rect.center = player_data["pos"]
+                    self.racers[db_id]["racer"].angle = player_data["angle"]
+                    self.racers[db_id]["racer"].velocity = player_data["speed"]
             elif protocol.value == ClientProtocol.ERROR.value:
                 print(data)
 
