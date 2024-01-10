@@ -4,6 +4,7 @@ import pygame_gui
 from .Button import Button
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
+from .WaitingRoom import WaitingRoom
 
 clock = pygame.time.Clock()
 
@@ -23,7 +24,7 @@ class Multiplayer:
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         self.menu_text = Font.get_font(self.largeur * 1//15).render("Multijoueur", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
@@ -61,6 +62,8 @@ class Multiplayer:
 
         self.run = True
 
+        self.waiting = WaitingRoom(self.largeur, self.hauteur)
+
         clock.tick(60)
         pygame.display.update()
 
@@ -97,22 +100,16 @@ class Multiplayer:
                         return
                     if self.join_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        # todo: vérifier si il est co pour faire ça
-                        # if ...:
-                            # self.not_connected = True
                         if ip_len < 5:
                             self.wrong_ip = True
                         else:
                             self.wrong_ip = False
                         if not self.wrong_ip:
-                            # ajouter le code ici
+                            self.waiting.menu_wait("Join")
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        # todo: vérifier si il est co pour faire ça
-                        # if ...:
-                            # self.not_connected = True
-                        # ajouter le code ici
+                        self.waiting.menu_wait("Host")
                         return
 
                 self.manager.process_events(event)

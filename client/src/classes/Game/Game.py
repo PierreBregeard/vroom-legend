@@ -12,6 +12,13 @@ import json
 class Game:
     is_game_started = False
 
+    def reset(self):
+        # Reset all game-related variables and objects
+        self.player = self.init_player()
+        self.HUD = HUD(self.screen_size, self.player.max_speed)
+        self.checkpoints_list = [False] * len(self.map.get_checkpoints())
+        # Other game-specific reset logic goes here
+
     def init_player(self):
         color_car = ColorCar()
         color_car.set_roof_color((100, 0, 0))

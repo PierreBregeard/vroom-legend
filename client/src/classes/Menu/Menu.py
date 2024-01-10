@@ -44,10 +44,6 @@ class Menu:
                                        font=Font.get_font(20),
                                        base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        # self.inscription_button = Button(pos=(750, 560), text_input="Inscription",
-        #                                  font=Font.get_font(20),
-        #                                  base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
-
         self.customisation_button = Button(pos=(self.largeur // 2, self.hauteur * 6/10), text_input="Customisation",
                                            font=Font.get_font(20),
                                            base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
@@ -76,7 +72,9 @@ class Menu:
                         continue
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play()
+                        game = Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False)
+                        game.play()
+                        game.reset()  # Reset the game when it returns to the menu
 
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
