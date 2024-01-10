@@ -117,7 +117,7 @@ class Game:
             img = pygame.image.load(imgPath).convert_alpha()
             racer = Racer(db_id, racer_data["pseudo"], img, (500, 500))  # racer_data.pos
             racers[db_id] = {"racer": racer}
-            racers[db_id]["tag"] = GameTag("test", (500, 500))
+            racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (500, 500))
         return racers
 
     def handle_server_data(self):
