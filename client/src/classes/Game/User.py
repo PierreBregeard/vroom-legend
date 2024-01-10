@@ -1,12 +1,13 @@
 import pygame
 from ..ResourcePath import RelativePath
-from ..Controler.Log import connexion
+from ..Controler.Log import Log
 
 
 class User:
-
     pseudo = ""
 
+
     @staticmethod
-    def connexion(log):
-        User.pseudo = connexion(log)
+    def connexion(logs):
+        res = Log.connexion(logs)
+        User.pseudo = res.decode()

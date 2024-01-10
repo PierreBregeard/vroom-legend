@@ -25,6 +25,7 @@ def inscription():
     else:
         return "mon reuf ????"
 
+
 @app.route('/saveHistory', methods=['POST'])
 def saveHistory():
     collection = db["user"]
@@ -32,6 +33,7 @@ def saveHistory():
     user = collection.find_one({"pseudo": data["pseudo"]})
     collection.update_one({"pseudo": data["pseudo"]}, {"$push": {"parties": data["parties"]}})
     return "je t'ai save ca mg"
+
 
 @app.route('/connexion', methods=['POST'])
 def connexion():
@@ -46,24 +48,26 @@ def connexion():
         return 'pas dedans'
 
 
-@app.route('/couleur')
+@app.route('/couleur', methods=["POST"])
 def couleur():
     collection = db["user"]
     data = request.json
+    print(data["pseudo"])
     color = collection.find_one({"pseudo": data["pseudo"]}, {"car"})
-    print(color)
-    return 'couleur'
+    if color.get("car") is not None:
+        return str(color["car"])
+    else:
+        return "pas de couleur"
+
 
 @app.route('/changeCoul', methods=['POST'])
 def changeCouleur():
     collection = db["user"]
     data = request.json
     color = collection.find_one({"pseudo": data["pseudo"]}, {"car"})
-    if color.get("car") is None:
-        coul = collection.update_one({"pseudo": data["pseudo"]}, {"$set": {"car": data["car"]}})
-    else :
-        coul = collection.update_one({"pseudo": data["pseudo"]}, {"$set": {"car": data["car"]}})
+    coul = collection.update_one({"pseudo": data["pseudo"]}, {"$set": {"car": data["car"]}})
     return 'ça a changé la coul'
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

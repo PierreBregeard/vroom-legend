@@ -4,7 +4,7 @@ import pygame_gui
 import re
 from .Button import Button
 from .Inscription import Inscription
-from ..Game.User import connexion
+from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 
@@ -135,8 +135,7 @@ class Connexion:
                         else:
                             self.wrong_email = False
                         if not self.wrong_email and not self.wrong_mdp:
-                            connexion(data)
-                            print("Test envoi requete")  # requete à mettre ici
+                            User.connexion(data)
                             return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
@@ -149,7 +148,6 @@ class Connexion:
 
                     if self.txt_test.checkinput(mouse_pos):  # redirection inscription
                         self.button_click_sound.play()
-                        print("menu inscription")
                         inscr = Inscription(self.largeur, self.hauteur)
                         inscr.menu_inscr()
 

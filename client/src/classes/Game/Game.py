@@ -1,6 +1,9 @@
 import time
 
 import pygame
+import requests
+
+from .User import User
 from ..ResourcePath import RelativePath
 from .World import World
 from ..Sprites.Player import Player
@@ -16,8 +19,20 @@ class Game:
 
     def init_player(self):
         color_car = ColorCar()
-        color_car.set_roof_color((100, 0, 0))
-        color_car.set_base_color((0, 100, 100))
+        data = {"pseudo": User.pseudo}
+        if len(User.pseudo) > 1:
+            response = requests.post("http://127.0.0.1:5000/couleur", json=data)
+            json_str = response.text.replace("'", '"')
+            color = json.loads(json_str)
+            color1 = color['color1']
+            color2 = color['color2']
+            rgb_values1 = tuple(map(int, color1.split(',')))
+            rgb_values2 = tuple(map(int, color2.split(',')))
+            color_car.set_roof_color(rgb_values1)
+            color_car.set_base_color(rgb_values2)
+        else:
+            color_car.set_roof_color((100, 0, 0))
+            color_car.set_base_color((0, 100, 0))
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (500, 500))
