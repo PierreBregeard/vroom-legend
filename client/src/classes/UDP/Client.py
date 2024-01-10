@@ -13,9 +13,12 @@ class Client(Socket):
 
         start = time.time()
         while time.time() - start < 2:
-            protocol, data = self.receive()
-            if protocol == ClientProtocol.PING:
-                return True
+            raw_data = list(self.receive())
+            if not raw_data:
+                continue
+            for raw_protocol, data in raw_data:
+                if raw_protocol == ClientProtocol.PING:
+                    return True
         return False
 
     def __init__(self, ip, port, db_id):
