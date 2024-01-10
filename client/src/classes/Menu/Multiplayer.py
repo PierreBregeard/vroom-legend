@@ -4,8 +4,9 @@ import pygame_gui
 from .Button import Button
 from src.classes.ResourcePath import RelativePath
 
+
 def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources\\Font\\Pixel.ttf"), size)
+    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
 
 clock = pygame.time.Clock()
@@ -19,26 +20,39 @@ class Multiplayer:
         pygame.display.set_caption("Multijoueur")
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load(RelativePath.resource_path("ressources\\BackgroundMenu\\Background.png"))
+        self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
-        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources\\Sounds\\Minimalist10.mp3"))
+        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = get_font(100).render("Multijoueur", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(750, 100))
+        self.menu_text = get_font(70).render("Multijoueur", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources\\Buttons\\bouton2red.png"))
+        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
 
-        self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources\\Buttons\\bouton2.png"))
+        self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
         self.button_surface2 = pygame.transform.scale(self.button_surface2, (150, 100))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
-        self.back_button = Button(pos=(125, 800), text_input="Retour", font=get_font(16),
+        self.ip_text = get_font(17).render("IP :", True, "#b68f40")
+        self.ip_rect = self.ip_text.get_rect(center=(self.largeur * 3.7/10, self.hauteur * 5.6/10))
+
+        self.ip_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur * 3.25/10, self.hauteur * 6/10),
+                                                                                      (self.largeur // 3, 40)),
+                                                            manager=self.manager, object_id="#email")
+
+        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
+
+        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 7.3/10), text_input="Rejoindre", font=get_font(17),
+                                   base_color="#ffffff", hovering_color="White", image=self.button_surface)
+
+        self.host_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Héberger", font=get_font(17),
+                                   base_color="#ffffff", hovering_color="White", image=self.button_surface)
 
         self.run = True
 
@@ -52,8 +66,9 @@ class Multiplayer:
 
             self.screen.blit(self.BG, (0, 0))
             self.screen.blit(self.menu_text, self.menu_rect)
+            self.screen.blit(self.ip_text, self.ip_rect)
 
-            for button in [self.back_button]:
+            for button in [self.back_button, self.join_button, self.host_button]:
                 button.changecolor(mouse_pos)
                 button.update(self.screen)
 
@@ -66,6 +81,16 @@ class Multiplayer:
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         print("test menu")
+                        return
+                    if self.join_button.checkinput(mouse_pos):  # retour menu attente joueur
+                        self.button_click_sound.play()
+                        print("test join multi")
+                        # ajouter le code ici
+                        return
+                    if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
+                        self.button_click_sound.play()
+                        print("test host multi")
+                        # ajouter le code ici
                         return
 
                 self.manager.process_events(event)
