@@ -5,7 +5,7 @@ from .Button import Button
 from src.classes.ResourcePath import RelativePath
 
 def get_font(size):
-    return pygame.font.Font(RelativePath.resource_path("ressources\\Font\\Pixel.ttf"), size)
+    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
 
 clock = pygame.time.Clock()
@@ -19,9 +19,9 @@ class Multiplayer:
         pygame.display.set_caption("Résultat")
 
         main_font = pygame.font.SysFont("cambria", 50)
-        self.BG = pygame.image.load(RelativePath.resource_path("ressources\\BackgroundMenu\\Background.png"))
+        self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
-        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources\\Sounds\\Minimalist10.mp3"))
+        self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
@@ -29,10 +29,10 @@ class Multiplayer:
         self.menu_rect = self.menu_text.get_rect(center=(750, 100))
 
         # Redéfini la taille du bouton avec le .transform.scale
-        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources\\Buttons\\bouton2red.png"))
+        self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
 
-        self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources\\Buttons\\bouton2.png"))
+        self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
         self.button_surface2 = pygame.transform.scale(self.button_surface2, (150, 100))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
@@ -65,7 +65,6 @@ class Multiplayer:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        print("test menu")
                         return
 
                 self.manager.process_events(event)
