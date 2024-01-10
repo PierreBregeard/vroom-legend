@@ -1,3 +1,5 @@
+import time
+
 import pygame
 from ..ResourcePath import RelativePath
 from .World import World
@@ -27,6 +29,7 @@ class Game:
         self.screen_size = game_size
         self.window = pygame.display.set_mode(self.screen_size)
 
+        self.start_time = time.time()
         self.player = self.init_player()
         self.HUD = HUD(self.screen_size, self.player.max_speed)
 
@@ -156,4 +159,4 @@ class Game:
             world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
         rect = world_surface.get_rect(center=(self.screen_size[0] // 2, self.screen_size[1] // 2))
         self.window.blit(world_surface, rect)
-        self.HUD.blit_HUD(self.window, self.checkpoints_list)
+        self.HUD.blit_HUD(self.window, self.checkpoints_list, time.time() - self.start_time)
