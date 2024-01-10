@@ -118,8 +118,8 @@ class Game:
             imgPath = color_car.save_img(db_id)
             img = pygame.image.load(imgPath).convert_alpha()
             racer = Racer(db_id, "test", img, (500, 500))  # racer_data.pos
-            racers[db_id]["racer"] = racer
-            racers[db_id]["tag"] = GameTag(racer.pseudo, (500, 500))
+            racers[db_id] = {"racer": racer}
+            racers[db_id]["tag"] = GameTag("test", (500, 500))
         return racers
 
     def handle_server_data(self):
@@ -143,7 +143,7 @@ class Game:
                     if db_id == self.multi.client.db_id:
                         continue  # Normalement on ne devrait pas recevoir nos propres données
                     self.racers[db_id]["racer"].rect.center = player_data["pos"]
-                    self.racers[db_id]["tag"].rect.center = player_data["pos"]
+                    self.racers[db_id]["tag"].change_pos(player_data["pos"])
                     self.racers[db_id]["racer"].angle = player_data["angle"]
                     self.racers[db_id]["racer"].velocity = player_data["speed"]
             elif protocol.value == ClientProtocol.ERROR.value:
