@@ -85,7 +85,8 @@ class Server(Socket):
                 self.clients.pop(client_address)
                 print(f"Client {client_address} disconnected")
                 self.send_to_all(ClientProtocol.PLAYERS_INFOS.value, json.dumps(self.get_players_infos()))
-
+        elif protocol == ServerProtocol.PING:
+            self.send_to(ClientProtocol.PING.value, "", client_address)
     def receive(self):
         try:
             while True:

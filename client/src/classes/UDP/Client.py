@@ -3,16 +3,27 @@ from .ServerProtocol import ServerProtocol
 from .ClientProtocol import ClientProtocol
 import json
 import socket
+import time
 
 
 class Client(Socket):
-    tick = 0.01
-    last_send_time = 0
+
+    def ping(self):
+        self.send(ServerProtocol.PING.value, "")
+
+        start = time.time()
+        while time.time() - start < 2:
+            protocol, data = self.receive()
+            if protocol == ClientProtocol.PING:
+                return True
+        return False
 
     def __init__(self, ip, port, db_id):
         super().__init__()
         self.db_id = db_id
         self.sock.connect((ip, port))
+        if not self.ping():
+            raise Exception("Server not found")  # todo: voir si mettre erreur
 
     def send_player_data(self, player_data):
         data = json.dumps(player_data)

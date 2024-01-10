@@ -105,6 +105,7 @@ class Hosting:
                         else:
                             self.wrong_ip = False
                         if not self.wrong_ip:
+                            print(self.ip_input.get_text())
                             multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
                             Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
                             return

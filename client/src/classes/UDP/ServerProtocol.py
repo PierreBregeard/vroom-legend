@@ -7,6 +7,7 @@ class ServerProtocol(Enum):
     SET_PLAYER_DATA = "2"
     ERROR = "3"
     DISCONNECT = "4"
+    PING = "5"
 
     @staticmethod
     def is_valid(protocol):

@@ -7,6 +7,7 @@ class ClientProtocol(Enum):
     ERROR = "2"
     SUCCESS = "3"
     ACTION = "4"
+    PING = "5"
 
     @staticmethod
     def is_valid(protocol):
