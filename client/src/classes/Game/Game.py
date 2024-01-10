@@ -127,7 +127,6 @@ class Game:
         for protocol, data in res:
             print(protocol, data)
             if protocol.value == ClientProtocol.PLAYERS_INFOS.value:
-                print(data)
                 racers_data = json.loads(data)
                 self.racers = self.set_racers(racers_data)
                 self.map.add_racers(self.racers.values())
