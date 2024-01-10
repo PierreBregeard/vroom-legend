@@ -4,11 +4,13 @@ import pygame_gui
 from .Button import Button
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
+from ..Game.Multiplayer import Multiplayer
+from ..Game.Game import Game
 
 clock = pygame.time.Clock()
 
 
-class Multiplayer:
+class Hosting:
     def __init__(self, width, height):
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
@@ -103,14 +105,13 @@ class Multiplayer:
                         else:
                             self.wrong_ip = False
                         if not self.wrong_ip:
-                            # ajouter le code ici
+                            multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
+                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        # todo: vérifier si il est co pour faire ça
-                        # if ...:
-                            # self.not_connected = True
-                        # ajouter le code ici
+                        multi = Multiplayer(is_server=True)
+                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
                         return
 
                 self.manager.process_events(event)

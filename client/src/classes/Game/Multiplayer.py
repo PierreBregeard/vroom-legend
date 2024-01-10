@@ -24,7 +24,7 @@ class Multiplayer:
         self.client.diconnect()
         # todo: delete ip from db
 
-    def __init__(self, is_server: bool):
+    def __init__(self, is_server: bool, addr=None, port=5000):
         if is_server:
             from threading import Thread
             self.addr = Server.get_ipv4_address()
@@ -34,8 +34,10 @@ class Multiplayer:
             self.thread.start()
             self.register_server()
         else:
-            self.addr = Server.get_ipv4_address()  # todo: get ip from db
-            self.port = 5000
+            if addr is None:
+                raise ValueError("addr must be specified when is_server is False")
+            self.addr = addr  # todo: get ip from db
+            self.port = port
 
         self.client = self.connect_to_server()
         self.client.register()

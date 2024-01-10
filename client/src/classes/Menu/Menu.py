@@ -3,7 +3,7 @@ import sys
 from .Button import Button
 from .Connexion import Connexion
 from .Custom import Custom
-from .Multiplayer import Multiplayer
+from .Hosting import Hosting
 from ..Game.Game import Game
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
@@ -83,7 +83,7 @@ class Menu:
 
                     if self.multiplayer_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        menu = Multiplayer(self.largeur, self.hauteur)
+                        menu = Hosting(self.largeur, self.hauteur)
                         menu.menu_multi()
 
                     if self.customisation_button.checkinput(mouse_pos):
