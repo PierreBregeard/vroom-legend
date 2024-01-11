@@ -211,7 +211,6 @@ class Game:
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
-        # todo: mettre les pseudos des joueurs dans le HUD
         self.HUD.checkpoint_manager.checkpoint_list = self.checkpoints_list
         if self.is_game_started:
             time_to_show = time.time() - self.start_time

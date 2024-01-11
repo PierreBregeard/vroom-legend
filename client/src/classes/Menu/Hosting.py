@@ -113,9 +113,9 @@ class Hosting:
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        self.waiting.menu_wait("Host")
-                        # multi = Multiplayer(is_server=True)
-                        # Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
+                        # self.waiting.menu_wait("Host")
+                        multi = Multiplayer(is_server=True)
+                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                         return
 
                 self.manager.process_events(event)
