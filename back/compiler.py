@@ -9,6 +9,6 @@ if __name__ == "__main__":
         "pyinstaller --clean --onefile --name server-vroom-legend "
         "serverHTTP/serverHTTP.py"
     )
-    rmtree("build")
+    rmtree("build", ignore_errors=True)
     exe_folder = root_path / Path("dist/server-vroom-legend.exe")
     print(f"Built in {exe_folder}")
