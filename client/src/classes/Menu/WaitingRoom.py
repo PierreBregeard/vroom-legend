@@ -55,6 +55,8 @@ class WaitingRoom:
         clock.tick(60)
         pygame.display.update()
 
+        self.max_players = 4  # Définir le nombre maximal de joueurs
+
     def menu_wait(self, role, multi):
         while self.run:
             fps = clock.tick(60) / 1000
@@ -70,6 +72,16 @@ class WaitingRoom:
 
             start_game = False
 
+            y_offset = self.hauteur * 2 / 10  # Début de l'affichage des pseudos
+            connected_players = 0
+
+            for racer in self.racers_data:
+                player_text = Font.get_font(self.largeur * 1 // 70).render(racer["pseudo"] or "Anonyme", True, "#FFFFFF")
+                player_rect = player_text.get_rect(center=(self.largeur * 4 / 10, y_offset))
+                self.screen.blit(player_text, player_rect)
+                y_offset += self.hauteur * 1 / 20
+                connected_players += 1
+
             # tmp
             color_car = ColorCar()
             color_car.set_roof_color(tuple(User.color1))
@@ -83,7 +95,6 @@ class WaitingRoom:
                         self.racers_data = json.loads(data)
                     elif protocol.value == ClientProtocol.START_GAME.value:
                         start_game = True
-
             if start_game:
                 Game(False, game_size=(self.largeur, self.hauteur), multi=multi, racers_data=self.racers_data)
                 return

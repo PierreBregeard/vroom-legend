@@ -27,10 +27,10 @@ class Hosting:
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 2/9, self.hauteur * 1/11))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (150, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/5, self.hauteur * 1/10))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
