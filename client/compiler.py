@@ -14,6 +14,7 @@ if __name__ == "__main__":
         "--add-data src/ressources/Buttons;ressources/Buttons "
         "--add-data src/ressources/Font;ressources/Font "
         "--add-data src/ressources/Sounds;ressources/Sounds "
+        "--add-data src/ressources/Ico;ressources/Ico "
         "src/main.py"
     )
     rmtree("build", ignore_errors=True)
