@@ -7,7 +7,6 @@ class CheckpointManager:
 
     def __init__(self, screen_size):
         self.screen_size = screen_size
-        self.my_font = Font.get_font(20)
         self.checkpoint_list = []
         size = int(screen_size[0] / 50)
         self.my_font = Font.get_font(size)
