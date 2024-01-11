@@ -24,12 +24,10 @@ def create_hsv_surface(width, height):
 
 class Custom:
     def __init__(self, width, height):
-        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Customisation")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))

@@ -12,19 +12,16 @@ from ..HUD.Font import Font
 class Menu:
 
     def __init__(self, game_size):
-        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = game_size
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Menu principal")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background2.png"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
-        # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (330, 100))
         self.run = True
@@ -74,7 +71,7 @@ class Menu:
                         self.button_click_sound.play()
                         game = Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False)
                         game.play()
-                        game.reset()  # Reset the game when it returns to the menu
+                        game.reset()
 
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()

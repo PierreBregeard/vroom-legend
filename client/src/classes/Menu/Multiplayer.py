@@ -11,12 +11,10 @@ clock = pygame.time.Clock()
 
 class Multiplayer:
     def __init__(self, width, height):
-        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Multijoueur")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
@@ -26,7 +24,6 @@ class Multiplayer:
         self.menu_text = Font.get_font(self.largeur * 1//15).render("Multijoueur", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
-        # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
 

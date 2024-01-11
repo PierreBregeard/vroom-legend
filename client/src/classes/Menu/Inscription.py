@@ -17,12 +17,10 @@ clock = pygame.time.Clock()
 
 class Inscription:
     def __init__(self, width, height):
-        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Inscription")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
