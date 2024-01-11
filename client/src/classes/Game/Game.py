@@ -12,33 +12,32 @@ from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 from ..Sprites.GameTag import GameTag
-from ..Controler.Color import ControllerColor
+from ..Controler.Color import Color
 import json
 
 
 class Game:
     is_game_started = False
 
+    def reset(self):
+        # Reset all game-related variables and objects
+        self.player = self.init_player()
+        self.HUD = HUD(self.screen_size, self.player.max_speed)
+        self.checkpoints_list = [False] * len(self.map.get_checkpoints())
+        # Other game-specific reset logic goes here
+
     def init_player(self):
         color_car = ColorCar()
-        if len(User.pseudo) > 1:
-            color = ControllerColor.get_color()
-            color1 = color['color1']
-            color2 = color['color2']
-            rgb_values1 = tuple(map(int, color1.split(',')))
-            rgb_values2 = tuple(map(int, color2.split(',')))
-            color_car.set_roof_color(rgb_values1)
-            color_car.set_base_color(rgb_values2)
-        else:
-            color_car.set_roof_color((100, 0, 0))
-            color_car.set_base_color((100, 100, 0))
-        # if self.multi:
-        #     self.multi.client.register("Pierre", color_car)
+        color_car.set_roof_color(tuple(User.color1))
+        color_car.set_base_color(tuple(User.color2))
+        if self.multi:
+            self.multi.client.register("Moi", color_car)
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
 
-    def __init__(self, enable_screen_rotation, game_size, multi=None, racers_data=None):
+    def __init__(self, enable_screen_rotation, game_size, multi=None):
+        self.game_is_done = False
         self.multi = multi
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
@@ -92,8 +91,9 @@ class Game:
         self.is_game_started = True
 
     def update_player(self):
-        self.verify_checkpoints()
-        if self.last_checkpoints_coords:
+        if self.game_is_done is False:
+            self.verify_checkpoints()
+        if self.last_checkpoints_coords is not None:
             self.cant_rollback = False
 
         keys = pygame.key.get_pressed()
@@ -134,6 +134,11 @@ class Game:
                     idx_passed[0] == idx_last_visited_checkpoint + 1):
                 self.HUD.has_missed_checkpoint = True
         except:
+            self.game_is_done = True
+            current_time = time.time()
+            timer = current_time - self.start_time
+            data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": "solo", "time": timer}}
+            ControlerParties.save_history(data)
             print("Player have passed all checkpoints")
 
     def send_player_data(self):
