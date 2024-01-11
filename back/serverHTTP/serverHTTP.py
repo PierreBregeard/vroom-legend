@@ -1,4 +1,4 @@
-from flask import Flask, request, session, jsonify
+from flask import Flask, request
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -22,9 +22,9 @@ def inscription():
     if user is None and useremail is None:
         collection.insert_one(data)
         print(data)
-        return "oui"
+        return ""
     else:
-        return "mon reuf ????"
+        return ""
 
 
 @app.route('/saveHistory', methods=['POST'])
@@ -33,8 +33,15 @@ def saveHistory():
     data = request.json
     user = collection.find_one({"pseudo": data["pseudo"]})
     collection.update_one({"pseudo": data["pseudo"]}, {"$push": {"parties": data["parties"]}})
-    return "je t'ai save ca mg"
+    return ""
 
+
+@app.route('/getHistory', methods=['POST'])
+def getHistory():
+    collection = db["user"]
+    data = request.json
+    user = collection.find_one({"pseudo": data["pseudo"]})
+    return user['parties']
 
 @app.route('/connexion', methods=['POST'])
 def connexion():
@@ -46,7 +53,7 @@ def connexion():
         print(data)
         return str(user['pseudo'])
     else:
-        return 'pas dedans'
+        return ''
 
 
 @app.route('/couleur', methods=["POST"])
@@ -58,7 +65,7 @@ def couleur():
     if color.get("car") is not None:
         return str(color["car"])
     else:
-        return "pas de couleur"
+        return ""
 
 
 @app.route('/changeCoul', methods=['POST'])
@@ -67,7 +74,7 @@ def changeCouleur():
     data = request.json
     color = collection.find_one({"pseudo": data["pseudo"]}, {"car"})
     coul = collection.update_one({"pseudo": data["pseudo"]}, {"$set": {"car": data["car"]}})
-    return 'ça a changé la coul'
+    return ''
 
 
 if __name__ == "__main__":
