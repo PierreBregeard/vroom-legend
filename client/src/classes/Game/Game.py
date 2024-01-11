@@ -131,10 +131,10 @@ class Game:
                 self.HUD.has_missed_checkpoint = True
         except:
             self.game_is_done = True
-            current_time = time.time()
-            timer = current_time - self.start_time
-            data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": "solo", "time": timer}}
-            ControlerParties.save_history(data)
+            if len(User.pseudo) > 1:
+                current_time = time.time()
+                data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": "solo", "time": current_time}}
+                ControlerParties.save_history(data)
             print("Player have passed all checkpoints")
 
     def send_player_data(self):
