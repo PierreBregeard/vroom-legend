@@ -1,6 +1,9 @@
 import time
 
 import pygame
+import requests
+
+from .User import User
 from ..ResourcePath import RelativePath
 from .World import World
 from ..Sprites.Player import Player
@@ -9,6 +12,7 @@ from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 from ..Sprites.GameTag import GameTag
+from ..Controler.Color import Color
 import json
 
 
@@ -17,6 +21,18 @@ class Game:
 
     def init_player(self):
         color_car = ColorCar()
+        data = {"pseudo": User.pseudo}
+        if len(User.pseudo) > 1:
+            color = Color.get_color(data)
+            color1 = color['color1']
+            color2 = color['color2']
+            rgb_values1 = tuple(map(int, color1.split(',')))
+            rgb_values2 = tuple(map(int, color2.split(',')))
+            color_car.set_roof_color(rgb_values1)
+            color_car.set_base_color(rgb_values2)
+        else:
+            color_car.set_roof_color((100, 0, 0))
+            color_car.set_base_color((0, 100, 0))
         color_car.set_roof_color((100, 0, 0))
         color_car.set_base_color((0, 100, 100))
         if self.multi:
@@ -86,6 +102,11 @@ class Game:
 
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.crash()
+            # for object in objects:
+            #     if self.player.rect.x < object.x + object.width and self.player.rect.x + self.player.rect.width > object.x:
+            #         self.player.undo_move_x()
+            #     if self.player.rect.y < object.y + object.height and self.player.rect.y + self.player.rect.height > object.y:
+            #         self.player.undo_move_y()
 
     def verify_checkpoints(self):
         # Index of the checkpoint player is on
@@ -173,6 +194,7 @@ class Game:
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
+        # todo: mettre les pseudos des joueurs dans le HUD
 
     def render(self):
         world_surface = self.map.get_world_surface()

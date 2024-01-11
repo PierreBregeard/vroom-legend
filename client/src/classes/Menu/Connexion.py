@@ -4,9 +4,9 @@ import pygame_gui
 import re
 from .Button import Button
 from .Inscription import Inscription
+from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
-
 
 def is_valid_email(email):
     email_pattern = re.compile(r'^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$')
@@ -18,6 +18,7 @@ clock = pygame.time.Clock()
 
 class Connexion:
     def __init__(self, width, height):
+        pygame.init()
         # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
@@ -90,7 +91,9 @@ class Connexion:
         while self.run:
             fps = clock.tick(60) / 1000
 
+            pseudo_len = len(self.email_input.get_text())
             mdp_len = len(self.mdp_input.get_text())
+            data = {"email": self.email_input.get_text(), "mdp": self.mdp_input.get_text()}
 
             self.screen.blit(self.BG, (0, 0))
 
@@ -131,12 +134,9 @@ class Connexion:
                             self.wrong_email = True
                         else:
                             self.wrong_email = False
-                        if self.test_deco == 1:  # Remplacer le 1 par la requete qui vérifie si il est déjà co
-                            self.already_co = True
-                        else:
-                            self.already_co = False
-                        if not self.wrong_email and not self.wrong_mdp and not self.already_co:
-                            print("requete")
+                        if not self.wrong_email and not self.wrong_mdp:
+                            User.connexion(data)
+                            return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
@@ -150,6 +150,7 @@ class Connexion:
                         self.button_click_sound.play()
                         inscr = Inscription(self.largeur, self.hauteur)
                         inscr.menu_inscr()
+                        return
 
                 self.manager.process_events(event)
 
@@ -158,3 +159,5 @@ class Connexion:
             self.manager.draw_ui(self.screen)
 
             pygame.display.update()
+
+
