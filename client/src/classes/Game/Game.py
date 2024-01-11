@@ -11,6 +11,7 @@ from ..Sprites.Racer import Racer
 from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
+from ..Controler.Color import Color
 import json
 
 
@@ -21,9 +22,7 @@ class Game:
         color_car = ColorCar()
         data = {"pseudo": User.pseudo}
         if len(User.pseudo) > 1:
-            response = requests.post("http://127.0.0.1:5000/couleur", json=data)
-            json_str = response.text.replace("'", '"')
-            color = json.loads(json_str)
+            color = Color.get_color(data)
             color1 = color['color1']
             color2 = color['color2']
             rgb_values1 = tuple(map(int, color1.split(',')))

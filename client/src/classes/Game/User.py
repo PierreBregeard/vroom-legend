@@ -10,4 +10,8 @@ class User:
     @staticmethod
     def connexion(logs):
         res = Log.connexion(logs)
-        User.pseudo = res.decode()
+        if res is not None:
+            User.pseudo = res.decode()
+            return True
+        else:
+            return False

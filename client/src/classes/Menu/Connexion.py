@@ -150,6 +150,7 @@ class Connexion:
                         self.button_click_sound.play()
                         inscr = Inscription(self.largeur, self.hauteur)
                         inscr.menu_inscr()
+                        return
 
                 self.manager.process_events(event)
 
