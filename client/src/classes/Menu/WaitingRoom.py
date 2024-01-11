@@ -27,19 +27,19 @@ class WaitingRoom:
         self.list_rect = self.list_text.get_rect(center=(self.largeur * 2 / 10, self.hauteur * 2 / 10))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 2/9, self.hauteur * 1/11))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (150, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/5, self.hauteur * 1/10))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
         self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9 / 10), text_input="Retour",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1//55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.start_button = Button(pos=(self.largeur // 8, self.hauteur * 9 / 10), text_input="Start",
-                                   font=Font.get_font(16),
+        self.start_button = Button(pos=(self.largeur * 8 / 10, self.hauteur * 9 / 10), text_input="Start",
+                                   font=Font.get_font(self.largeur * 1//55),
                                    base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.run = True
@@ -55,10 +55,6 @@ class WaitingRoom:
             self.screen.blit(self.BG, (0, 0))
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.list_text, self.list_rect)
-
-            # if ... :
-            # self.start_button.changecolor(mouse_pos)
-            # self.start_button.update(self.screen)
 
             for button in [self.back_button]:
                 button.changecolor(mouse_pos)

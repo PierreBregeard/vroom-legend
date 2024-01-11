@@ -35,7 +35,7 @@ class Hosting:
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
         self.ip_text = Font.get_font(17).render("IP :", True, "#b68f40")
-        self.ip_rect = self.ip_text.get_rect(center=(self.largeur * 3.7/10, self.hauteur * 5.6/10))
+        self.ip_rect = self.ip_text.get_rect(center=(self.largeur * 4/10, self.hauteur * 6/11))
 
         self.wrong_ip_text = Font.get_font(16).render("Veuillez entrer une adresse IP valide!", True, "#ff0000")
         self.wrong_ip_rect = self.wrong_ip_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
@@ -46,17 +46,17 @@ class Hosting:
         self.wrong_ip = False
         self.not_connected = False
 
-        self.ip_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur * 3.25/10, self.hauteur * 6/10),
+        self.ip_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur * 4/11, self.hauteur * 6/10),
                                                                                       (self.largeur // 3, 40)),
                                                             manager=self.manager, object_id="#email")
 
-        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=Font.get_font(16),
+        self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9/10), text_input="Retour", font=Font.get_font(self.largeur * 1//55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 7.8/10), text_input="Rejoindre", font=Font.get_font(17),
+        self.join_button = Button(pos=(self.largeur // 2, self.hauteur * 8/10), text_input="Rejoindre", font=Font.get_font(self.largeur * 1//55),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface)
 
-        self.host_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Héberger", font=Font.get_font(17),
+        self.host_button = Button(pos=(self.largeur // 2, self.hauteur * 4/10), text_input="Héberger", font=Font.get_font(self.largeur * 1//55),
                                    base_color="#ffffff", hovering_color="White", image=self.button_surface)
 
         self.run = True
@@ -94,10 +94,10 @@ class Hosting:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button != 1:
                         continue
-                    if self.back_button.checkinput(mouse_pos):  # retour menu
+                    if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
-                    if self.join_button.checkinput(mouse_pos):  # retour menu attente joueur
+                    if self.join_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         if ip_len < 5:
                             self.wrong_ip = True
@@ -108,7 +108,7 @@ class Hosting:
                             Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                             self.waiting.menu_wait("Join")
                             return
-                    if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
+                    if self.host_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         # self.waiting.menu_wait("Host")
                         multi = Multiplayer(is_server=True)
