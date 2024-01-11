@@ -59,6 +59,10 @@ class WaitingRoom:
 
     def menu_wait(self, role, multi):
         while self.run:
+
+            ip_text = Font.get_font(self.largeur * 1 // 70).render(f"IP : {multi.addr}", True, "#FFFFFF")
+            ip_rect = ip_text.get_rect(center=(self.largeur * 7 / 10, self.hauteur * 2 / 10))
+
             fps = clock.tick(60) / 1000
             mouse_pos = pygame.mouse.get_pos()
 
@@ -69,14 +73,23 @@ class WaitingRoom:
             if role == "Host":
                 self.start_button.changecolor(mouse_pos)
                 self.start_button.update(self.screen)
+                self.screen.blit(ip_text, ip_rect)
 
             start_game = False
 
             y_offset = self.hauteur * 2 / 10  # Début de l'affichage des pseudos
             connected_players = 0
 
+            anonymous_count = 1
+
             for racer in self.racers_data:
-                player_text = Font.get_font(self.largeur * 1 // 70).render(racer["pseudo"] or "Anonyme", True, "#FFFFFF")
+                if racer["pseudo"]:  # Si le joueur a un pseudo, l'utiliser
+                    pseudo = racer["pseudo"]
+                else:  # Sinon, utiliser "Anonyme" suivi d'un numéro unique
+                    pseudo = f"Anonyme {anonymous_count}"
+                    anonymous_count += 1  # Incrémenter le compteur pour le prochain "Anonyme"
+
+                player_text = Font.get_font(self.largeur * 1 // 70).render(pseudo, True, "#FFFFFF")
                 player_rect = player_text.get_rect(center=(self.largeur * 4 / 10, y_offset))
                 self.screen.blit(player_text, player_rect)
                 y_offset += self.hauteur * 1 / 20

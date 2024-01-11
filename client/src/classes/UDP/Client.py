@@ -28,7 +28,7 @@ class Client(Socket):
         self.db_id = db_id
         self.sock.connect((ip, port))
         if not self.ping():
-            raise Exception("Server not found")
+            raise socket.gaierror("Server not found")
 
     def send_player_data(self, player_data):
         data = json.dumps(player_data)
