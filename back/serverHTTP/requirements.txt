@@ -1,4 +1,4 @@
 flask
-pymongo.mongo_client
-pymongo.server_api
-werkzeug.security
+pymongo
+pymongo
+werkzeug
