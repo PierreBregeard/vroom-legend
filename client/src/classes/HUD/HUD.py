@@ -13,7 +13,7 @@ class HUD:
         self.has_missed_checkpoint = False
         self.speedometer = Speedometer(screen_size, max_speed)
         self.checkpoint_manager = CheckpointManager(screen_size)
-        self.timer = Timer()
+        self.timer = Timer(screen_size)
         self.tips = Tips(screen_size)
 
     def blit_HUD(self, window, checkpoint_list, current_time):

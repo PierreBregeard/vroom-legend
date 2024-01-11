@@ -22,7 +22,7 @@ class Tips:
             self.ratio * 8,
             self.screen_size[1]-self.ratio * 8
         )
-        text_surface = self.my_font.render('Last checkpoint', False, (0, 0, 0))
+        text_surface = self.my_font.render('Last checkpoint', False, (255, 255, 255))
         text_rect = text_surface.get_rect().center = (
             self.ratio * 8 + self.ratio * 10,
             self.screen_size[1]-self.ratio * 8
