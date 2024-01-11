@@ -41,7 +41,7 @@ def getHistory():
     collection = db["user"]
     data = request.json
     user = collection.find_one({"pseudo": data["pseudo"]})
-    return user['parties']
+    return user.get("parties") or []
 
 @app.route('/connexion', methods=['POST'])
 def connexion():

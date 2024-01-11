@@ -24,7 +24,10 @@ class ControlerParties:
     def get_parties(pseudo):
         try:
             response = requests.post(API.URL + "getHistory", json=pseudo)
-            parties = response.content.decode()
-            return json.loads(parties)
+            if response.content:
+                parties = response.content.decode()
+                return json.loads(parties)
+            else:
+                return []
         except requests.exceptions.ConnectionError:
             return

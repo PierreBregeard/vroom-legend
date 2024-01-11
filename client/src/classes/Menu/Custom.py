@@ -106,7 +106,6 @@ class Custom:
                     if self.save_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         User.color1, User.color2 = color1, color2
-                        print(User.color1, User.color2)
                         if len(User.pseudo) > 1:
                             ControllerColor.change_color(data)
                         return
