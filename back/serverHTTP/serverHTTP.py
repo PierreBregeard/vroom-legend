@@ -1,14 +1,15 @@
 from flask import Flask, request, session, jsonify
-import pymongo
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
 # uri = "mongodb://mongo:27017" # uri docker
-uri = "mongodb://localhost:27017"
+uri = "mongodb+srv://michelrecchia1:VroomLegends@animes.kflm1cp.mongodb.net/?retryWrites=true&w=majority"
 
-mongo_client = pymongo.MongoClient(uri)
-db = mongo_client["vroomlegend"]
+mongo_client = MongoClient(uri, server_api=ServerApi('1'))
+db = mongo_client["VroomLegends"]
 
 
 @app.route('/inscription', methods=['POST'])
