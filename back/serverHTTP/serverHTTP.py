@@ -53,7 +53,7 @@ def connexion():
         print(data)
         return str(user['pseudo'])
     else:
-        return 'pas dedans'
+        return ''
 
 
 @app.route('/couleur', methods=["POST"])

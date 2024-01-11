@@ -10,6 +10,7 @@ class User:
     @staticmethod
     def connexion(logs):
         res = ControlerLog.connexion(logs)
+        print(res)
         if res:
             User.pseudo = res.decode()
             User.fetch_color()
