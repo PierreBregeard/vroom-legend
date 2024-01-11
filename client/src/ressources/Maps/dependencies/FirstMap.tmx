@@ -851,10 +851,10 @@
   <object id="338" type="Collision" x="4256" y="1152" width="96" height="32"/>
   <object id="355" type="Collision" x="3074" y="5085.33" width="124.667" height="32"/>
   <object id="357" type="Collision" x="2560" y="5014.67" width="384" height="105.333"/>
-  <object id="358" x="2304" y="5029.33" width="154" height="187.333"/>
-  <object id="359" x="2374" y="5204.67" width="89.3333" height="30.6667"/>
-  <object id="360" x="2728.67" y="5372" width="372.667" height="98.6667"/>
-  <object id="361" x="2142.67" y="5464" width="449.333" height="102.667"/>
+  <object id="358" type="Collision" x="2304" y="5029.33" width="154" height="187.333"/>
+  <object id="359" type="Collision" x="2374" y="5204.67" width="89.3333" height="30.6667"/>
+  <object id="360" type="Collision" x="2728.67" y="5372" width="372.667" height="98.6667"/>
+  <object id="361" type="Collision" x="2142.67" y="5464" width="449.333" height="102.667"/>
   <object id="363" type="Collision" x="1012" y="4881.33" width="82.6667" height="44"/>
   <object id="364" type="Collision" x="1137.33" y="5138.67" width="85.3333" height="44"/>
   <object id="365" type="Collision" x="1393.33" y="5426.67" width="86.6667" height="44"/>
