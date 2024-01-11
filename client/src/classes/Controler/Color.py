@@ -1,12 +1,14 @@
 import json
 
 import requests
+from ..Game.User import User
 
 
-class Color:
+class ControllerColor:
 
     @staticmethod
-    def get_color(data):
+    def get_color():
+        data = {"pseudo": User.pseudo}
         try:
             response = requests.post("http://127.0.0.1:5000/couleur", json=data)
             json_str = response.text.replace("'", '"')

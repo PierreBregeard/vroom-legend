@@ -12,25 +12,17 @@ from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 from ..Sprites.GameTag import GameTag
-from ..Controler.Color import Color
+from ..Controler.Color import ControllerColor
 import json
 
 
 class Game:
     is_game_started = False
 
-    def reset(self):
-        # Reset all game-related variables and objects
-        self.player = self.init_player()
-        self.HUD = HUD(self.screen_size, self.player.max_speed)
-        self.checkpoints_list = [False] * len(self.map.get_checkpoints())
-        # Other game-specific reset logic goes here
-
     def init_player(self):
         color_car = ColorCar()
-        data = {"pseudo": User.pseudo}
         if len(User.pseudo) > 1:
-            color = Color.get_color(data)
+            color = ControllerColor.get_color()
             color1 = color['color1']
             color2 = color['color2']
             rgb_values1 = tuple(map(int, color1.split(',')))
@@ -40,8 +32,6 @@ class Game:
         else:
             color_car.set_roof_color((100, 0, 0))
             color_car.set_base_color((0, 100, 0))
-        color_car.set_roof_color((100, 0, 0))
-        color_car.set_base_color((0, 100, 100))
         if self.multi:
             self.multi.client.register("Moi", color_car)
         imgPath = color_car.save_img()
