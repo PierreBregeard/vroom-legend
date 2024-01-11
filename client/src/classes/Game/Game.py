@@ -150,8 +150,8 @@ class Game:
 
         def format_racers():
             racers = {}
+            spawnpoint = self.map.spawnpoints[0]
             for i, racer_data in enumerate(racers_data):
-                spawnpoint = self.map.spawnpoints[i]
                 db_id = racer_data["db_id"]
                 if db_id == self.multi.client.db_id:
                     continue
