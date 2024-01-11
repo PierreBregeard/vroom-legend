@@ -41,13 +41,12 @@ class Game:
         self.player = self.init_player()
         self.HUD = HUD(self.screen_size, self.player.max_speed)
 
-
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
         # List of boolean for already visited checkpoints
         self.has_missed_checkpoint = False
         self.checkpoints_list = []
-        #Coords of the last checkpoint the player has passed
+        # Coords of the last checkpoint the player has passed
         self.last_checkpoints_coords = None
         for i in range(len(self.map.get_checkpoints())):
             self.checkpoints_list.append(False)
