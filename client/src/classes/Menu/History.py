@@ -16,7 +16,7 @@ class History:
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Historique")
 
-        self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Main Background.png"))
+        self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
@@ -44,6 +44,8 @@ class History:
         print(self.allparties)
 
     def menu_history(self):
+        for elem in self.allparties:
+            print(elem)
         while self.run:
             fps = clock.tick(60) / 1000
             mouse_pos = pygame.mouse.get_pos()
