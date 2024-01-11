@@ -36,6 +36,13 @@ def saveHistory():
     return "je t'ai save ca mg"
 
 
+@app.route('/getHistory', methods=['POST'])
+def getHistory():
+    collection = db["user"]
+    data = request.json
+    user = collection.find_one({"pseudo": data["pseudo"]})
+    return user['parties']
+
 @app.route('/connexion', methods=['POST'])
 def connexion():
     collection = db["user"]
