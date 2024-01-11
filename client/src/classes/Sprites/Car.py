@@ -4,11 +4,11 @@ import math
 
 class Car(pygame.sprite.Sprite):
 
-    def __init__(self, idx, img, start_pos):
+    def __init__(self, idx, img, start_pos, start_angle):
         super().__init__()
         self.car_id = idx
         self.velocity = 0
-        self.angle = 0
+        self.angle = start_angle
 
         self.velXToAdd = 0
         self.velYToAdd = 0
