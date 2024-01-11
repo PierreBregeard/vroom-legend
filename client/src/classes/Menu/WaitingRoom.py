@@ -86,8 +86,6 @@ class WaitingRoom:
                     elif protocol.value == ClientProtocol.START_GAME.value:
                         start_game = True
 
-            print(self.racers_data)
-
             if start_game:
                 Game(False, game_size=(self.largeur, self.hauteur), multi=multi, racers_data=self.racers_data)
                 return
