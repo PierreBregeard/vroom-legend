@@ -33,10 +33,10 @@ class Connexion:
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 1/5, 100))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 1/5, self.hauteur * 1/10))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 2/9, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 2/9, self.hauteur * 1/11))
 
         self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Connexion", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 1 / 10))
@@ -69,12 +69,12 @@ class Connexion:
 
         self.mdp_input.set_text_hidden(True)
 
-        self.txt_test = Button(pos=(self.largeur // 2, self.hauteur * 10 / 16),
+        self.txt_test = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10),
                                text_input="Vous n'avez pas encore de compte ? Cliquez ici !",
                                font=Font.get_font(self.largeur * 1//55),
                                base_color="#b68f40", hovering_color="White")
 
-        self.enter_button = Button(pos=(self.largeur * 5/10, self.hauteur * 7 / 10), text_input="Connexion",
+        self.enter_button = Button(pos=(self.largeur * 5/10, self.hauteur * 10 / 16), text_input="Connexion",
                                    font=Font.get_font(self.largeur * 1//55),
                                    base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 

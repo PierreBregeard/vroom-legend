@@ -7,6 +7,7 @@ from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 
+
 clock = pygame.time.Clock()
 
 
@@ -25,26 +26,24 @@ def create_hsv_surface(width, height):
 
 class Custom:
     def __init__(self, width, height):
-        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Customisation")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = Font.get_font(70).render("Customisation", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1 / 10))
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Customisation", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 1 / 10))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 2/9, self.hauteur * 1/11))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (150, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/5, self.hauteur * 1/10))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 

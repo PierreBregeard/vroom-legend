@@ -16,12 +16,10 @@ clock = pygame.time.Clock()
 
 class WaitingRoom:
     def __init__(self, width, height):
-        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Waiting Room")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
@@ -29,26 +27,25 @@ class WaitingRoom:
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Waiting Room", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1 / 10))
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         self.list_text = Font.get_font(self.largeur * 1 // 70).render("Joueurs :", True, "#FFFFFF")
         self.list_rect = self.list_text.get_rect(center=(self.largeur * 2 / 10, self.hauteur * 2 / 10))
 
-        # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (220, 90))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 2/9, self.hauteur * 1/11))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (150, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/5, self.hauteur * 1/10))
 
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
         self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9 / 10), text_input="Retour",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1//55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.start_button = Button(pos=(self.largeur * 8 / 10, self.hauteur * 9 / 10), text_input="Start",
-                                   font=Font.get_font(16),
+                                   font=Font.get_font(self.largeur * 1//55),
                                    base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.run = True
@@ -57,6 +54,8 @@ class WaitingRoom:
 
         clock.tick(60)
         pygame.display.update()
+
+        self.max_players = 4  # Définir le nombre maximal de joueurs
 
     def menu_wait(self, role, multi):
         while self.run:
@@ -73,6 +72,16 @@ class WaitingRoom:
 
             start_game = False
 
+            y_offset = self.hauteur * 2 / 10  # Début de l'affichage des pseudos
+            connected_players = 0
+
+            for racer in self.racers_data:
+                player_text = Font.get_font(self.largeur * 1 // 70).render(racer["pseudo"] or "Anonyme", True, "#FFFFFF")
+                player_rect = player_text.get_rect(center=(self.largeur * 4 / 10, y_offset))
+                self.screen.blit(player_text, player_rect)
+                y_offset += self.hauteur * 1 / 20
+                connected_players += 1
+
             # tmp
             color_car = ColorCar()
             color_car.set_roof_color(tuple(User.color1))
@@ -86,7 +95,6 @@ class WaitingRoom:
                         self.racers_data = json.loads(data)
                     elif protocol.value == ClientProtocol.START_GAME.value:
                         start_game = True
-
             if start_game:
                 Game(False, game_size=(self.largeur, self.hauteur), multi=multi, racers_data=self.racers_data)
                 return
