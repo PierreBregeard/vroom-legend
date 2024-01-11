@@ -5,9 +5,9 @@ class ClientProtocol(Enum):
     DATA = "0"
     PLAYERS_INFOS = "1"
     ERROR = "2"
-    SUCCESS = "3"
-    ACTION = "4"
-    PING = "5"
+    ACTION = "3"
+    PING = "4"
+    INFO = "5"
 
     @staticmethod
     def is_valid(protocol):

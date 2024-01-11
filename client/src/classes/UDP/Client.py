@@ -8,6 +8,8 @@ import time
 
 class Client(Socket):
 
+    is_admin = False
+
     def ping(self):
         self.send(ServerProtocol.PING.value, "")
 
@@ -40,7 +42,8 @@ class Client(Socket):
             "colors": {
                 "base": colorCar.base_color,
                 "roof": colorCar.roof_color
-            }
+            },
+            "is_admin": self.is_admin
         })
         self.send(ServerProtocol.REGISTER.value, registration_data)
 
@@ -63,6 +66,9 @@ class Client(Socket):
                 return
             else:
                 raise
+
+    def start_game(self):
+        self.send(ServerProtocol.START_GAME.value, "")
 
     def send(self, protocol: str, data: str):
         self.sock.send((protocol + data).encode())
