@@ -64,6 +64,7 @@ class Menu:
         self.pseudo_text = Font.get_font(20).render(f"Bonjour : {self.pseudo}", True, "#FFFFFF")
         self.pseudo_rect = self.pseudo_text.get_rect(
             center=(self.largeur // 2, 100))
+
     def menu(self):
         while self.run:
             self.screen.blit(self.BG, (0, 0))

@@ -1,5 +1,4 @@
-import pygame
-from ..ResourcePath import RelativePath
+from ..Controler.Color import ControllerColor
 from ..Controler.Log import ControlerLog
 
 
@@ -13,6 +12,10 @@ class User:
         res = ControlerLog.connexion(logs)
         if res:
             User.pseudo = res.decode()
-            return True
-        else:
-            return False
+            User.fetch_color()
+
+    @staticmethod
+    def fetch_color():
+        colors = ControllerColor.get_color({"pseudo": User.pseudo})
+        if colors:
+            User.color1, User.color2 = colors["color1"], colors["color2"]

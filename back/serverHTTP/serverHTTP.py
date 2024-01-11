@@ -58,7 +58,7 @@ def couleur():
     if color.get("car") is not None:
         return str(color["car"])
     else:
-        return "pas de couleur"
+        return ""
 
 
 @app.route('/changeCoul', methods=['POST'])

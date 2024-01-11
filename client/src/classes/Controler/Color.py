@@ -9,19 +9,16 @@ class ControllerColor:
     def get_color(data):
         try:
             response = requests.post("http://127.0.0.1:5000/couleur", json=data)
-            json_str = response.text.replace("'", '"')
-            color = json.loads(json_str)
-            return color
+            if response.content:
+                json_str = response.text.replace("'", '"')
+                return json.loads(json_str)
         except requests.exceptions.ConnectionError:
             return None
-
 
     @staticmethod
     def change_color(data):
         try:
             response = requests.post("http://127.0.0.1:5000/changeCoul", json=data)
-            print(response.status_code)
-            print(response.content)
             return response.content
         except requests.exceptions.ConnectionError:
-            return None
+            return

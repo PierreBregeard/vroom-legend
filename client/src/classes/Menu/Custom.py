@@ -106,15 +106,11 @@ class Custom:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.save_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
+                        User.color1, User.color2 = color2, color1
+                        print(User.color1, User.color2)
                         if len(User.pseudo) > 1:
                             ControllerColor.change_color(data)
-                            return
-                        else:
-                            User.color1 = color1
-                            User.color2 = color2
-                            print(User.color1)
-                            print(User.color2)
-                            return
+                        return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()

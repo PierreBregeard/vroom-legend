@@ -11,7 +11,7 @@ from ..HUD.Font import Font
 
 
 def is_valid_email(email):
-    email_pattern = re.compile(r'^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$')
+    email_pattern = re.compile(r"^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$")
     return bool(re.match(email_pattern, email))
 
 
@@ -138,12 +138,6 @@ class Connexion:
                             self.already_co = False
                         if not self.wrong_email and not self.wrong_mdp and not self.already_co:
                             User.connexion(data)
-                            datapseudo = {"pseudo": User.pseudo}
-                            color = ControllerColor.get_color(datapseudo)
-                            color1 = color['color1']
-                            color2 = color['color2']
-                            User.color1 = color1
-                            User.color2 = color2
                             return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
