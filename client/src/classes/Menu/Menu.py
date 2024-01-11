@@ -28,7 +28,7 @@ class Menu:
         self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 1/3, self.hauteur * 1/10))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 3 / 9, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/3, self.hauteur * 1/10))
 
         self.run = True
 
@@ -55,7 +55,7 @@ class Menu:
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
         self.history_button = Button(pos=(self.largeur * 2 / 11, self.hauteur * 12 / 13), text_input="Historique",
-                                  font=Font.get_font(20),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.deco_button = Button(pos=(self.largeur * 9 / 11, self.hauteur * 12 / 13), text_input="Déconnexion",
@@ -63,9 +63,9 @@ class Menu:
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.pseudo = User.pseudo
-        self.pseudo_text = Font.get_font(self.largeur * 1//15).render(f"Bonjour : {self.pseudo}", True, "#FFFFFF")
+        self.pseudo_text = Font.get_font(self.largeur * 1 // 40).render(f"Bonjour {self.pseudo}", True, "#FFFFFF")
         self.pseudo_rect = self.pseudo_text.get_rect(
-            center=(self.largeur // 2, 100))
+            center=(self.largeur // 2, self.hauteur * 2/11))
 
     def menu(self):
         while self.run:
