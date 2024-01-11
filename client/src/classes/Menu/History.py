@@ -9,6 +9,7 @@ from ..HUD.Font import Font
 
 clock = pygame.time.Clock()
 
+
 class History:
     def __init__(self, width, height):
         self.largeur = width
@@ -41,17 +42,21 @@ class History:
 
         self.data = {"pseudo": User.pseudo}
         self.allparties = ControlerParties.get_parties(self.data)
-        print(self.allparties)
 
     def menu_history(self):
-        for elem in self.allparties:
-            print(elem)
         while self.run:
             fps = clock.tick(60) / 1000
             mouse_pos = pygame.mouse.get_pos()
 
             self.screen.blit(self.BG, (0, 0))
             self.screen.blit(self.menu_text, self.menu_rect)
+
+            for index, item in enumerate(self.allparties):
+                course_text = Font.get_font(self.largeur * 1 // 70).render(f"Type de partie : {item['type']} / Temps : {format(item['time'], '.3f')}", True,
+                                                                           "#FFFFFF")
+                y_offset = self.hauteur * 2/10 + 30 * index
+                course_rect = course_text.get_rect(center=(self.largeur * 5 / 10, y_offset))
+                self.screen.blit(course_text, course_rect)
 
             for button in [self.back_button]:
                 button.changecolor(mouse_pos)
@@ -76,7 +81,3 @@ class History:
             self.manager.draw_ui(self.screen)
 
             pygame.display.update()
-
-
-
-
