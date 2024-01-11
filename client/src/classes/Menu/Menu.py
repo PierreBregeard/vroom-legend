@@ -15,7 +15,7 @@ class Menu:
     def __init__(self, game_size):
         self.largeur, self.hauteur = game_size
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
-        pygame.display.set_caption("Menu principal")
+        pygame.display.set_caption("Vroom Legends")
 
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background2.png"))
 
