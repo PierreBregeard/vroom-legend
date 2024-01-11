@@ -2,7 +2,7 @@ import requests
 from .API import API
 
 
-class Log:
+class ControlerLog:
 
     @staticmethod
     def connexion(data):
@@ -15,7 +15,7 @@ class Log:
 
     @staticmethod
     def inscription(data):
-        try :
+        try:
             response = requests.post("http://127.0.0.1:5000/inscription", json=data)
             return True
         except requests.exceptions.ConnectionError:

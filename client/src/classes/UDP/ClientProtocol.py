@@ -8,6 +8,7 @@ class ClientProtocol(Enum):
     ACTION = "3"
     PING = "4"
     INFO = "5"
+    START_GAME = "6"
 
     @staticmethod
     def is_valid(protocol):

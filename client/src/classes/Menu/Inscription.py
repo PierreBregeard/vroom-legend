@@ -3,7 +3,7 @@ import pygame
 import pygame_gui
 import re
 from .Button import Button
-from ..Controler.Log import Log
+from ..Controler.Log import ControlerLog
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 
@@ -178,7 +178,7 @@ class Inscription:
                         else:
                             self.wrong_conf_mdp = False
                         if not self.wrong_email and not self.wrong_pseudo and not self.wrong_mdp and not self.wrong_conf_mdp:
-                            Log.inscription(data)
+                            ControlerLog.inscription(data)
                             return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu

@@ -5,11 +5,11 @@ from shutil import rmtree
 
 
 class ColorCar:
-    tmp_folder = RelativePath.resource_path("ressources/Sprites/dependencies/temp")
 
     def __init__(self):
         self.roof_color = (0, 0, 0)
         self.base_color = (0, 0, 0)
+        self.tmp_folder = RelativePath.resource_path("ressources/Sprites/dependencies/temp")
         self.car_base_img = Image.open(
             RelativePath.resource_path("ressources/Sprites/dependencies/player_base.png")
         )
@@ -46,6 +46,5 @@ class ColorCar:
         tmp.save(path)
         return path
 
-    @staticmethod
-    def remove_temp_files():
-        rmtree(ColorCar.tmp_folder, ignore_errors=True)
+    def remove_temp_files(self):
+        rmtree(self.tmp_folder, ignore_errors=True)

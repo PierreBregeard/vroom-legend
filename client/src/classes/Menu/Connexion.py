@@ -4,6 +4,8 @@ import pygame_gui
 import re
 from .Button import Button
 from .Inscription import Inscription
+from ..Controler.Color import ControllerColor
+from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 
@@ -76,10 +78,6 @@ class Connexion:
                                    font=Font.get_font(self.largeur * 1//55),
                                    base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.deco_button = Button(pos=(self.largeur * 9/11, self.hauteur * 11 / 13), text_input="Déconnexion",
-                                  font=Font.get_font(self.largeur * 1//55),
-                                  base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
-
         self.back_button = Button(pos=(self.largeur * 2/13, self.hauteur * 11 / 13), text_input="Retour",
                                   font=Font.get_font(self.largeur * 1//55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
@@ -96,6 +94,7 @@ class Connexion:
             fps = clock.tick(60) / 1000
 
             mdp_len = len(self.mdp_input.get_text())
+            data = {"email": self.email_input.get_text(), "mdp": self.mdp_input.get_text()}
 
             self.screen.blit(self.BG, (0, 0))
 
@@ -112,8 +111,7 @@ class Connexion:
             if self.already_co:
                 self.screen.blit(self.already_co_text, self.already_co_rect)
 
-            for button in [self.enter_button, self.back_button, self.txt_test,
-                           self.deco_button]:
+            for button in [self.enter_button, self.back_button, self.txt_test]:
                 button.changecolor(mouse_pos)
                 button.update(self.screen)
 
@@ -134,22 +132,25 @@ class Connexion:
                             self.wrong_email = True
                         else:
                             self.wrong_email = False
-                        if self.test_deco == 1:  # Remplacer le 1 par la requete qui vérifie si il est déjà co
+                        if len(User.pseudo) > 1:
                             self.already_co = True
                         else:
                             self.already_co = False
                         if not self.wrong_email and not self.wrong_mdp and not self.already_co:
-                            print("requete")
+                            User.connexion(data)
+                            datapseudo = {"pseudo": User.pseudo}
+                            color = ControllerColor.get_color(datapseudo)
+                            color1 = color['color1']
+                            color2 = color['color2']
+                            User.color1 = color1
+                            User.color2 = color2
+                            return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         return
 
-                    if self.deco_button.checkinput(mouse_pos):  # Ajouter requete pour le deconnecter
-                        self.button_click_sound.play()
-                        return
-
-                    if self.txt_test.checkinput(mouse_pos):  # redirection inscription
+                    if self.txt_test.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         inscr = Inscription(self.largeur, self.hauteur)
                         inscr.menu_inscr()
