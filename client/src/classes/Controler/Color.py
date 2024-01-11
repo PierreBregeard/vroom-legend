@@ -14,3 +14,12 @@ class Color:
             return color
         except requests.exceptions.ConnectionError:
             return None
+
+
+    @staticmethod
+    def change_color(data):
+        try:
+            response = requests.post("http://127.0.0.1:5000/changeCoul", json=data)
+            return True
+        except requests.exceptions.ConnectionError:
+            return None
