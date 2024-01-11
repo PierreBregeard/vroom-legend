@@ -6,6 +6,8 @@ from ..ResourcePath import RelativePath
 from .Button import Button
 from ..HUD.Font import Font
 
+clock = pygame.time.Clock()
+
 class History:
     def __init__(self, width, height):
         self.largeur = width
@@ -23,7 +25,7 @@ class History:
         self.back_button = Button(pos=(self.largeur // 8, self.hauteur * 9 / 10), text_input="Retour",
                                   font=Font.get_font(18),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
-
+        clock.tick(60)
 
 
     def menu_history(self):
@@ -31,6 +33,8 @@ class History:
         allparties = ControlerParties.get_parties(data)
         print(allparties)
         while self.run:
+            fps = clock.tick(60) / 1000
+            pygame.display.update()
             self.screen.blit(self.BG, (0, 0))
 
 
