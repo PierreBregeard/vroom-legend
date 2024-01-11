@@ -66,9 +66,9 @@ class Custom:
         self.hsv_picker = create_hsv_surface(360, 100)
         self.hsv_picker_rect = self.hsv_picker.get_rect(center=(self.largeur * 5 / 10, self.hauteur * 5 / 10))
 
-        self.selected_color2 = User.color2  # toit
+        self.selected_color2 = User.color1  # toit
         self.color2_rect = (self.largeur * 2 / 10, self.hauteur * 10 / 17, 50, 50)
-        self.selected_color1 = User.color1  # caisse
+        self.selected_color1 = User.color2  # caisse
         self.color1_rect = (self.largeur * 9 / 12, self.hauteur * 10 / 17, 50, 50)
 
         self.current_color = 1  # 1 or 2
@@ -105,7 +105,7 @@ class Custom:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.save_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        User.color1, User.color2 = color2, color1
+                        User.color1, User.color2 = color1, color2
                         print(User.color1, User.color2)
                         if len(User.pseudo) > 1:
                             ControllerColor.change_color(data)
