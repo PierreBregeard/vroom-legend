@@ -12,25 +12,17 @@ from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 from ..Sprites.GameTag import GameTag
-from ..Controler.Color import Color
+from ..Controler.Color import ControllerColor
 import json
 
 
 class Game:
     is_game_started = False
 
-    def reset(self):
-        # Reset all game-related variables and objects
-        self.player = self.init_player()
-        self.HUD = HUD(self.screen_size, self.player.max_speed)
-        self.checkpoints_list = [False] * len(self.map.get_checkpoints())
-        # Other game-specific reset logic goes here
-
     def init_player(self):
         color_car = ColorCar()
-        data = {"pseudo": User.pseudo}
         if len(User.pseudo) > 1:
-            color = Color.get_color(data)
+            color = ControllerColor.get_color()
             color1 = color['color1']
             color2 = color['color2']
             rgb_values1 = tuple(map(int, color1.split(',')))
@@ -39,11 +31,9 @@ class Game:
             color_car.set_base_color(rgb_values2)
         else:
             color_car.set_roof_color((100, 0, 0))
-            color_car.set_base_color((0, 100, 0))
-        color_car.set_roof_color((100, 0, 0))
-        color_car.set_base_color((0, 100, 100))
+            color_car.set_base_color((100, 100, 0))
         if self.multi:
-            self.multi.client.register("Moi", color_car)
+            self.multi.client.register("Pierre", color_car)
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
@@ -60,8 +50,12 @@ class Game:
         self.map = World(map_path, self.screen_size, self.enable_screen_rotation)
 
         self.cant_rollback = True
-        self.start_time = time.time()
+        self.start_time = 0
         self.player = self.init_player()
+
+        if self.multi and self.multi.client.is_admin:
+            self.multi.client.start_game()
+
         self.HUD = HUD(self.screen_size, self.player.max_speed)
 
         self.map.set_soom(1)
@@ -91,9 +85,14 @@ class Game:
             self.multi.close_multiplayer()
         ColorCar.remove_temp_files()
 
+    def start_game(self):
+        self.HUD.info.text_to_show = ""
+        self.start_time = time.time()
+        self.is_game_started = True
+
     def update_player(self):
         self.verify_checkpoints()
-        if self.last_checkpoints_coords is not None:
+        if self.last_checkpoints_coords:
             self.cant_rollback = False
 
         keys = pygame.key.get_pressed()
@@ -109,11 +108,6 @@ class Game:
 
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.crash()
-            # for object in objects:
-            #     if self.player.rect.x < object.x + object.width and self.player.rect.x + self.player.rect.width > object.x:
-            #         self.player.undo_move_x()
-            #     if self.player.rect.y < object.y + object.height and self.player.rect.y + self.player.rect.height > object.y:
-            #         self.player.undo_move_y()
 
     def verify_checkpoints(self):
         # Index of the checkpoint player is on
@@ -161,7 +155,7 @@ class Game:
             color_car.set_base_color(racer_data["colors"]["base"])
             imgPath = color_car.save_img(db_id)
             img = pygame.image.load(imgPath).convert_alpha()
-            racer = Racer(db_id, racer_data["pseudo"], img, (500, 500))  # racer_data.pos
+            racer = Racer(db_id, racer_data["pseudo"], img, (500, 500), 0)  # racer_data.pos
             racers[db_id] = {"racer": racer}
             racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (500, 500))
         return racers
@@ -179,8 +173,9 @@ class Game:
                 self.map.add_racers(sprites)
                 # add racers to the HUD for pseudo display
             elif protocol.value == ClientProtocol.ACTION.value:
+                self.HUD.info.text_to_show = data
                 if data == "Start game":
-                    self.is_game_started = True
+                    self.start_game()
             elif protocol.value == ClientProtocol.DATA.value:
                 players_data = json.loads(data)
                 for db_id, player_data in players_data.items():
@@ -194,14 +189,24 @@ class Game:
                 print(data)
 
     def update(self):
-        self.update_player()
+        if self.is_game_started:
+            self.update_player()
+
         if self.multi:
             self.handle_server_data()
-            self.send_player_data()
+            if self.is_game_started:
+                self.send_player_data()
+        elif not self.multi and not self.is_game_started:
+            self.start_game()
 
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
-        # todo: mettre les pseudos des joueurs dans le HUD
+        self.HUD.checkpoint_manager.checkpoint_list = self.checkpoints_list
+        if self.is_game_started:
+            time_to_show = time.time() - self.start_time
+        else:
+            time_to_show = 0
+        self.HUD.timer.time = time_to_show
 
     def render(self):
         world_surface = self.map.get_world_surface()
@@ -209,4 +214,4 @@ class Game:
             world_surface = pygame.transform.rotozoom(world_surface, -self.player.angle, 1)
         rect = world_surface.get_rect(center=(self.screen_size[0] // 2, self.screen_size[1] // 2))
         self.window.blit(world_surface, rect)
-        self.HUD.blit_HUD(self.window, self.checkpoints_list, time.time() - self.start_time)
+        self.HUD.blit_HUD(self.window)
