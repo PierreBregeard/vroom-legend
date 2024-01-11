@@ -8,6 +8,8 @@ import time
 
 class Client(Socket):
 
+    is_admin = False
+
     def ping(self):
         self.send(ServerProtocol.PING.value, "")
 
@@ -26,19 +28,24 @@ class Client(Socket):
         self.db_id = db_id
         self.sock.connect((ip, port))
         if not self.ping():
-            raise Exception("Server not found")  # todo: voir si mettre erreur
+            raise Exception("Server not found")
 
     def send_player_data(self, player_data):
         data = json.dumps(player_data)
         self.send(ServerProtocol.SET_PLAYER_DATA.value, data)
 
-    def register(self):
-        self.send(ServerProtocol.REGISTER.value, self.db_id)
-        # protocol, data = self.receive()
-        # if protocol == ClientProtocol.SUCCESS:
-        #     print("Registered successfully")
-        # else:
-        #     raise Exception(data)
+    def register(self, pseudo, colorCar):
+        # todo: fetch data from db here or in the multi class
+        registration_data = json.dumps({
+            "db_id": self.db_id,
+            "pseudo": pseudo,
+            "colors": {
+                "base": colorCar.base_color,
+                "roof": colorCar.roof_color
+            },
+            "is_admin": self.is_admin
+        })
+        self.send(ServerProtocol.REGISTER.value, registration_data)
 
     def diconnect(self):
         self.send(ServerProtocol.DISCONNECT.value, self.db_id)
@@ -59,6 +66,9 @@ class Client(Socket):
                 return
             else:
                 raise
+
+    def start_game(self):
+        self.send(ServerProtocol.START_GAME.value, "")
 
     def send(self, protocol: str, data: str):
         self.sock.send((protocol + data).encode())

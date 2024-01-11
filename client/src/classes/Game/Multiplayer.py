@@ -1,5 +1,5 @@
-from src.classes.UDP.Server import Server
-from src.classes.UDP.Client import Client
+from ..UDP.Server import Server
+from ..UDP.Client import Client
 import uuid
 
 
@@ -40,4 +40,4 @@ class Multiplayer:
             self.port = port
 
         self.client = self.connect_to_server()
-        self.client.register()
+        self.client.is_admin = is_server

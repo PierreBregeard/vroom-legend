@@ -6,6 +6,7 @@ from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 from ..Game.Multiplayer import Multiplayer
 from ..Game.Game import Game
+from .WaitingRoom import WaitingRoom
 
 clock = pygame.time.Clock()
 
@@ -24,8 +25,8 @@ class Hosting:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = Font.get_font(70).render("Multijoueur", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Multijoueur", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
@@ -63,6 +64,8 @@ class Hosting:
 
         self.run = True
 
+        self.waiting = WaitingRoom(self.largeur, self.hauteur)
+
         clock.tick(60)
         pygame.display.update()
 
@@ -92,26 +95,27 @@ class Hosting:
                     sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button != 1:
+                        continue
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
                         return
                     if self.join_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        # todo: vérifier si il est co pour faire ça
-                        # if ...:
-                            # self.not_connected = True
                         if ip_len < 5:
                             self.wrong_ip = True
                         else:
                             self.wrong_ip = False
                         if not self.wrong_ip:
                             multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
-                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
+                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
+                            self.waiting.menu_wait("Join")
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
+                        # self.waiting.menu_wait("Host")
                         multi = Multiplayer(is_server=True)
-                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play(multi)
+                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                         return
 
                 self.manager.process_events(event)

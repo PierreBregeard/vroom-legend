@@ -5,6 +5,7 @@ from .Connexion import Connexion
 from .Custom import Custom
 from .Hosting import Hosting
 from ..Game.Game import Game
+from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 
@@ -31,8 +32,8 @@ class Menu:
 
         self.screen.blit(self.BG, (0, 0))
 
-        self.menu_text = Font.get_font(70).render("Vroom Legends", True, "#d7fcd4")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, 100))
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Vroom Legends", True, "#d7fcd4")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1//10))
 
         self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Solo", font=Font.get_font(20),
                                   base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
@@ -44,10 +45,6 @@ class Menu:
                                        font=Font.get_font(20),
                                        base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        # self.inscription_button = Button(pos=(750, 560), text_input="Inscription",
-        #                                  font=Font.get_font(20),
-        #                                  base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
-
         self.customisation_button = Button(pos=(self.largeur // 2, self.hauteur * 6/10), text_input="Customisation",
                                            font=Font.get_font(20),
                                            base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
@@ -55,13 +52,21 @@ class Menu:
         self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 7/10), text_input="Quitter", font=Font.get_font(20),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
+        self.pseudo = User.pseudo  # récup le pseudo du joueur et l'afficher dans cette variable
+        self.pseudo_text = Font.get_font(20).render(f"Bonjour : {self.pseudo}", True, "#FFFFFF")
+        self.pseudo_rect = self.pseudo_text.get_rect(
+            center=(self.largeur // 2, 100))  # marche pas jsp pq / s'affiche pas
+
     def menu(self):
         while self.run:
             self.screen.blit(self.BG, (0, 0))
+            if len(User.pseudo) > 1:
+                self.screen.blit(self.pseudo_text, self.pseudo_rect)
 
             mouse_pos = pygame.mouse.get_pos()
 
             self.screen.blit(self.menu_text, self.menu_rect)
+
 
             for button in [self.play_button, self.connexion_button, self.leave_button, self.customisation_button, self.multiplayer_button]:
                 button.changecolor(mouse_pos)
@@ -72,14 +77,18 @@ class Menu:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button != 1:
+                        continue
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
-                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False).play()
+                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False)
 
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         menu = Connexion(self.largeur, self.hauteur)
                         menu.menu_co()
+                        test_menu = Menu(game_size=(self.largeur, self.hauteur))
+                        test_menu.menu()
 
                     if self.multiplayer_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
