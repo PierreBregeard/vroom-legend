@@ -28,7 +28,7 @@ class Menu:
 
         self.screen.blit(self.BG, (0, 0))
 
-        self.menu_text = Font.get_font(self.largeur * 1//15).render("Vroom Legends", True, "#d7fcd4")
+        self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Vroom Legends", True, "#d7fcd4")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1//10))
 
         self.play_button = Button(pos=(self.largeur // 2, self.hauteur * 3/10), text_input="Solo", font=Font.get_font(20),

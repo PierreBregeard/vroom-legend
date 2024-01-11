@@ -21,7 +21,7 @@ class WaitingRoom:
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Waiting Room", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1 / 10))
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         self.list_text = Font.get_font(self.largeur * 1 // 70).render("Joueurs :", True, "#FFFFFF")
         self.list_rect = self.list_text.get_rect(center=(self.largeur * 2 / 10, self.hauteur * 2 / 10))

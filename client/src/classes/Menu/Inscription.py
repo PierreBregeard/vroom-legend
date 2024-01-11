@@ -27,8 +27,8 @@ class Inscription:
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
-        self.menu_text = Font.get_font(self.largeur * 1//15).render("Inscription", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
+        self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Inscription", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         self.pseudo_text = Font.get_font(17).render("Pseudo :", True, "#b68f40")
         self.pseudo_rect = self.pseudo_text.get_rect(center=(self.largeur // 7, self.hauteur * 1.9/10))

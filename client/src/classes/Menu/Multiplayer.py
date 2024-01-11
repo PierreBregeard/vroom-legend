@@ -21,7 +21,7 @@ class Multiplayer:
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
-        self.menu_text = Font.get_font(self.largeur * 1//15).render("Multijoueur", True, "#FFFFFF")
+        self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Multijoueur", True, "#FFFFFF")
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
