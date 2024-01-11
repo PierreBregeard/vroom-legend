@@ -2,6 +2,7 @@ import pygame
 import sys
 from .Button import Button
 from .Connexion import Connexion
+from .History import History
 from .Custom import Custom
 from .Hosting import Hosting
 from ..Game.Game import Game
@@ -52,11 +53,15 @@ class Menu:
                                            font=Font.get_font(20),
                                            base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10), text_input="Quitter",
+        self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 8 / 10), text_input="Quitter",
                                    font=Font.get_font(20),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        self.deco_button = Button(pos=(self.largeur * 9 / 11, self.hauteur * 11 / 13), text_input="Déconnexion",
+        self.history_button = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10), text_input="Historique",
+                                  font=Font.get_font(20),
+                                  base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
+
+        self.deco_button = Button(pos=(self.largeur * 9 / 11, self.hauteur * 12 / 13), text_input="Déconnexion",
                                   font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
@@ -78,6 +83,8 @@ class Menu:
             if len(User.pseudo) > 1:
                 self.deco_button.changecolor(mouse_pos)
                 self.deco_button.update(self.screen)
+                self.history_button.changecolor(mouse_pos)
+                self.history_button.update(self.screen)
 
             for button in [self.play_button, self.connexion_button, self.leave_button, self.customisation_button,
                            self.multiplayer_button]:
@@ -94,7 +101,9 @@ class Menu:
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False)
-
+                    if self.history_button.checkinput(mouse_pos):
+                        history = History(self.largeur, self.hauteur)
+                        history.menu_history()
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         menu = Connexion(self.largeur, self.hauteur)
