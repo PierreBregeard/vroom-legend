@@ -70,8 +70,6 @@ class Menu:
                     if self.play_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         game = Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False)
-                        game.play()
-                        game.reset()
 
                     if self.connexion_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
