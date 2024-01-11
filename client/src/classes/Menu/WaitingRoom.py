@@ -2,6 +2,7 @@ import sys
 import pygame
 import pygame_gui
 from .Button import Button
+from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
 from ..UDP.ServerProtocol import ServerProtocol
@@ -74,10 +75,10 @@ class WaitingRoom:
 
             # tmp
             color_car = ColorCar()
-            color_car.set_roof_color((100, 0, 0))
-            color_car.set_base_color((100, 100, 0))
-
-            multi.client.register("Pierre", color_car)  # todo: recup from eva
+            color_car.set_roof_color(tuple(User.color1))
+            color_car.set_base_color(tuple(User.color2))
+            pseudo = User.pseudo
+            multi.client.register(pseudo, color_car)
             res = multi.client.receive()
             if res:
                 for protocol, data in res:

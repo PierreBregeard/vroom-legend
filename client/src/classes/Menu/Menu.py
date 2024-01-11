@@ -4,7 +4,6 @@ from .Button import Button
 from .Connexion import Connexion
 from .Custom import Custom
 from .Hosting import Hosting
-from ..Controler.Color import Color
 from ..Game.Game import Game
 from ..Game.User import User
 from ..ResourcePath import RelativePath

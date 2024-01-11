@@ -4,7 +4,7 @@ import pygame_gui
 import re
 from .Button import Button
 from .Inscription import Inscription
-from ..Controler.Color import Color
+from ..Controler.Color import ControllerColor
 from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
@@ -139,7 +139,7 @@ class Connexion:
                         if not self.wrong_email and not self.wrong_mdp and not self.already_co:
                             User.connexion(data)
                             datapseudo = {"pseudo": User.pseudo}
-                            color = Color.get_color(datapseudo)
+                            color = ControllerColor.get_color(datapseudo)
                             color1 = color['color1']
                             color2 = color['color2']
                             User.color1 = color1

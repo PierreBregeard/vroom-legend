@@ -1,9 +1,10 @@
 import time
 
 import pygame
-import requests
+import json
 
 from .User import User
+from ..Controler.Parties import ControlerParties
 from ..ResourcePath import RelativePath
 from .World import World
 from ..Sprites.Player import Player
@@ -12,8 +13,6 @@ from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 from ..Sprites.GameTag import GameTag
-from ..Controler.Color import Color
-import json
 
 
 class Game:
@@ -36,7 +35,7 @@ class Game:
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
 
-    def __init__(self, enable_screen_rotation, game_size, multi=None):
+    def __init__(self, enable_screen_rotation, game_size, multi=None, racers_data=None):
         self.game_is_done = False
         self.multi = multi
         self.enable_screen_rotation = enable_screen_rotation
@@ -58,7 +57,6 @@ class Game:
         self.map.add_sprites(self.player)
         if self.multi:
             self.set_racers(racers_data)
-
 
         # List of boolean for already visited checkpoints
         self.has_missed_checkpoint = False

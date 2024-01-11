@@ -2,7 +2,7 @@ import sys
 import pygame
 import pygame_gui
 from .Button import Button
-from ..Controler.Color import Color
+from ..Controler.Color import ControllerColor
 from ..Game.User import User
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
@@ -107,7 +107,7 @@ class Custom:
                     if self.save_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         if len(User.pseudo) > 1:
-                            Color.change_color(data)
+                            ControllerColor.change_color(data)
                             return
                         else:
                             User.color1 = color1
