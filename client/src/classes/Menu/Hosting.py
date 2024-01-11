@@ -40,10 +40,14 @@ class Hosting:
         self.wrong_ip_text = Font.get_font(16).render("Veuillez entrer une adresse IP valide!", True, "#ff0000")
         self.wrong_ip_rect = self.wrong_ip_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
 
+        self.wrong_ip_text2 = Font.get_font(16).render("Le serveur n'a pas été trouvé !", True, "#ff0000")
+        self.wrong_ip_rect2 = self.wrong_ip_text2.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
+
         self.not_connected_text = Font.get_font(16).render("Vous devez être connecté !", True, "#ff0000")
         self.not_connected_rect = self.not_connected_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 7/10))
 
         self.wrong_ip = False
+        self.wrong_ip2 = False
         self.not_connected = False
 
         self.ip_input = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((self.largeur * 4/11, self.hauteur * 6/10),
@@ -63,6 +67,8 @@ class Hosting:
 
         self.waiting = WaitingRoom(self.largeur, self.hauteur)
 
+        self.disable_button = False
+
         clock.tick(60)
         pygame.display.update()
 
@@ -81,6 +87,8 @@ class Hosting:
                 self.screen.blit(self.wrong_ip_text, self.wrong_ip_rect)
             if self.not_connected:
                 self.screen.blit(self.not_connected_text, self.not_connected_rect)
+            if self.wrong_ip2:
+                self.screen.blit(self.wrong_ip_text2, self.wrong_ip_rect2)
 
             for button in [self.back_button, self.join_button, self.host_button]:
                 button.changecolor(mouse_pos)
@@ -97,22 +105,23 @@ class Hosting:
                     if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
-                    if self.join_button.checkinput(mouse_pos):
+                    if not self.disable_button and self.join_button.checkinput(mouse_pos):
+                        self.disable_button = True
                         self.button_click_sound.play()
-                        if ip_len < 5:
-                            self.wrong_ip = True
-                        else:
-                            self.wrong_ip = False
+                        self.wrong_ip = ip_len < 5
                         if not self.wrong_ip:
                             multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
-                            self.waiting.menu_wait("Join", multi)
-                            # Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
-                            return
+                            if not multi.client:
+                                self.wrong_ip = False
+                                self.wrong_ip2 = True
+                            else:
+                                self.waiting.menu_wait("Join", multi)
+                                return
+                        self.disable_button = False
                     if self.host_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         multi = Multiplayer(is_server=True)
                         self.waiting.menu_wait("Host", multi)
-                        # Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                         return
 
                 self.manager.process_events(event)

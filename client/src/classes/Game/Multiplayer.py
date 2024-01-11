@@ -1,6 +1,7 @@
 from ..UDP.Server import Server
 from ..UDP.Client import Client
 import uuid
+import socket
 
 
 class Multiplayer:
@@ -15,14 +16,13 @@ class Multiplayer:
         pass
 
     def connect_to_server(self):
-        # get ip from db
-        # todo: ping le serveur pour savoir si il est toujours actif
-        # todo: récupérer l'ip du serveur depuis la db ansi que la bd_id du client
-        return Client(self.addr, self.port, str(uuid.uuid4()))
+        try:
+            return Client(self.addr, self.port, str(uuid.uuid4()))
+        except socket.gaierror:
+            return None
 
     def close_multiplayer(self):
         self.client.diconnect()
-        # todo: delete ip from db
 
     def __init__(self, is_server: bool, addr=None, port=5000):
         if is_server:
@@ -32,12 +32,12 @@ class Multiplayer:
             self.thread = Thread(target=self.start_server, daemon=True)
             # deamon = True -> stop thread when main thread is stopped
             self.thread.start()
-            self.register_server()
         else:
             if addr is None:
                 raise ValueError("addr must be specified when is_server is False")
-            self.addr = addr  # todo: get ip from db
+            self.addr = addr
             self.port = port
 
         self.client = self.connect_to_server()
-        self.client.is_admin = is_server
+        if self.client:
+            self.client.is_admin = is_server
