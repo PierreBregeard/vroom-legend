@@ -4,6 +4,11 @@ import pygame_gui
 from .Button import Button
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
+from ..UDP.ServerProtocol import ServerProtocol
+from ..UDP.ClientProtocol import ClientProtocol
+from ..Game.Game import Game
+from ..Sprites.ColorCar import ColorCar
+import json
 
 clock = pygame.time.Clock()
 
@@ -41,16 +46,18 @@ class WaitingRoom:
                                   font=Font.get_font(16),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
-        self.start_button = Button(pos=(self.largeur // 8, self.hauteur * 9 / 10), text_input="Start",
+        self.start_button = Button(pos=(self.largeur * 8 / 10, self.hauteur * 9 / 10), text_input="Start",
                                    font=Font.get_font(16),
                                    base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.run = True
 
+        self.racers_data = {}
+
         clock.tick(60)
         pygame.display.update()
 
-    def menu_wait(self, role):
+    def menu_wait(self, role, multi):
         while self.run:
             fps = clock.tick(60) / 1000
             mouse_pos = pygame.mouse.get_pos()
@@ -59,9 +66,29 @@ class WaitingRoom:
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.list_text, self.list_rect)
 
-            # if ... :
-            # self.start_button.changecolor(mouse_pos)
-            # self.start_button.update(self.screen)
+            if role == "Host":
+                self.start_button.changecolor(mouse_pos)
+                self.start_button.update(self.screen)
+
+            start_game = False
+
+            # tmp
+            color_car = ColorCar()
+            color_car.set_roof_color((100, 0, 0))
+            color_car.set_base_color((100, 100, 0))
+
+            multi.client.register("Pierre", color_car)  # todo: recup from eva
+            res = multi.client.receive()
+            if res:
+                for protocol, data in res:
+                    if protocol.value == ClientProtocol.PLAYERS_INFOS.value:
+                        self.racers_data = json.loads(data)
+                    elif protocol.value == ClientProtocol.START_GAME.value:
+                        start_game = True
+
+            if start_game:
+                Game(False, game_size=(self.largeur, self.hauteur), multi=multi, racers_data=self.racers_data)
+                return
 
             for button in [self.back_button]:
                 button.changecolor(mouse_pos)
@@ -77,8 +104,10 @@ class WaitingRoom:
                         continue
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()
-                        # le faire déco de la salle / fermer la salle et return un message d'erreur au menu principal
                         return
+                    if self.start_button.checkinput(mouse_pos):  # start
+                        self.button_click_sound.play()
+                        multi.client.send(ServerProtocol.START_GAME.value, "")
 
                 self.manager.process_events(event)
 

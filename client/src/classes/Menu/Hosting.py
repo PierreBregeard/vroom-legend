@@ -18,7 +18,6 @@ class Hosting:
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Multijoueur")
 
-        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
@@ -108,14 +107,14 @@ class Hosting:
                             self.wrong_ip = False
                         if not self.wrong_ip:
                             multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
-                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
-                            self.waiting.menu_wait("Join")
+                            self.waiting.menu_wait("Join", multi)
+                            # Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        # self.waiting.menu_wait("Host")
                         multi = Multiplayer(is_server=True)
-                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
+                        self.waiting.menu_wait("Host", multi)
+                        # Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                         return
 
                 self.manager.process_events(event)

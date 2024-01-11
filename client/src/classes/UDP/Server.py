@@ -7,7 +7,7 @@ import time
 
 
 class Server(Socket):
-    tick = 0.01
+    tick = 0.03  # 10ms de base
     MAX_CLIENTS = 5
 
     clients = {}
@@ -72,6 +72,7 @@ class Server(Socket):
             self.register_client(client_address, json.loads(data))
         elif protocol.value == ServerProtocol.START_GAME.value:
             if self.clients[client_address]["infos"]["is_admin"]:
+                self.send_to_all(ClientProtocol.START_GAME.value, "")
                 self.start_time = time.time()
             else:
                 self.send_to(ClientProtocol.ERROR.value, "You are not the admin", client_address)
@@ -111,8 +112,8 @@ class Server(Socket):
             time_to_wait = targeted_time - current_time
             if time_to_wait > 0:
                 time.sleep(time_to_wait)
-            else:
-                print(f"Server is late by {-time_to_wait}s")
+            # else:
+            #     print(f"Server is late by {-time_to_wait}s")
 
             res = self.receive()
             if not res:

@@ -32,13 +32,13 @@ class Game:
         else:
             color_car.set_roof_color((100, 0, 0))
             color_car.set_base_color((100, 100, 0))
-        if self.multi:
-            self.multi.client.register("Pierre", color_car)
+        # if self.multi:
+        #     self.multi.client.register("Pierre", color_car)
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
 
-    def __init__(self, enable_screen_rotation, game_size, multi=None):
+    def __init__(self, enable_screen_rotation, game_size, multi=None, racers_data=None):
         self.multi = multi
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
@@ -53,13 +53,14 @@ class Game:
         self.start_time = 0
         self.player = self.init_player()
 
-        if self.multi and self.multi.client.is_admin:
-            self.multi.client.start_game()
-
         self.HUD = HUD(self.screen_size, self.player.max_speed)
 
         self.map.set_soom(1)
         self.map.add_sprites(self.player)
+        if self.multi:
+            self.set_racers(racers_data)
+
+
         # List of boolean for already visited checkpoints
         self.has_missed_checkpoint = False
         self.checkpoints_list = []
@@ -83,7 +84,7 @@ class Game:
             pygame.display.flip()
         if self.multi:
             self.multi.close_multiplayer()
-        ColorCar.remove_temp_files()
+        ColorCar().remove_temp_files()
 
     def start_game(self):
         self.HUD.info.text_to_show = ""
@@ -145,20 +146,27 @@ class Game:
             self.multi.client.send_player_data(player_data)
 
     def set_racers(self, racers_data):
-        racers = {}
-        for racer_data in racers_data:
-            db_id = racer_data["db_id"]
-            if db_id == self.multi.client.db_id:
-                continue
-            color_car = ColorCar()
-            color_car.set_roof_color(racer_data["colors"]["roof"])
-            color_car.set_base_color(racer_data["colors"]["base"])
-            imgPath = color_car.save_img(db_id)
-            img = pygame.image.load(imgPath).convert_alpha()
-            racer = Racer(db_id, racer_data["pseudo"], img, (500, 500), 0)  # racer_data.pos
-            racers[db_id] = {"racer": racer}
-            racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (500, 500))
-        return racers
+
+        def format_racers():
+            racers = {}
+            for racer_data in racers_data:
+                db_id = racer_data["db_id"]
+                if db_id == self.multi.client.db_id:
+                    continue
+                color_car = ColorCar()
+                color_car.set_roof_color(racer_data["colors"]["roof"])
+                color_car.set_base_color(racer_data["colors"]["base"])
+                imgPath = color_car.save_img(db_id)
+                img = pygame.image.load(imgPath).convert_alpha()
+                racer = Racer(db_id, racer_data["pseudo"], img, (500, 500), 0)  # racer_data.pos
+                racers[db_id] = {"racer": racer}
+                racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (500, 500))
+            return racers
+
+        self.racers = format_racers()
+        sprites = ([racer["racer"] for racer in self.racers.values()] +
+                   [racer["tag"] for racer in self.racers.values()])
+        self.map.add_racers(sprites)
 
     def handle_server_data(self):
         res = self.multi.client.receive()
@@ -167,11 +175,7 @@ class Game:
         for protocol, data in res:
             if protocol.value == ClientProtocol.PLAYERS_INFOS.value:
                 racers_data = json.loads(data)
-                self.racers = self.set_racers(racers_data)
-                sprites = ([racer["racer"] for racer in self.racers.values()] +
-                           [racer["tag"] for racer in self.racers.values()])
-                self.map.add_racers(sprites)
-                # add racers to the HUD for pseudo display
+                self.set_racers(racers_data)
             elif protocol.value == ClientProtocol.ACTION.value:
                 self.HUD.info.text_to_show = data
                 if data == "Start game":
@@ -194,8 +198,7 @@ class Game:
 
         if self.multi:
             self.handle_server_data()
-            if self.is_game_started:
-                self.send_player_data()
+            self.send_player_data()
         elif not self.multi and not self.is_game_started:
             self.start_game()
 
