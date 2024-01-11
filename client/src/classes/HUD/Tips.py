@@ -7,7 +7,7 @@ class Tips:
     def __init__(self, screen_size):
         self.screen_size = screen_size
         self.my_font = Font.get_font(20)
-        R_TIPS_path = RelativePath.resource_path("ressources/sprites/dependencies/KEYR.png")
+        R_TIPS_path = RelativePath.resource_path("ressources/Sprites/dependencies/KEYR.png")
         self.R_TIPS = pygame.image.load(R_TIPS_path).convert_alpha()
         R_TIPS_size = self.R_TIPS.get_size()
         self.ratio = 8

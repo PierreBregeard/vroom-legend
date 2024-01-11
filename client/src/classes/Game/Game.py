@@ -3,9 +3,9 @@ import time
 import pygame
 from ..ResourcePath import RelativePath
 from .World import World
-from ..sprites.Player import Player
-from ..sprites.Racer import Racer
-from ..sprites.ColorCar import ColorCar
+from ..Sprites.Player import Player
+from ..Sprites.Racer import Racer
+from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 import json
