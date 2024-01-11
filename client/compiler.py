@@ -8,7 +8,7 @@ if __name__ == "__main__":
     os.system(
         "pyinstaller --clean --onefile --windowed --name vroom-legend "
         "--add-data src/ressources/Maps/dependencies;ressources/Maps/dependencies "
-        "--add-data src/ressources/Sprites/dependencies;ressources/Sprites/dependencies "
+        "--add-data src/ressources/sprites/dependencies;ressources/sprites/dependencies "
         "src/main.py"
     )
     rmtree("build")
