@@ -207,11 +207,14 @@ class Game:
         self.map.update()
         self.HUD.speedometer.speed = self.player.velocity
         self.HUD.checkpoint_manager.checkpoint_list = self.checkpoints_list
-        if self.is_game_started:
+
+        if self.is_game_started and not self.game_is_done:
             time_to_show = time.time() - self.start_time
         else:
             time_to_show = 0
         self.HUD.timer.time = time_to_show
+        if self.game_is_done:
+            self.HUD.info.text_to_show = "Over !"
 
     def render(self):
         world_surface = self.map.get_world_surface()
