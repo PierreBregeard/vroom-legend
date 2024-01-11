@@ -2,6 +2,8 @@ import json
 
 import requests
 
+from src.classes.Game.User import User
+
 
 class Color:
 

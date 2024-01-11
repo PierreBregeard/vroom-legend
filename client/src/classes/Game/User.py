@@ -5,14 +5,13 @@ from ..Controler.Log import ControlerLog
 
 class User:
     pseudo = ""
-    color1 = tuple
-    color2 = tuple
-
+    color1 = (100, 0, 0)
+    color2 = (0, 100, 0)
 
     @staticmethod
     def connexion(logs):
         res = ControlerLog.connexion(logs)
-        if res is not None:
+        if res:
             User.pseudo = res.decode()
             return True
         else:

@@ -18,7 +18,7 @@ def create_hsv_surface(width, height):
             sat = y / height
             value = 1
             color = pygame.Color(0)
-            color.hsva = (hue, sat * 100, value * 100, 100)
+            color.hsva = (hue, sat * 100, value * 80, 100)
             hsv_surf.set_at((x, y), color)
     return hsv_surf
 
@@ -67,9 +67,9 @@ class Custom:
         self.hsv_picker = create_hsv_surface(360, 100)
         self.hsv_picker_rect = self.hsv_picker.get_rect(center=(self.largeur * 5 / 10, self.hauteur * 5 / 10))
 
-        self.selected_color2 = (255, 255, 255)  # toit
+        self.selected_color2 = User.color2  # toit
         self.color2_rect = (self.largeur * 2 / 10, self.hauteur * 10 / 17, 50, 50)
-        self.selected_color1 = (255, 255, 255)  # caisse
+        self.selected_color1 = User.color1  # caisse
         self.color1_rect = (self.largeur * 9 / 12, self.hauteur * 10 / 17, 50, 50)
 
         self.current_color = 1  # 1 or 2
@@ -90,8 +90,8 @@ class Custom:
             pygame.draw.rect(self.screen, self.selected_color1, self.color1_rect)
             pygame.draw.rect(self.screen, self.selected_color2, self.color2_rect)
 
-            color1 = [self.selected_color1[0], self.selected_color1[1], self.selected_color1[2]]
-            color2 = [self.selected_color2[0], self.selected_color2[1], self.selected_color2[2]]
+            color1 = [self.selected_color2[0], self.selected_color2[1], self.selected_color2[2]]
+            color2 = [self.selected_color1[0], self.selected_color1[1], self.selected_color1[2]]
             data = {"pseudo": User.pseudo, "car": {"color1": color1, "color2": color2}}
 
             for button in [self.save_button, self.back_button, self.car_button, self.roof_button]:

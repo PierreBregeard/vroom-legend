@@ -29,18 +29,8 @@ class Game:
 
     def init_player(self):
         color_car = ColorCar()
-        data = {"pseudo": User.pseudo}
-        if len(User.pseudo) > 1:
-            color = Color.get_color(data)
-            color1 = color['color1']
-            color2 = color['color2']
-            User.color1 = tuple(color1)
-            User.color2 = tuple(color2)
-            color_car.set_roof_color(User.color1)
-            color_car.set_base_color(User.color2)
-        else:
-            color_car.set_roof_color(User.color1)
-            color_car.set_base_color(User.color2)
+        color_car.set_roof_color(tuple(User.color1))
+        color_car.set_base_color(tuple(User.color2))
         if self.multi:
             self.multi.client.register("Moi", color_car)
         imgPath = color_car.save_img()
