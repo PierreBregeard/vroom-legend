@@ -28,7 +28,7 @@ class Menu:
         self.button_surface = pygame.transform.scale(self.button_surface, (330, 100))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 2 / 9, 100))
+        self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 3 / 9, 100))
 
         self.run = True
 
@@ -53,11 +53,11 @@ class Menu:
                                            font=Font.get_font(20),
                                            base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 8 / 10), text_input="Quitter",
+        self.leave_button = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10), text_input="Quitter",
                                    font=Font.get_font(20),
                                    base_color="#d7fcd4", hovering_color="White", image=self.button_surface)
 
-        self.history_button = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10), text_input="Historique",
+        self.history_button = Button(pos=(self.largeur * 2 / 11, self.hauteur * 12 / 13), text_input="Historique",
                                   font=Font.get_font(20),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
