@@ -1,2 +1,2 @@
 class API:
-    URL = "http://yosodo8794.pythonanywhere.com/"
+    URL = "http://127.0.0.1:5000/"
