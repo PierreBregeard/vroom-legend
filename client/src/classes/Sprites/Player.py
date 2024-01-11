@@ -11,8 +11,8 @@ class Player(Car):
     drag_power = .005
     turn_power = 3
 
-    def __init__(self, idx, img, start_pos):
-        super().__init__(idx, img, start_pos)
+    def __init__(self, idx, img, start_pos, start_angle):
+        super().__init__(idx, img, start_pos, start_angle)
 
     def handle_keys_press(self, keys):
         if keys[pygame.K_UP] or keys[pygame.K_z]:

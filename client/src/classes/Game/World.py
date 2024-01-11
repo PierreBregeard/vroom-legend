@@ -17,24 +17,26 @@ class World:
             self.map_size = screen_size
 
         self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.map_size)
-        self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=1)
-
-        # List des objets avec collision
-        self.walls = []
-        for obj in tmx_data.objects:
-            if obj.type == "Collision":
-                self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+        self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=2)
         # List des checkpoints
         self.checkpoints = []
-        for obj in tmx_data.objects:
-            if obj.type == "checkpoint":
-                self.checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+        # List des objets avec collision
+        self.walls = []
+        # List des spawnpoints
+        self.spawnpoints = []
         # List des zones apres checkpoint permettant de savoir
         # si le joueur a raté un checkpoint
         self.missed_checkpoints = []
         for obj in tmx_data.objects:
+            if obj.type == "Collision":
+                self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == "checkpoint":
+                self.checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == "spawnpoint":
+                self.spawnpoints.append((obj.x, obj.y, obj.angle))
             if obj.type == "checkpoint_missed":
                 self.missed_checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+        print(self.spawnpoints)
 
     def set_soom(self, zoom):
         self.map_layer.zoom = zoom

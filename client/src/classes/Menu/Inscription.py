@@ -3,8 +3,19 @@ import pygame
 import pygame_gui
 import re
 from .Button import Button
+from ..Controler.Log import Log
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
+
+import requests
+
+
+# from src.main import init_menu
+# from src.classes.Inscription import Inscription
+
+
+def get_font(size):
+    return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
 
 def is_valid_email(email):
@@ -17,18 +28,21 @@ clock = pygame.time.Clock()
 
 class Inscription:
     def __init__(self, width, height):
+        pygame.init()
+        # à voir si on veut changer les variables en fonction de la taille de l'écran du joueur
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Inscription")
 
+        main_font = pygame.font.SysFont("cambria", 50)
         self.BG = pygame.image.load(RelativePath.resource_path("ressources/BackgroundMenu/Background.png"))
 
         self.BG = pygame.transform.scale(self.BG, (self.largeur, self.hauteur))
 
         self.button_click_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Minimalist10.mp3"))
 
-        self.menu_text = Font.get_font(self.largeur * 1 // 15).render("Inscription", True, "#FFFFFF")
-        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 1/11))
+        self.menu_text = Font.get_font(self.largeur * 1//15).render("Inscription", True, "#FFFFFF")
+        self.menu_rect = self.menu_text.get_rect(center=(self.largeur // 2, self.hauteur * 0.8/10))
 
         self.pseudo_text = Font.get_font(17).render("Pseudo :", True, "#b68f40")
         self.pseudo_rect = self.pseudo_text.get_rect(center=(self.largeur // 7, self.hauteur * 1.9/10))
@@ -108,11 +122,18 @@ class Inscription:
             mdp_len = len(self.mdp_input.get_text())
             conf_mdp_len = len(self.conf_mdp_input.get_text())
 
+            data = {
+                "email": self.email_input.get_text(),
+                "pseudo": self.pseudo_input.get_text(),
+                "mdp": self.mdp_input.get_text()
+            }
+
             self.screen.blit(self.BG, (0, 0))
 
             mouse_pos = pygame.mouse.get_pos()
 
             # affiche les text
+
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.email_text, self.email_rect)
             self.screen.blit(self.pseudo_text, self.pseudo_rect)
@@ -161,7 +182,8 @@ class Inscription:
                         else:
                             self.wrong_conf_mdp = False
                         if not self.wrong_email and not self.wrong_pseudo and not self.wrong_mdp and not self.wrong_conf_mdp:
-                            print("requete")
+                            Log.inscription(data)
+                            return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()

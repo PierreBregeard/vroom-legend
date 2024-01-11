@@ -4,12 +4,14 @@ import pygame_gui
 from .Button import Button
 from ..ResourcePath import RelativePath
 from ..HUD.Font import Font
+from ..Game.Multiplayer import Multiplayer
+from ..Game.Game import Game
 from .WaitingRoom import WaitingRoom
 
 clock = pygame.time.Clock()
 
 
-class Multiplayer:
+class Hosting:
     def __init__(self, width, height):
         self.largeur, self.hauteur = width, height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
@@ -102,11 +104,15 @@ class Multiplayer:
                         else:
                             self.wrong_ip = False
                         if not self.wrong_ip:
+                            multi = Multiplayer(is_server=False, addr=self.ip_input.get_text())
+                            Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                             self.waiting.menu_wait("Join")
                             return
                     if self.host_button.checkinput(mouse_pos):  # retour menu attente joueur
                         self.button_click_sound.play()
-                        self.waiting.menu_wait("Host")
+                        # self.waiting.menu_wait("Host")
+                        multi = Multiplayer(is_server=True)
+                        Game(game_size=(self.largeur, self.hauteur), enable_screen_rotation=False, multi=multi)
                         return
 
                 self.manager.process_events(event)
