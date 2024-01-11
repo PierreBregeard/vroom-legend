@@ -31,9 +31,9 @@ class Game:
             color_car.set_base_color(rgb_values2)
         else:
             color_car.set_roof_color((100, 0, 0))
-            color_car.set_base_color((0, 100, 0))
+            color_car.set_base_color((100, 100, 0))
         if self.multi:
-            self.multi.client.register("Moi", color_car)
+            self.multi.client.register("Pierre", color_car)
         imgPath = color_car.save_img()
         img = pygame.image.load(imgPath).convert_alpha()
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
@@ -155,7 +155,7 @@ class Game:
             color_car.set_base_color(racer_data["colors"]["base"])
             imgPath = color_car.save_img(db_id)
             img = pygame.image.load(imgPath).convert_alpha()
-            racer = Racer(db_id, racer_data["pseudo"], img, (500, 500))  # racer_data.pos
+            racer = Racer(db_id, racer_data["pseudo"], img, (500, 500), 0)  # racer_data.pos
             racers[db_id] = {"racer": racer}
             racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (500, 500))
         return racers

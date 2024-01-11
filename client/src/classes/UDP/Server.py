@@ -118,9 +118,8 @@ class Server(Socket):
             if not res:
                 continue
             for data, client_address in res:
-                print(f"Received data from {client_address}: {data}")
-                if self.is_game_started and not self.clients[client_address]:
-                    self.send_to(ClientProtocol.ERROR.value, "A game is running", client_address)
+                # if self.is_game_started and not self.clients[client_address]:
+                #     self.send_to(ClientProtocol.ERROR.value, "A game is running", client_address)
 
                 self.handle_data(data, client_address)
 
