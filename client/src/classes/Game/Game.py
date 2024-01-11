@@ -132,8 +132,9 @@ class Game:
         except:
             self.game_is_done = True
             if len(User.pseudo) > 1:
-                current_time = time.time()
-                data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": "solo", "time": current_time}}
+                current_time = time.time() - self.start_time
+                game_type = "multi" if self.multi else "solo"
+                data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": game_type, "time": current_time}}
                 ControlerParties.save_history(data)
             print("Player have passed all checkpoints")
 
