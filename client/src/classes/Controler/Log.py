@@ -8,7 +8,7 @@ class ControlerLog:
     def connexion(data):
         try:
             response = requests.post(API.URL + "connexion", json=data)
-            return
+            return response.content
         except requests.exceptions.ConnectionError:
             return None
 

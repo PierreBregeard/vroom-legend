@@ -1,11 +1,15 @@
 import pygame
+
+from ..Controler.Parties import ControlerParties
+from ..Game.User import User
 from ..ResourcePath import RelativePath
 from .Button import Button
 from ..HUD.Font import Font
 
 class History:
     def __init__(self, width, height):
-        self.screen_size = (width, height)
+        self.largeur = width
+        self.hauteur = height
         self.screen = pygame.display.set_mode((self.largeur, self.hauteur))
         pygame.display.set_caption("Connexion")
         self.run = True
@@ -23,6 +27,9 @@ class History:
 
 
     def menu_history(self):
+        data = {"pseudo" : User.pseudo}
+        allparties = ControlerParties.get_parties(data)
+        print(allparties)
         while self.run:
             self.screen.blit(self.BG, (0, 0))
 

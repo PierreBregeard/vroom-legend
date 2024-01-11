@@ -23,7 +23,6 @@ class ControlerParties:
         try:
             response = requests.post(API.URL + "getHistory", json=pseudo)
             parties = response.content
-            print(parties)
             return parties
         except requests.exceptions.ConnectionError:
             return
