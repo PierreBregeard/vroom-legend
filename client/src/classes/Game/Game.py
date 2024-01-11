@@ -152,7 +152,8 @@ class Game:
 
         def format_racers():
             racers = {}
-            for racer_data in racers_data:
+            for i, racer_data in enumerate(racers_data):
+                spawnpoint = self.map.spawnpoints[i]
                 db_id = racer_data["db_id"]
                 if db_id == self.multi.client.db_id:
                     continue
@@ -161,9 +162,9 @@ class Game:
                 color_car.set_base_color(racer_data["colors"]["base"])
                 imgPath = color_car.save_img(db_id)
                 img = pygame.image.load(imgPath).convert_alpha()
-                racer = Racer(db_id, racer_data["pseudo"], img, (500, 500), 0)  # racer_data.pos
+                racer = Racer(db_id, racer_data["pseudo"], img,(spawnpoint[0], spawnpoint[1]) , spawnpoint[2])  # racer_data.pos
                 racers[db_id] = {"racer": racer}
-                racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (500, 500))
+                racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (spawnpoint[0], spawnpoint[1]))
             return racers
 
         self.racers = format_racers()
