@@ -1,3 +1,5 @@
+import json
+
 import requests
 from threading import Thread
 from .API import API
@@ -22,7 +24,7 @@ class ControlerParties:
     def get_parties(pseudo):
         try:
             response = requests.post(API.URL + "getHistory", json=pseudo)
-            parties = response.content
-            return parties
+            parties = response.content.decode()
+            return json.loads(parties)
         except requests.exceptions.ConnectionError:
             return

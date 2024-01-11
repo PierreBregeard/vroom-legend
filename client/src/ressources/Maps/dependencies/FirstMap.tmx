@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="433">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="450">
  <tileset firstgid="1" source="RPG Nature Tileset.tsx"/>
  <tileset firstgid="181" source="Roads.tsx"/>
  <tileset firstgid="245" source="autre.tsx"/>
@@ -881,22 +881,37 @@
   <object id="410" type="Collision" x="400" y="1662.67" width="16" height="16"/>
   <object id="412" type="Collision" x="590.667" y="1462.67" width="20" height="24"/>
   <object id="413" type="Collision" x="1196" y="1526.67" width="20" height="26.6667"/>
-  <object id="414" type="Collision" x="5634.67" y="4186.67" width="80" height="45.3333"/>
-  <object id="415" type="Collision" x="5312" y="4278.67" width="80" height="48"/>
-  <object id="416" type="Collision" x="5584" y="4661.33" width="78.6667" height="50.6667"/>
-  <object id="417" type="Collision" x="5072" y="4682.67" width="80" height="40"/>
-  <object id="418" type="Collision" x="5345.33" y="4825.33" width="81.3333" height="46.6667"/>
-  <object id="419" type="Collision" x="4943.34" y="4977.33" width="82" height="39.3333"/>
+  <object id="414" type="Collision" x="5634.67" y="4166.67" width="80" height="65.3333"/>
+  <object id="415" type="Collision" x="5312" y="4258.67" width="80" height="68"/>
+  <object id="416" type="Collision" x="5584" y="4639.33" width="78.6667" height="72.6667"/>
+  <object id="417" type="Collision" x="5072" y="4669.34" width="80" height="53.3333"/>
+  <object id="418" type="Collision" x="5345.33" y="4806.66" width="81.3333" height="65.3334"/>
+  <object id="419" type="Collision" x="4943.34" y="4952.33" width="82" height="64.3333"/>
   <object id="420" type="Collision" x="4593.33" y="4968" width="80" height="48"/>
-  <object id="422" type="Collision" x="5297.33" y="5142.67" width="74.6667" height="44"/>
-  <object id="424" type="Collision" x="4905.33" y="5249.33" width="64" height="37.3333"/>
-  <object id="426" type="Collision" x="4593.33" y="5241.33" width="77.3333" height="40"/>
+  <object id="422" type="Collision" x="5297.33" y="5122.67" width="74.6667" height="64"/>
+  <object id="424" type="Collision" x="4905.33" y="5224.33" width="64" height="62.3333"/>
+  <object id="426" type="Collision" x="4593.33" y="5229.33" width="77.3333" height="52"/>
   <object id="427" type="Collision" x="4181.33" y="4921.33" width="73.3333" height="42.6667"/>
-  <object id="428" type="Collision" x="4233.33" y="5128" width="89.3333" height="44"/>
-  <object id="429" type="Collision" x="4430.67" y="5434.67" width="84" height="41.3333"/>
-  <object id="430" type="Collision" x="3982.67" y="5328" width="84" height="40"/>
-  <object id="431" type="Collision" x="3873.33" y="5081.33" width="81.3333" height="49.3333"/>
-  <object id="432" type="Collision" x="3808" y="5533.33" width="86.6667" height="42.6667"/>
+  <object id="428" type="Collision" x="4241.33" y="5112" width="81.3333" height="60"/>
+  <object id="429" type="Collision" x="4430.67" y="5417.34" width="84" height="58.6666"/>
+  <object id="430" type="Collision" x="3982.67" y="5312.85" width="84" height="55.1515"/>
+  <object id="431" type="Collision" x="3873.33" y="5069.33" width="81.3333" height="61.3333"/>
+  <object id="432" type="Collision" x="3808" y="5514.33" width="86.6667" height="61.6667"/>
+  <object id="433" type="Collision" x="646.667" y="569.333" width="19.3333" height="36.6667"/>
+  <object id="434" type="Collision" x="548" y="532.333" width="22.6667" height="37"/>
+  <object id="436" type="Collision" x="454.667" y="502.667" width="18.6667" height="34.6667"/>
+  <object id="437" type="Collision" x="388" y="466" width="23.3333" height="41.3333"/>
+  <object id="438" type="Collision" x="361.333" y="436" width="14" height="39.3333"/>
+  <object id="439" type="Collision" x="357.333" y="372" width="20" height="40"/>
+  <object id="440" type="Collision" x="392" y="305.333" width="16.6667" height="40.6667"/>
+  <object id="441" type="Collision" x="486.667" y="272.667" width="18" height="42"/>
+  <object id="442" type="Collision" x="552" y="272" width="16" height="43.3333"/>
+  <object id="443" type="Collision" x="646" y="273" width="20" height="41.6667"/>
+  <object id="444" type="Collision" x="740" y="298" width="20" height="24"/>
+  <object id="445" type="Collision" x="774" y="297.333" width="20" height="50"/>
+  <object id="446" type="Collision" x="932" y="370.667" width="22" height="14.6667"/>
+  <object id="448" type="Collision" x="1061" y="363.667" width="21" height="23.6667"/>
+  <object id="449" type="Collision" x="1253" y="333" width="19" height="20"/>
  </objectgroup>
  <layer id="10" name="Checkpoints" width="200" height="200">
   <data encoding="csv">

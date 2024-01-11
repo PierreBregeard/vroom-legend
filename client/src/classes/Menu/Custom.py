@@ -40,7 +40,7 @@ class Custom:
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 1 / 10))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 2/9, self.hauteur * 1/11))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 3/12, self.hauteur * 1/11))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
         self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/5, self.hauteur * 1/10))
@@ -48,19 +48,19 @@ class Custom:
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
         self.save_button = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10), text_input="Sauvegarder",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.roof_button = Button(pos=(self.largeur * 1 / 10, self.hauteur * 5 / 10), text_input="Toit",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.car_button = Button(pos=(self.largeur * 9 / 10, self.hauteur * 5 / 10), text_input="Caisse",
-                                 font=Font.get_font(16),
+                                 font=Font.get_font(self.largeur * 1 // 55),
                                  base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.back_button = Button(pos=(self.largeur * 1 / 10, self.hauteur * 9 / 10), text_input="Retour",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.hsv_picker = create_hsv_surface(360, 100)
