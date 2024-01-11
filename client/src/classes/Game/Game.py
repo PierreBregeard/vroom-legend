@@ -29,10 +29,8 @@ class Game:
         color_car = ColorCar()
         color_car.set_roof_color(tuple(User.color1))
         color_car.set_base_color(tuple(User.color2))
-        if self.multi:
-            self.multi.client.register("Moi", color_car)
-        imgPath = color_car.save_img()
-        img = pygame.image.load(imgPath).convert_alpha()
+        img_path = color_car.save_img()
+        img = pygame.image.load(img_path).convert_alpha()
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
 
     def __init__(self, enable_screen_rotation, game_size, multi=None, racers_data=None):
