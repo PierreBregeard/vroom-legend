@@ -20,6 +20,8 @@ class Color:
     def change_color(data):
         try:
             response = requests.post("http://127.0.0.1:5000/changeCoul", json=data)
-            return True
+            print(response.status_code)
+            print(response.content)
+            return response.content
         except requests.exceptions.ConnectionError:
             return None

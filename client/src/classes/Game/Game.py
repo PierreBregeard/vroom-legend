@@ -4,6 +4,7 @@ import pygame
 import requests
 
 from .User import User
+from ..Controler.Parties import ControlerParties
 from ..ResourcePath import RelativePath
 from .World import World
 from ..Sprites.Player import Player
@@ -33,15 +34,13 @@ class Game:
             color = Color.get_color(data)
             color1 = color['color1']
             color2 = color['color2']
-            rgb_values1 = tuple(map(int, color1.split(',')))
-            rgb_values2 = tuple(map(int, color2.split(',')))
-            color_car.set_roof_color(rgb_values1)
-            color_car.set_base_color(rgb_values2)
+            User.color1 = tuple(color1)
+            User.color2 = tuple(color2)
+            color_car.set_roof_color(User.color1)
+            color_car.set_base_color(User.color2)
         else:
-            color_car.set_roof_color((100, 0, 0))
-            color_car.set_base_color((0, 100, 0))
-        color_car.set_roof_color((100, 0, 0))
-        color_car.set_base_color((0, 100, 100))
+            color_car.set_roof_color(User.color1)
+            color_car.set_base_color(User.color2)
         if self.multi:
             self.multi.client.register("Moi", color_car)
         imgPath = color_car.save_img()
@@ -49,6 +48,7 @@ class Game:
         return Player(0, img, (self.map.spawnpoints[0][0], self.map.spawnpoints[0][1]), self.map.spawnpoints[0][2])
 
     def __init__(self, enable_screen_rotation, game_size, multi=None):
+        self.game_is_done = False
         self.multi = multi
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
@@ -92,7 +92,8 @@ class Game:
         ColorCar.remove_temp_files()
 
     def update_player(self):
-        self.verify_checkpoints()
+        if self.game_is_done is False:
+            self.verify_checkpoints()
         if self.last_checkpoints_coords is not None:
             self.cant_rollback = False
 
@@ -139,6 +140,11 @@ class Game:
                     idx_passed[0] == idx_last_visited_checkpoint + 1):
                 self.HUD.has_missed_checkpoint = True
         except:
+            self.game_is_done = True
+            current_time = time.time()
+            timer = current_time - self.start_time
+            data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": "solo", "time": timer}}
+            ControlerParties.save_history(data)
             print("Player have passed all checkpoints")
 
     def send_player_data(self):
