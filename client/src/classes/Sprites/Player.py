@@ -11,6 +11,10 @@ class Player(Car):
     drag_power = .005
     turn_power = 3
 
+    fake_rotation = 0
+
+    is_hand_braking = False
+
     def __init__(self, idx, img, start_pos, start_angle):
         super().__init__(idx, img, start_pos, start_angle)
 
@@ -21,6 +25,8 @@ class Player(Car):
             self.handle_brake()
         else:
             self.idle()
+
+        self.is_hand_braking = keys[pygame.K_SPACE]
 
         if keys[pygame.K_LEFT] or keys[pygame.K_q]:
             self.turn()
@@ -58,7 +64,55 @@ class Player(Car):
     def turn(self, left=True):
         turn_power = self.turn_power * (self.velocity / self.max_speed)
 
+        if self.is_hand_braking:
+            fake_rotation = turn_power * .5
+            if not left:
+                fake_rotation *= -1
+            self.fake_rotation += fake_rotation
+            self.fake_rotation = max(-30, min(30, self.fake_rotation))
+            self.idle()
+            turn_power += abs(self.fake_rotation) / 30
+
         if left:
             self.angle = (self.angle + turn_power) % 360
         else:
             self.angle = (self.angle - turn_power) % 360
+
+    def update(self):
+        self.cached_position = (self.rect.centerx, self.rect.centery)
+
+        if not self.is_hand_braking and self.fake_rotation != 0:
+            # self.angle += self.fake_rotation
+            # self.fake_rotation = 0
+
+            fake_rotation_threshold = 1
+            if abs(self.fake_rotation) < fake_rotation_threshold:
+                self.fake_rotation = 0
+            else:
+                drift_recuperation = 2
+                if self.fake_rotation > 0:
+                    self.fake_rotation -= drift_recuperation
+                else:
+                    self.fake_rotation += drift_recuperation
+
+
+        velocity_threshold = 0.1
+        if abs(self.velocity) < velocity_threshold:
+            self.velocity = 0
+
+        angle_rad = math.radians(self.angle)
+
+        velY = self.velocity * math.cos(angle_rad) + self.velYToAdd
+        self.velYToAdd = velY - round(velY)
+        velY = round(velY)
+        velX = self.velocity * math.sin(angle_rad) + self.velXToAdd
+        self.velXToAdd = velX - round(velX)
+        velX = round(velX)
+
+
+        print(self.fake_rotation)
+        self.image = pygame.transform.rotozoom(self.orig_image, self.angle + self.fake_rotation, 1)
+
+
+        new_center = self.rect.centerx - velX, self.rect.centery - velY
+        self.rect = self.image.get_rect(center=new_center)
