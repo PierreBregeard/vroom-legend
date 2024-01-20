@@ -2,26 +2,25 @@ import json
 
 import requests
 
+from .API import API
+
 
 class ControllerColor:
 
     @staticmethod
     def get_color(data):
         try:
-            response = requests.post("http://127.0.0.1:5000/couleur", json=data)
-            json_str = response.text.replace("'", '"')
-            color = json.loads(json_str)
-            return color
+            response = requests.post(API.URL + "couleur", json=data)
+            if response.content:
+                json_str = response.text.replace("'", '"')
+                return json.loads(json_str)
         except requests.exceptions.ConnectionError:
             return None
-
 
     @staticmethod
     def change_color(data):
         try:
-            response = requests.post("http://127.0.0.1:5000/changeCoul", json=data)
-            print(response.status_code)
-            print(response.content)
-            return response.content
+            response = requests.post(API.URL + "changeCoul", json=data)
+            return
         except requests.exceptions.ConnectionError:
-            return None
+            return

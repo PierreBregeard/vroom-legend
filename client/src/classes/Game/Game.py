@@ -119,7 +119,6 @@ class Game:
         if len(idx) and not self.checkpoints_list[idx[0]] and (self.checkpoints_list[idx[0] - 1] or idx[0] == 0):
             # Player visited a new checkpoint
             self.checkpoints_list[idx[0]] = True
-            print("Player passed a checkpoint !")
             self.HUD.has_missed_checkpoint = False
             self.last_checkpoints_coords = (self.player.rect.x, self.player.rect.y, self.player.angle)
         try:
@@ -132,10 +131,10 @@ class Game:
         except:
             self.game_is_done = True
             if len(User.pseudo) > 1:
-                current_time = time.time()
-                data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": "solo", "time": current_time}}
+                current_time = time.time() - self.start_time
+                game_type = "multi" if self.multi else "solo"
+                data = {"pseudo": User.pseudo, "parties": {"id_map": 1, "type": game_type, "time": current_time}}
                 ControlerParties.save_history(data)
-            print("Player have passed all checkpoints")
 
     def send_player_data(self):
         if self.multi.client:

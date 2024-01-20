@@ -40,7 +40,7 @@ class Custom:
         self.menu_rect = self.menu_text.get_rect(center=(self.largeur * 5/10, self.hauteur * 1 / 10))
 
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2red.png"))
-        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 2/9, self.hauteur * 1/11))
+        self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 3/12, self.hauteur * 1/11))
 
         self.button_surface2 = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
         self.button_surface2 = pygame.transform.scale(self.button_surface2, (self.largeur * 1/5, self.hauteur * 1/10))
@@ -48,27 +48,27 @@ class Custom:
         self.manager = pygame_gui.UIManager((self.largeur, self.hauteur))
 
         self.save_button = Button(pos=(self.largeur // 2, self.hauteur * 7 / 10), text_input="Sauvegarder",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface)
 
         self.roof_button = Button(pos=(self.largeur * 1 / 10, self.hauteur * 5 / 10), text_input="Toit",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.car_button = Button(pos=(self.largeur * 9 / 10, self.hauteur * 5 / 10), text_input="Caisse",
-                                 font=Font.get_font(16),
+                                 font=Font.get_font(self.largeur * 1 // 55),
                                  base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.back_button = Button(pos=(self.largeur * 1 / 10, self.hauteur * 9 / 10), text_input="Retour",
-                                  font=Font.get_font(16),
+                                  font=Font.get_font(self.largeur * 1 // 55),
                                   base_color="#FFFFFF", hovering_color="White", image=self.button_surface2)
 
         self.hsv_picker = create_hsv_surface(360, 100)
         self.hsv_picker_rect = self.hsv_picker.get_rect(center=(self.largeur * 5 / 10, self.hauteur * 5 / 10))
 
-        self.selected_color2 = User.color2  # toit
+        self.selected_color2 = User.color1  # toit
         self.color2_rect = (self.largeur * 2 / 10, self.hauteur * 10 / 17, 50, 50)
-        self.selected_color1 = User.color1  # caisse
+        self.selected_color1 = User.color2  # caisse
         self.color1_rect = (self.largeur * 9 / 12, self.hauteur * 10 / 17, 50, 50)
 
         self.current_color = 1  # 1 or 2
@@ -105,15 +105,10 @@ class Custom:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.save_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
+                        User.color1, User.color2 = color1, color2
                         if len(User.pseudo) > 1:
                             ControllerColor.change_color(data)
-                            return
-                        else:
-                            User.color1 = color1
-                            User.color2 = color2
-                            print(User.color1)
-                            print(User.color2)
-                            return
+                        return
 
                     if self.back_button.checkinput(mouse_pos):  # retour menu
                         self.button_click_sound.play()

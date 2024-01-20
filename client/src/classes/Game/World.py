@@ -36,7 +36,6 @@ class World:
                 self.spawnpoints.append((obj.x, obj.y, obj.angle))
             if obj.type == "checkpoint_missed":
                 self.missed_checkpoints.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
-        print(self.spawnpoints)
 
     def set_soom(self, zoom):
         self.map_layer.zoom = zoom
