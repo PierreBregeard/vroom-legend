@@ -17,7 +17,8 @@ class World:
             self.map_size = screen_size
 
         self.map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.map_size)
-        self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=2)
+        self.group = pyscroll.PyscrollGroup(self.map_layer, default_layer=5)
+
         # List des checkpoints
         self.checkpoints = []
         # List des objets avec collision
@@ -42,6 +43,9 @@ class World:
 
     def add_sprites(self, sprites):
         self.group.add(sprites)
+
+    def add_effect(self, effect):
+        self.group.add(effect, layer=1)
 
     def add_racers(self, racers):
         player = self.group.get_sprite(0)

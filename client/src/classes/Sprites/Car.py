@@ -6,6 +6,7 @@ class Car(pygame.sprite.Sprite):
 
     def __init__(self, idx, img, start_pos, start_angle):
         super().__init__()
+        self.fake_rotation = 0
         self.car_id = idx
         self.velocity = 0
         self.angle = start_angle
@@ -25,6 +26,21 @@ class Car(pygame.sprite.Sprite):
     def update(self):
         self.cached_position = (self.rect.centerx, self.rect.centery)
 
+        if not self.is_hand_braking and self.fake_rotation != 0:
+            # self.angle += self.fake_rotation
+            # self.fake_rotation = 0
+
+            fake_rotation_threshold = 1
+            if abs(self.fake_rotation) < fake_rotation_threshold:
+                self.fake_rotation = 0
+            else:
+                drift_recuperation = 2
+                if self.fake_rotation > 0:
+                    self.fake_rotation -= drift_recuperation
+                else:
+                    self.fake_rotation += drift_recuperation
+
+
         velocity_threshold = 0.1
         if abs(self.velocity) < velocity_threshold:
             self.velocity = 0
@@ -37,8 +53,7 @@ class Car(pygame.sprite.Sprite):
         velX = self.velocity * math.sin(angle_rad) + self.velXToAdd
         self.velXToAdd = velX - round(velX)
         velX = round(velX)
-
-        self.image = pygame.transform.rotozoom(self.orig_image, self.angle, 1)
+        self.image = pygame.transform.rotozoom(self.orig_image, self.angle + self.fake_rotation, 1)
 
         new_center = self.rect.centerx - velX, self.rect.centery - velY
         self.rect = self.image.get_rect(center=new_center)

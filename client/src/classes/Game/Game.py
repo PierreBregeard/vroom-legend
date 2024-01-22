@@ -13,6 +13,7 @@ from ..Sprites.ColorCar import ColorCar
 from ..HUD.HUD import HUD
 from ..UDP.ClientProtocol import ClientProtocol
 from ..Sprites.GameTag import GameTag
+from ..Sprites.TireEffect import TireEffect
 
 
 class Game:
@@ -103,6 +104,10 @@ class Game:
                 self.player.rect.y = self.last_checkpoints_coords[1]
                 self.player.angle = self.last_checkpoints_coords[2]
 
+        if self.player.is_hand_braking:
+            tire_effect = TireEffect(self.player.rect.center, self.player.angle, 5)
+            self.map.add_sprites(tire_effect)
+
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.crash()
 
@@ -159,7 +164,7 @@ class Game:
                 color_car.set_base_color(racer_data["colors"]["base"])
                 imgPath = color_car.save_img(db_id)
                 img = pygame.image.load(imgPath).convert_alpha()
-                racer = Racer(db_id, racer_data["pseudo"], img,(spawnpoint[0], spawnpoint[1]) , spawnpoint[2])  # racer_data.pos
+                racer = Racer(db_id, racer_data["pseudo"], img,(spawnpoint[0], spawnpoint[1]), spawnpoint[2])  # racer_data.pos
                 racers[db_id] = {"racer": racer}
                 racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (spawnpoint[0], spawnpoint[1]))
             return racers
