@@ -11,6 +11,10 @@ class Multiplayer:
         print(f"Server started on {self.addr}:{self.port}")
         self.serv.listen()
 
+    def register_server(self):
+        # map ip with rdm string in the db
+        pass
+
     def connect_to_server(self):
         try:
             return Client(self.addr, self.port, str(uuid.uuid4()))
