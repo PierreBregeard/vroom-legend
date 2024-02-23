@@ -19,8 +19,7 @@ class Player(Car):
     def __init__(self, idx, img, start_pos, start_angle):
         super().__init__(idx, img, start_pos, start_angle)
         self.drift_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Drift.mp3"))
-        self.drifting = False
-        self.drift_sound.set_volume(2)
+        self.drift_sound.set_volume(.05)
 
     def handle_keys_press(self, keys):
         if keys[pygame.K_UP] or keys[pygame.K_z]:
@@ -68,15 +67,9 @@ class Player(Car):
     def update(self):
         super().update()
         if not self.is_hand_braking and self.fake_rotation != 0:
-            if not self.drifting:
-                self.drift_sound.play()
-                self.drifting = True
             fake_rotation_threshold = 1
             if abs(self.fake_rotation) < fake_rotation_threshold:
                 self.fake_rotation = 0
-                if self.drifting:
-                    self.drift_sound.stop()
-                    self.drifting = False
             else:
                 drift_recuperation = 2
                 if self.fake_rotation > 0:
@@ -88,6 +81,8 @@ class Player(Car):
         turn_power = self.turn_power * (self.velocity / self.max_speed)
 
         if self.is_hand_braking:
+            if not pygame.mixer.get_busy():
+                self.drift_sound.play()
             fake_rotation = turn_power * .5
             if not left:
                 fake_rotation *= -1
