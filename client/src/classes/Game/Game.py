@@ -37,6 +37,7 @@ class Game:
     def __init__(self, enable_screen_rotation, game_size, multi=None, racers_data=None):
         self.game_is_done = False
         self.multi = multi
+        self.timer = 0
         self.enable_screen_rotation = enable_screen_rotation
         self.racers = {}
         self.screen_size = game_size
@@ -217,12 +218,12 @@ class Game:
         self.HUD.checkpoint_manager.checkpoint_list = self.checkpoints_list
 
         if self.is_game_started and not self.game_is_done:
-            time_to_show = time.time() - self.start_time
-        else:
-            time_to_show = 0
-        self.HUD.timer.time = time_to_show
+            self.timer = time.time() - self.start_time
+
+        self.HUD.timer.time = self.timer
+
         if self.game_is_done:
-            self.HUD.info.text_to_show = "Over !"
+            self.HUD.info.text_to_show = f"Time : {round(self.timer, 2)}s"
 
     def render(self):
         world_surface = self.map.get_world_surface()
