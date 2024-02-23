@@ -6,12 +6,13 @@ VroomLegend est un jeu de course de voiture dans un environnement en 2D avec des
 
 Tout d'abord, il faut cloner le projet :
 
-$ git clone https://github.com/Saditud/vroom-legend 
+`git clone https://github.com/Saditud/vroom-legend` 
 
 Ensuite, on peut trouver dans les répertoires :
 - vroom-legend/client/dist/vroom-legend.exe
 - vroom-legend/back/dist/server-vroom-legend.exe
- Il suffit de lancer ces deux fichiers .exe et le jeu est prêt.
+
+Il suffit de lancer d'abord le fichier server-vroom-legend.exe puis le fichier vroom-legend.exe pour jouer au jeu.
 
 S'il y a des problèmes de lancement, désactiver votre l'antivirus
 Si le multijoueur ne fonctionne pas, désactivez votre firewall 

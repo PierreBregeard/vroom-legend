@@ -7,9 +7,9 @@ import socket
 class Multiplayer:
 
     def start_server(self):
-        serv = Server(self.addr, self.port)
+        self.serv = Server(self.addr, self.port)
         print(f"Server started on {self.addr}:{self.port}")
-        serv.listen()
+        self.serv.listen()
 
     def register_server(self):
         # map ip with rdm string in the db
@@ -23,8 +23,11 @@ class Multiplayer:
 
     def close_multiplayer(self):
         self.client.diconnect()
+        if self.client.is_admin:
+            self.serv.is_server_running = False
 
     def __init__(self, is_server: bool, addr=None, port=5000):
+        self.serv = None
         if is_server:
             from threading import Thread
             self.addr = Server.get_ipv4_address()

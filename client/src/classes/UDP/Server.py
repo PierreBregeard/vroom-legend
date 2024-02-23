@@ -11,6 +11,7 @@ class Server(Socket):
     MAX_CLIENTS = 5
 
     clients = {}
+    is_server_running = True
     is_game_started = False
     start_time = 0
 
@@ -41,6 +42,7 @@ class Server(Socket):
                 "data": {
                     "pos": (0, 0),
                     "angle": 0,
+                    "fake_angle": 0,
                     "speed": 0
                 }
             }
@@ -105,7 +107,7 @@ class Server(Socket):
         tick_interval = self.tick
         tick_count = 0
 
-        while True:
+        while self.is_server_running:
             tick_count += 1
             targeted_time = start_time + tick_interval * tick_count
             current_time = time.time()
@@ -147,3 +149,8 @@ class Server(Socket):
 
     def send_to(self, protocol: str, data: str, client_address):
         self.sock.sendto((protocol + data).encode(), client_address)
+
+    def stop(self):
+        self.is_server_running = False
+        self.sock.close()
+        print("Server stopped")

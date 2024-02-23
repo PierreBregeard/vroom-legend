@@ -104,9 +104,10 @@ class Game:
                 self.player.rect.y = self.last_checkpoints_coords[1]
                 self.player.angle = self.last_checkpoints_coords[2]
 
-        if self.player.is_hand_braking:
-            tire_effect = TireEffect(self.player.rect.center, self.player.angle, 5)
-            self.map.add_sprites(tire_effect)
+        # drift effect
+        # if self.player.is_hand_braking:
+        #     tire_effect = TireEffect(self.player.rect.center, self.player.angle, 5)
+        #     self.map.add_sprites(tire_effect)
 
         if self.player.rect.collidelist(self.map.get_collisions_objects()) != -1:
             self.player.crash()
@@ -146,6 +147,7 @@ class Game:
             player_data = {
                 "pos": self.player.rect.center,
                 "angle": self.player.angle,
+                "fake_rotation": self.player.fake_rotation,
                 "speed": self.player.velocity
             }
             self.multi.client.send_player_data(player_data)
@@ -164,7 +166,8 @@ class Game:
                 color_car.set_base_color(racer_data["colors"]["base"])
                 imgPath = color_car.save_img(db_id)
                 img = pygame.image.load(imgPath).convert_alpha()
-                racer = Racer(db_id, racer_data["pseudo"], img,(spawnpoint[0], spawnpoint[1]), spawnpoint[2])  # racer_data.pos
+                racer = Racer(db_id, racer_data["pseudo"], img, (spawnpoint[0], spawnpoint[1]),
+                              spawnpoint[2])  # racer_data.pos
                 racers[db_id] = {"racer": racer}
                 racers[db_id]["tag"] = GameTag(racer_data["pseudo"], (spawnpoint[0], spawnpoint[1]))
             return racers
@@ -195,6 +198,7 @@ class Game:
                     self.racers[db_id]["tag"].change_pos(player_data["pos"])
                     self.racers[db_id]["racer"].angle = player_data["angle"]
                     self.racers[db_id]["racer"].velocity = player_data["speed"]
+                    self.racers[db_id]["racer"].fake_rotation = player_data["fake_rotation"]
             elif protocol.value == ClientProtocol.ERROR.value:
                 print(data)
 
