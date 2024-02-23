@@ -125,9 +125,6 @@ class Hosting:
                         return
 
                 self.manager.process_events(event)
-
             self.manager.update(fps)
-
             self.manager.draw_ui(self.screen)
-
             pygame.display.update()

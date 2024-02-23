@@ -172,11 +172,11 @@ class Inscription:
                             ControlerLog.inscription(data)
                             return
 
-                    if self.back_button.checkinput(mouse_pos):  # retour menu
+                    if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
 
-                    if self.connexion_txt.checkinput(mouse_pos):  # redirection inscription
+                    if self.connexion_txt.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
 

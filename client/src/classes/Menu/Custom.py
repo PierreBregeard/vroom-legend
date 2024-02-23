@@ -110,7 +110,7 @@ class Custom:
                             ControllerColor.change_color(data)
                         return
 
-                    if self.back_button.checkinput(mouse_pos):  # retour menu
+                    if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
 
@@ -132,9 +132,6 @@ class Custom:
                             self.selected_color2 = selected_color
 
                 self.manager.process_events(event)
-
             self.manager.update(fps)
-
             self.manager.draw_ui(self.screen)
-
             pygame.display.update()
