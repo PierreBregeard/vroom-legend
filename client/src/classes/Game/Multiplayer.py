@@ -33,7 +33,7 @@ class Multiplayer:
             self.addr = Server.get_ipv4_address()
             self.port = 5000
             self.thread = Thread(target=self.start_server, daemon=True)
-            # deamon = True -> stop thread when main thread is stopped
+            # deamon = True -> stop thread when main thread is stopped normally closed
             self.thread.start()
         else:
             if addr is None:
