@@ -61,6 +61,22 @@ class Player(Car):
     def idle(self):
         self.velocity *= 1 - self.drag_power
 
+    def update(self):
+        super().update()
+        if not self.is_hand_braking and self.fake_rotation != 0:
+            # self.angle += self.fake_rotation
+            # self.fake_rotation = 0
+
+            fake_rotation_threshold = 1
+            if abs(self.fake_rotation) < fake_rotation_threshold:
+                self.fake_rotation = 0
+            else:
+                drift_recuperation = 2
+                if self.fake_rotation > 0:
+                    self.fake_rotation -= drift_recuperation
+                else:
+                    self.fake_rotation += drift_recuperation
+
     def turn(self, left=True):
         turn_power = self.turn_power * (self.velocity / self.max_speed)
 
