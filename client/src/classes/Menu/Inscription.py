@@ -10,10 +10,6 @@ from ..HUD.Font import Font
 import requests
 
 
-# from src.main import init_menu
-# from src.classes.Inscription import Inscription
-
-
 def get_font(size):
     return pygame.font.Font(RelativePath.resource_path("ressources/Font/Pixel.ttf"), size)
 
@@ -70,7 +66,6 @@ class Inscription:
         self.wrong_mdp = False
         self.wrong_conf_mdp = False
 
-        # Redéfini la taille du bouton avec le .transform.scale
         self.button_surface = pygame.image.load(RelativePath.resource_path("ressources/Buttons/bouton2.png"))
         self.button_surface = pygame.transform.scale(self.button_surface, (self.largeur * 1/5, self.hauteur * 1/10))
 
@@ -128,15 +123,11 @@ class Inscription:
 
             mouse_pos = pygame.mouse.get_pos()
 
-            # affiche les text
-
             self.screen.blit(self.menu_text, self.menu_rect)
             self.screen.blit(self.email_text, self.email_rect)
             self.screen.blit(self.pseudo_text, self.pseudo_rect)
             self.screen.blit(self.mdp_text, self.mdp_rect)
             self.screen.blit(self.conf_mdp_text, self.conf_mdp_rect)
-
-            # affiche les messages d'erreurs, ne pas toucher
 
             if self.wrong_email:
                 self.screen.blit(self.wrong_email_text, self.wrong_email_rect)
