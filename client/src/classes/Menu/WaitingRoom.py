@@ -55,7 +55,7 @@ class WaitingRoom:
         clock.tick(60)
         pygame.display.update()
 
-        self.max_players = 4  # Définir le nombre maximal de joueurs
+        self.max_players = 4
 
     def menu_wait(self, role, multi):
         while self.run:
@@ -77,17 +77,17 @@ class WaitingRoom:
 
             start_game = False
 
-            y_offset = self.hauteur * 2 / 10  # Début de l'affichage des pseudos
+            y_offset = self.hauteur * 2 / 10
             connected_players = 0
 
             anonymous_count = 1
 
             for racer in self.racers_data:
-                if racer["pseudo"]:  # Si le joueur a un pseudo, l'utiliser
+                if racer["pseudo"]:
                     pseudo = racer["pseudo"]
-                else:  # Sinon, utiliser "Anonyme" suivi d'un numéro unique
+                else:
                     pseudo = f"Anonyme {anonymous_count}"
-                    anonymous_count += 1  # Incrémenter le compteur pour le prochain "Anonyme"
+                    anonymous_count += 1
 
                 player_text = Font.get_font(self.largeur * 1 // 70).render(pseudo, True, "#FFFFFF")
                 player_rect = player_text.get_rect(center=(self.largeur * 4 / 10, y_offset))
@@ -124,10 +124,10 @@ class WaitingRoom:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button != 1:
                         continue
-                    if self.back_button.checkinput(mouse_pos):  # retour menu
+                    if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
-                    if self.start_button.checkinput(mouse_pos):  # start
+                    if self.start_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         multi.client.send(ServerProtocol.START_GAME.value, "")
 

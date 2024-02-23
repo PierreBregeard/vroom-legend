@@ -1,6 +1,7 @@
 from .Car import Car
 import math
 import pygame
+from ..ResourcePath import RelativePath
 
 
 class Player(Car):
@@ -17,6 +18,8 @@ class Player(Car):
 
     def __init__(self, idx, img, start_pos, start_angle):
         super().__init__(idx, img, start_pos, start_angle)
+        self.drift_sound = pygame.mixer.Sound(RelativePath.resource_path("ressources/Sounds/Drift.mp3"))
+        # self.drift_sound.set_volume(30)
 
     def handle_keys_press(self, keys):
         if keys[pygame.K_UP] or keys[pygame.K_z]:
@@ -64,9 +67,6 @@ class Player(Car):
     def update(self):
         super().update()
         if not self.is_hand_braking and self.fake_rotation != 0:
-            # self.angle += self.fake_rotation
-            # self.fake_rotation = 0
-
             fake_rotation_threshold = 1
             if abs(self.fake_rotation) < fake_rotation_threshold:
                 self.fake_rotation = 0
