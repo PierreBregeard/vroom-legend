@@ -70,14 +70,11 @@ class History:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button != 1:
                         continue
-                    if self.back_button.checkinput(mouse_pos):  # retour menu
+                    if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
 
                 self.manager.process_events(event)
-
             self.manager.update(fps)
-
             self.manager.draw_ui(self.screen)
-
             pygame.display.update()

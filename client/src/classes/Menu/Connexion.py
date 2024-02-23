@@ -84,7 +84,7 @@ class Connexion:
 
         self.run = True
 
-        self.test_deco = 1  # à enlever quand test fini
+        self.test_deco = 1
 
         clock.tick(60)
         pygame.display.update()
@@ -140,7 +140,7 @@ class Connexion:
                             User.connexion(data)
                             return
 
-                    if self.back_button.checkinput(mouse_pos):  # retour menu
+                    if self.back_button.checkinput(mouse_pos):
                         self.button_click_sound.play()
                         return
 
